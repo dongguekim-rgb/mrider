@@ -2,12 +2,18 @@
 # Copy committed team history to a separate checkout in an existing container.
 set -euo pipefail
 container_name=${1:-ros2_humble}
-if [ "$#" -gt 1 ]; then echo "Usage: $0 [container-name]" >&2; exit 2; fi
+committed_only=${2:-}
+if [ "$#" -gt 2 ] || { [ -n "$committed_only" ] && [ "$committed_only" != --committed ]; }; then
+  echo "Usage: $0 [container-name] [--committed]" >&2; exit 2
+fi
 cd "$(dirname "$0")/../.."
 branch_name=$(git symbolic-ref --quiet --short HEAD)
 if [ -n "$(git status --porcelain)" ]; then
-  echo "Commit or preserve local changes first; only committed history is synchronized." >&2
-  exit 2
+  if [ "$committed_only" != --committed ]; then
+    echo "Commit changes first, or explicitly use --committed to exclude uncommitted changes." >&2
+    exit 2
+  fi
+  echo "Synchronizing committed HEAD only; uncommitted host changes are preserved and EXCLUDED." >&2
 fi
 if [ "$(docker inspect --format '{{.State.Running}}' "$container_name")" != true ]; then
   echo "Container must already be running: $container_name" >&2
@@ -23,7 +29,7 @@ trap cleanup EXIT
 # No network or push. Include the official merge ancestry in the bundle.
 git bundle create "$sync_temp/source.bundle" "refs/heads/$branch_name"
 docker cp "$sync_temp/source.bundle" "$container_name:$container_bundle" >/dev/null
-docker exec -i "$container_name" bash -s -- "$container_bundle" "$branch_name" <<'CONTAINER'
+docker exec -i "$container_name" bash -s -- "$container_bundle" "$branch_name" "$(git config user.name)" "$(git config user.email)" <<'CONTAINER'
 set -euo pipefail
 bundle=$1
 branch=$2
@@ -47,6 +53,8 @@ else
   git -C "$dest" remote set-url origin "$team_url"
   git -C "$dest" remote add upstream https://github.com/jrkwon/mrider.git
 fi
+git -C "$dest" config user.name "$3"
+git -C "$dest" config user.email "$4"
 printf 'Container team checkout: %s\n' "$dest"
 git -C "$dest" log -1 --format='%h %s'
 CONTAINER

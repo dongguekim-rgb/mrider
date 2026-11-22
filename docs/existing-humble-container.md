@@ -25,7 +25,17 @@ bash tools/ros2/sync_existing_container.sh ros2_humble
 ```
 
 현재 브랜치의 Git bundle을 전달하며, 컨테이너의 origin이 팀 저장소이고 브랜치가 같으며 변경 사항이 없을 때만
-fast-forward로 갱신한다. 호스트나 컨테이너에 미커밋 변경이 있으면 중단한다. 변경을 덮어쓰거나 개인 Lab을 복사하지 않는다.
+fast-forward로 갱신한다. 기본 모드에서는 호스트나 컨테이너에 미커밋 변경이 있으면 중단한다.
+호스트에서 진행 중인 작업을 보존하고 **커밋된 HEAD만** 전달하려면 다음처럼 명시한다.
+컨테이너의 미커밋 변경은 이 옵션으로도 덮어쓰지 않는다.
+
+```bash
+bash tools/ros2/sync_existing_container.sh ros2_humble --committed
+```
+
+`--committed`는 미커밋 Dockerfile·소스 등을 제외한다. 그 변경까지 컨테이너에 적용됐다고 해석하지 않는다.
+컨테이너 Git의 작성자는 동기화 시 호스트 저장소의 user.name/user.email을 따른다.
+ 변경을 덮어쓰거나 개인 Lab을 복사하지 않는다.
 
 ## 2. 빌드 — 컨테이너 터미널
 

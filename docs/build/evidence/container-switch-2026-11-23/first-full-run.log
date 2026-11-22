@@ -1,0 +1,552 @@
+MITT env: RMW=rmw_fastrtps_cpp, GZ_VERSION=harmonic, user-site disabled
+          isolated to loopback (ROS_LOCALHOST_ONLY=1, GZ_IP=127.0.0.1)
+          twin: ROS_DOMAIN_ID=191 (set outside this script)
+Starting >>> mitt_description
+Starting >>> mitt_localization
+Starting >>> mitt_control
+Starting >>> mitt_sim
+Starting >>> mrider_autonomy
+Starting >>> mitt_msgs
+Finished <<< mitt_sim [1.44s]
+Finished <<< mitt_localization [1.47s]
+Finished <<< mitt_control [1.49s]
+Finished <<< mitt_description [1.62s]
+Starting >>> mitt_navigation
+Finished <<< mitt_navigation [1.46s]
+Starting >>> mitt_bringup
+Finished <<< mrider_autonomy [3.13s]
+Starting >>> mrider_navigation_sim
+Finished <<< mitt_bringup [1.42s]
+Finished <<< mrider_navigation_sim [2.98s]
+Finished <<< mitt_msgs [7.66s]
+
+Summary: 9 packages finished [7.96s]
+Starting >>> mitt_control
+Finished <<< mitt_control [2.37s]
+Starting >>> mitt_description
+Finished <<< mitt_description [1.93s]	[ with test failures ]
+--- stderr: mitt_description
+Errors while running CTest
+---
+Starting >>> mitt_localization
+Finished <<< mitt_localization [1.68s]
+Starting >>> mitt_msgs
+Finished <<< mitt_msgs [1.06s]
+Starting >>> mitt_sim
+Finished <<< mitt_sim [1.05s]
+Starting >>> mrider_autonomy
+--- stderr: mrider_autonomy
+Errors while running CTest
+---
+Finished <<< mrider_autonomy [49.0s]	[ with test failures ]
+Starting >>> mitt_navigation
+--- stderr: mitt_navigation
+Errors while running CTest
+---
+Finished <<< mitt_navigation [1.92s]	[ with test failures ]
+Starting >>> mrider_navigation_sim
+Finished <<< mrider_navigation_sim [2min 33s]
+Starting >>> mitt_bringup
+Finished <<< mitt_bringup [2.10s]	[ with test failures ]
+--- stderr: mitt_bringup
+Errors while running CTest
+---
+
+Summary: 9 packages finished [3min 34s]
+  4 packages had stderr output: mitt_bringup mitt_description mitt_navigation mrider_autonomy
+  4 packages had test failures: mitt_bringup mitt_description mitt_navigation mrider_autonomy
+build-docker/mitt_bringup/Testing/20261122-1552/Test.xml: 5 tests, 0 errors, 2 failures, 0 skipped
+- flake8
+  <<< failure message
+    -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/src/mitt_bringup':
+     - /opt/ros/humble/bin/ament_flake8 --xunit-file /root/mrider-team/ros2_ws/build-docker/mitt_bringup/test_results/mitt_bringup/flake8.xunit.xml
+    from launch import LaunchDescription
+    ^
+    from launch.actions import (
+    ^
+    from launch.event_handlers import OnProcessExit
+    ^
+    from launch.launch_description_sources import PythonLaunchDescriptionSource
+    ^
+    from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+    ^
+    from launch_ros.actions import Node
+    ^
+    from launch_ros.parameter_descriptions import ParameterValue
+    ^
+    from launch_ros.substitutions import FindPackageShare
+    ^
+    from launch import LaunchDescription
+    ^
+    from launch.actions import (
+    ^
+    from launch.event_handlers import OnProcessExit
+    ^
+    from launch.launch_description_sources import PythonLaunchDescriptionSource
+    ^
+    from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+    ^
+    from launch_ros.actions import Node
+    ^
+    from launch_ros.parameter_descriptions import ParameterValue
+    ^
+    from launch_ros.substitutions import FindPackageShare
+    ^
+    16    E402 module level import not at top of file
+    
+    ./launch/real.launch.py:84:1: E402 module level import not at top of file
+    
+    ./launch/real.launch.py:85:1: E402 module level import not at top of file
+    
+    ./launch/real.launch.py:93:1: E402 module level import not at top of file
+    
+    ./launch/real.launch.py:94:1: E402 module level import not at top of file
+    
+    ./launch/real.launch.py:95:1: E402 module level import not at top of file
+    
+    ./launch/real.launch.py:96:1: E402 module level import not at top of file
+    
+    ./launch/real.launch.py:97:1: E402 module level import not at top of file
+    
+    ./launch/real.launch.py:98:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:44:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:45:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:56:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:57:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:58:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:59:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:60:1: E402 module level import not at top of file
+    
+    ./launch/sim.launch.py:61:1: E402 module level import not at top of file
+    
+    
+    2 files checked
+    16 errors
+    
+    'E'-type errors: 16
+    
+    Checked files:
+    
+    * ./launch/real.launch.py
+    * ./launch/sim.launch.py
+    -- run_test.py: return code 1
+    -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mitt_bringup/test_results/mitt_bringup/flake8.xunit.xml'
+  >>>
+- pep257
+  <<< failure message
+    -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/src/mitt_bringup':
+     - /opt/ros/humble/bin/ament_pep257 --xunit-file /root/mrider-team/ros2_ws/build-docker/mitt_bringup/test_results/mitt_bringup/pep257.xunit.xml
+    checking ./launch/real.launch.py
+    ./launch/real.launch.py:108 in private function `_only_if_it_worked`: D213: Multi-line docstring summary should start at the second line
+    ./launch/real.launch.py:137 in private function `_lidar_executable`: D205: 1 blank line required between summary line and description (found 0)
+    ./launch/real.launch.py:137 in private function `_lidar_executable`: D209: Multi-line docstring closing quotes should be on a separate line
+    ./launch/real.launch.py:137 in private function `_lidar_executable`: D213: Multi-line docstring summary should start at the second line
+    ./launch/real.launch.py:137 in private function `_lidar_executable`: D400: First line should end with a period (not 'e')
+    ./launch/real.launch.py:137 in private function `_lidar_executable`: D415: First line should end with a period, question mark, or exclamation point (not 'e')
+    checking ./launch/sim.launch.py
+    ./launch/sim.launch.py:65 in private function `_only_if_it_worked`: D213: Multi-line docstring summary should start at the second line
+    ./launch/sim.launch.py:91 in private function `_vehicle_controllers`: D213: Multi-line docstring summary should start at the second line
+    8 errors
+    -- run_test.py: return code 1
+    -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mitt_bringup/test_results/mitt_bringup/pep257.xunit.xml'
+  >>>
+build-docker/mitt_bringup/test_results/mitt_bringup/flake8.xunit.xml: 16 tests, 0 errors, 16 failures, 0 skipped
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:84:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch import LaunchDescription
+  >>>
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:85:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.actions import (
+  >>>
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:93:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.event_handlers import OnProcessExit
+  >>>
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:94:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.launch_description_sources import PythonLaunchDescriptionSource
+  >>>
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:95:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+  >>>
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:96:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch_ros.actions import Node
+  >>>
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:97:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch_ros.parameter_descriptions import ParameterValue
+  >>>
+- mitt_bringup.flake8 E402 (./launch/real.launch.py:98:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch_ros.substitutions import FindPackageShare
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:44:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch import LaunchDescription
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:45:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.actions import (
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:56:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.event_handlers import OnProcessExit
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:57:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.launch_description_sources import PythonLaunchDescriptionSource
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:58:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:59:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch_ros.actions import Node
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:60:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch_ros.parameter_descriptions import ParameterValue
+  >>>
+- mitt_bringup.flake8 E402 (./launch/sim.launch.py:61:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch_ros.substitutions import FindPackageShare
+  >>>
+build-docker/mitt_bringup/test_results/mitt_bringup/pep257.xunit.xml: 8 tests, 0 errors, 8 failures, 0 skipped
+- mitt_bringup.pep257 D213 (./launch/real.launch.py:108)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_bringup.pep257 D205 (./launch/real.launch.py:137)
+  <<< failure message
+    D205: 1 blank line required between summary line and description (found 0)
+  >>>
+- mitt_bringup.pep257 D209 (./launch/real.launch.py:137)
+  <<< failure message
+    D209: Multi-line docstring closing quotes should be on a separate line
+  >>>
+- mitt_bringup.pep257 D213 (./launch/real.launch.py:137)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_bringup.pep257 D400 (./launch/real.launch.py:137)
+  <<< failure message
+    D400: First line should end with a period (not 'e')
+  >>>
+- mitt_bringup.pep257 D415 (./launch/real.launch.py:137)
+  <<< failure message
+    D415: First line should end with a period, question mark, or exclamation point (not 'e')
+  >>>
+- mitt_bringup.pep257 D213 (./launch/sim.launch.py:65)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_bringup.pep257 D213 (./launch/sim.launch.py:91)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+build-docker/mitt_description/Testing/20261122-1548/Test.xml: 5 tests, 0 errors, 1 failure, 0 skipped
+- pep257
+  <<< failure message
+    -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/src/mitt_description':
+     - /opt/ros/humble/bin/ament_pep257 --xunit-file /root/mrider-team/ros2_ws/build-docker/mitt_description/test_results/mitt_description/pep257.xunit.xml
+    checking ./config/vehicle_config.py
+    ./config/vehicle_config.py:101 in public function `parse_vehicle`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:101 in public function `parse_vehicle`: D401: First line should be in imperative mood; try rephrasing (found 'The')
+    ./config/vehicle_config.py:116 in public function `domain_problem`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:132 in private function `_cm_up`: D403: First word of the first line should be properly capitalized ('X', not 'x')
+    ./config/vehicle_config.py:137 in public function `footprint`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:137 in public function `footprint`: D401: First line should be in imperative mood; try rephrasing (found 'The')
+    ./config/vehicle_config.py:167 in public function `inflation_radius`: D205: 1 blank line required between summary line and description (found 0)
+    ./config/vehicle_config.py:167 in public function `inflation_radius`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:167 in public function `inflation_radius`: D400: First line should end with a period (not 'm')
+    ./config/vehicle_config.py:167 in public function `inflation_radius`: D415: First line should end with a period, question mark, or exclamation point (not 'm')
+    ./config/vehicle_config.py:167 in public function `inflation_radius`: D401: First line should be in imperative mood; try rephrasing (found 'The')
+    ./config/vehicle_config.py:179 in public function `planner_radius`: D401: First line should be in imperative mood; try rephrasing (found 'The')
+    ./config/vehicle_config.py:198 in public function `load_overlay`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:248 in private function `_generated`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:287 in public function `nav2_values`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:287 in public function `nav2_values`: D401: First line should be in imperative mood; try rephrasing (found 'What')
+    ./config/vehicle_config.py:304 in public function `nav2_for`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:329 in public function `urdf_body`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:329 in public function `urdf_body`: D401: First line should be in imperative mood; try rephrasing (found 'The')
+    ./config/vehicle_config.py:357 in public function `body_mismatch`: D205: 1 blank line required between summary line and description (found 0)
+    ./config/vehicle_config.py:357 in public function `body_mismatch`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:357 in public function `body_mismatch`: D400: First line should end with a period (not 'f')
+    ./config/vehicle_config.py:357 in public function `body_mismatch`: D415: First line should end with a period, question mark, or exclamation point (not 'f')
+    ./config/vehicle_config.py:370 in private function `_running_body`: D205: 1 blank line required between summary line and description (found 0)
+    ./config/vehicle_config.py:370 in private function `_running_body`: D209: Multi-line docstring closing quotes should be on a separate line
+    ./config/vehicle_config.py:370 in private function `_running_body`: D213: Multi-line docstring summary should start at the second line
+    ./config/vehicle_config.py:370 in private function `_running_body`: D400: First line should end with a period (not ':')
+    ./config/vehicle_config.py:370 in private function `_running_body`: D415: First line should end with a period, question mark, or exclamation point (not ':')
+    checking ./scripts/extract_body.py
+    checking ./scripts/make_body_texture.py
+    28 errors
+    -- run_test.py: return code 1
+    -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mitt_description/test_results/mitt_description/pep257.xunit.xml'
+  >>>
+build-docker/mitt_description/test_results/mitt_description/pep257.xunit.xml: 30 tests, 0 errors, 28 failures, 0 skipped
+- mitt_description.pep257 D213 (./config/vehicle_config.py:101)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D401 (./config/vehicle_config.py:101)
+  <<< failure message
+    D401: First line should be in imperative mood; try rephrasing (found 'The')
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:116)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D403 (./config/vehicle_config.py:132)
+  <<< failure message
+    D403: First word of the first line should be properly capitalized ('X', not 'x')
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:137)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D401 (./config/vehicle_config.py:137)
+  <<< failure message
+    D401: First line should be in imperative mood; try rephrasing (found 'The')
+  >>>
+- mitt_description.pep257 D205 (./config/vehicle_config.py:167)
+  <<< failure message
+    D205: 1 blank line required between summary line and description (found 0)
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:167)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D400 (./config/vehicle_config.py:167)
+  <<< failure message
+    D400: First line should end with a period (not 'm')
+  >>>
+- mitt_description.pep257 D415 (./config/vehicle_config.py:167)
+  <<< failure message
+    D415: First line should end with a period, question mark, or exclamation point (not 'm')
+  >>>
+- mitt_description.pep257 D401 (./config/vehicle_config.py:167)
+  <<< failure message
+    D401: First line should be in imperative mood; try rephrasing (found 'The')
+  >>>
+- mitt_description.pep257 D401 (./config/vehicle_config.py:179)
+  <<< failure message
+    D401: First line should be in imperative mood; try rephrasing (found 'The')
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:198)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:248)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:287)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D401 (./config/vehicle_config.py:287)
+  <<< failure message
+    D401: First line should be in imperative mood; try rephrasing (found 'What')
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:304)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:329)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D401 (./config/vehicle_config.py:329)
+  <<< failure message
+    D401: First line should be in imperative mood; try rephrasing (found 'The')
+  >>>
+- mitt_description.pep257 D205 (./config/vehicle_config.py:357)
+  <<< failure message
+    D205: 1 blank line required between summary line and description (found 0)
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:357)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D400 (./config/vehicle_config.py:357)
+  <<< failure message
+    D400: First line should end with a period (not 'f')
+  >>>
+- mitt_description.pep257 D415 (./config/vehicle_config.py:357)
+  <<< failure message
+    D415: First line should end with a period, question mark, or exclamation point (not 'f')
+  >>>
+- mitt_description.pep257 D205 (./config/vehicle_config.py:370)
+  <<< failure message
+    D205: 1 blank line required between summary line and description (found 0)
+  >>>
+- mitt_description.pep257 D209 (./config/vehicle_config.py:370)
+  <<< failure message
+    D209: Multi-line docstring closing quotes should be on a separate line
+  >>>
+- mitt_description.pep257 D213 (./config/vehicle_config.py:370)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+- mitt_description.pep257 D400 (./config/vehicle_config.py:370)
+  <<< failure message
+    D400: First line should end with a period (not ':')
+  >>>
+- mitt_description.pep257 D415 (./config/vehicle_config.py:370)
+  <<< failure message
+    D415: First line should end with a period, question mark, or exclamation point (not ':')
+  >>>
+build-docker/mitt_navigation/Testing/20261122-1549/Test.xml: 5 tests, 0 errors, 2 failures, 0 skipped
+- flake8
+  <<< failure message
+    -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/src/mitt_navigation':
+     - /opt/ros/humble/bin/ament_flake8 --xunit-file /root/mrider-team/ros2_ws/build-docker/mitt_navigation/test_results/mitt_navigation/flake8.xunit.xml
+    from launch import LaunchDescription
+    ^
+    from launch.actions import (
+    ^
+    from launch.launch_description_sources import PythonLaunchDescriptionSource
+    ^
+    from launch.substitutions import LaunchConfiguration
+    ^
+    4     E402 module level import not at top of file
+    
+    ./launch/nav2.launch.py:84:1: E402 module level import not at top of file
+    
+    ./launch/nav2.launch.py:85:1: E402 module level import not at top of file
+    
+    ./launch/nav2.launch.py:92:1: E402 module level import not at top of file
+    
+    ./launch/nav2.launch.py:93:1: E402 module level import not at top of file
+    
+    
+    3 files checked
+    4 errors
+    
+    'E'-type errors: 4
+    
+    Checked files:
+    
+    * ./launch/slam.launch.py
+    * ./launch/localization.launch.py
+    * ./launch/nav2.launch.py
+    -- run_test.py: return code 1
+    -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mitt_navigation/test_results/mitt_navigation/flake8.xunit.xml'
+  >>>
+- pep257
+  <<< failure message
+    -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/src/mitt_navigation':
+     - /opt/ros/humble/bin/ament_pep257 --xunit-file /root/mrider-team/ros2_ws/build-docker/mitt_navigation/test_results/mitt_navigation/pep257.xunit.xml
+    checking ./launch/localization.launch.py
+    checking ./launch/nav2.launch.py
+    ./launch/nav2.launch.py:97 in private function `_nav2_for_vehicle`: D213: Multi-line docstring summary should start at the second line
+    checking ./launch/slam.launch.py
+    1 errors
+    -- run_test.py: return code 1
+    -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mitt_navigation/test_results/mitt_navigation/pep257.xunit.xml'
+  >>>
+build-docker/mitt_navigation/test_results/mitt_navigation/flake8.xunit.xml: 4 tests, 0 errors, 4 failures, 0 skipped
+- mitt_navigation.flake8 E402 (./launch/nav2.launch.py:84:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch import LaunchDescription
+  >>>
+- mitt_navigation.flake8 E402 (./launch/nav2.launch.py:85:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.actions import (
+  >>>
+- mitt_navigation.flake8 E402 (./launch/nav2.launch.py:92:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.launch_description_sources import PythonLaunchDescriptionSource
+  >>>
+- mitt_navigation.flake8 E402 (./launch/nav2.launch.py:93:1)
+  <<< failure message
+    module level import not at top of file:
+    from launch.substitutions import LaunchConfiguration
+  >>>
+build-docker/mitt_navigation/test_results/mitt_navigation/pep257.xunit.xml: 3 tests, 0 errors, 1 failure, 0 skipped
+- mitt_navigation.pep257 D213 (./launch/nav2.launch.py:97)
+  <<< failure message
+    D213: Multi-line docstring summary should start at the second line
+  >>>
+build-docker/mrider_autonomy/Testing/20261122-1548/Test.xml: 6 tests, 0 errors, 1 failure, 0 skipped
+- test_test_demo_launch.py
+  <<< failure message
+    -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_autonomy':
+     - /usr/bin/python3 -m launch_testing.launch_test /root/mrider-team/ros2_ws/src/mrider_autonomy/test/test_demo_launch.py --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_autonomy/test_results/mrider_autonomy/test_test_demo_launch.py.xunit.xml --package-name=mrider_autonomy
+    [INFO] [launch]: All log files can be found below /tmp/mrider-official-team/2026-11-22-15-49-03-981694-platinum-41911
+    [INFO] [launch]: Default logging verbosity is set to INFO
+    test_goal_and_limits (mrider_autonomy.ClosedLoop) ... [INFO] [autonomy_node-1]: process started with pid [41924]
+    [INFO] [simulator_node-2]: process started with pid [41926]
+    curve ROS2 goal_error_m= 0.11961535912179166
+    ok
+    
+    ----------------------------------------------------------------------
+    Ran 1 test in 11.522s
+    
+    OK
+    [INFO] [simulator_node-2]: sending signal 'SIGINT' to process[simulator_node-2]
+    [INFO] [autonomy_node-1]: sending signal 'SIGINT' to process[autonomy_node-1]
+    [INFO] [simulator_node-2]: process has finished cleanly [pid 41926]
+    [ERROR] [autonomy_node-1]: process has died [pid 41924, exit code -11, cmd '/root/mrider-team/ros2_ws/install-docker/mrider_autonomy/lib/mrider_autonomy/autonomy_node --ros-args'].
+    test_clean_shutdown (mrider_autonomy.ProcessExit) ... FAIL
+    
+    ======================================================================
+    FAIL: test_clean_shutdown (mrider_autonomy.ProcessExit)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "/root/mrider-team/ros2_ws/src/mrider_autonomy/test/test_demo_launch.py", line 55, in test_clean_shutdown
+        launch_testing.asserts.assertExitCodes(proc_info)
+      File "/opt/ros/humble/lib/python3.10/site-packages/launch_testing/asserts/assert_exit_codes.py", line 62, in assertExitCodes
+        assert info.returncode in allowable_exit_codes, 'Proc {} exited with code {}'.format(
+    AssertionError: Proc autonomy_node-1 exited with code -11
+    
+    ----------------------------------------------------------------------
+    Ran 1 test in 0.002s
+    
+    FAILED (failures=1)
+    -- run_test.py: return code 1
+    -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_autonomy/test_results/mrider_autonomy/test_test_demo_launch.py.xunit.xml'
+  >>>
+build-docker/mrider_autonomy/test_results/mrider_autonomy/test_test_demo_launch.py.xunit.xml: 2 tests, 0 errors, 1 failure, 0 skipped
+- mrider_autonomy.ProcessExit test_clean_shutdown
+  <<< failure message
+    Traceback (most recent call last):
+      File "/root/mrider-team/ros2_ws/src/mrider_autonomy/test/test_demo_launch.py", line 55, in test_clean_shutdown
+        launch_testing.asserts.assertExitCodes(proc_info)
+      File "/opt/ros/humble/lib/python3.10/site-packages/launch_testing/asserts/assert_exit_codes.py", line 62, in assertExitCodes
+        assert info.returncode in allowable_exit_codes, 'Proc {} exited with code {}'.format(
+    AssertionError: Proc autonomy_node-1 exited with code -11
+  >>>
+
+Summary: 241 tests, 0 errors, 64 failures, 0 skipped

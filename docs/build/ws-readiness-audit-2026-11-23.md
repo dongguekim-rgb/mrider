@@ -1,5 +1,7 @@
 # W·S 역할 및 기존 Docker 반영 점검 — 2026-11-23
 
+이 문서는 전환 전 점검 기록이다. 이후 [공식 팀 checkout으로 Docker 전환](docker-team-switch-2026-11-23.md)을 완료했다. W·S 산출물의 나머지 미완료 항목은 별도 과제다.
+
 ## 기준과 범위
 
 사용자가 우선 기준으로 지정한 `/home3/mjk/Downloads/README (1).md`를 읽었다.

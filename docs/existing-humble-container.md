@@ -2,7 +2,7 @@
 
 2026-11-22 업데이트: 실내 demo는 [장애물 자동 재개](automatic-obstacle-resume.md)가 기본이다. 아래 수동 재허가 절차는 `auto_resume:=false` 또는 센서·명령 오류로 정지한 경우에 사용한다.
 
-2026-11-22부터 platinum에서는 기존 `ros2_humble`을 팀 작업 실행 환경으로 사용한다.
+2026-11-23 공식 fork 경로 전환을 완료했다. platinum에서는 기존 `ros2_humble`을 팀 작업 실행 환경으로 사용한다.
 Humble을 호스트에 새로 설치할 필요가 없다. 기존 개인 Lab 작업과 컨테이너는 유지한다.
 
 | 위치 | 용도 | 연결 방식 |
@@ -108,21 +108,10 @@ python3 tools/ros2/test_upstream_vehicle_contract.py
 bash tools/ros2/verify.sh
 ```
 
-이번 `ros2_humble` 실행 결과:
-
-- 공식 7개 + 팀 2개, **9개 패키지 재빌드 성공**.
-- 팀 기능 시험 **96개 PASS**, 공식 차량별 계약 검사 **6개 PASS**.
-- 차량 치수 검사 PASS. 실측 overlay는 여전히 비어 있어 실차는 시작을 거부한다.
-- 직선/곡선 offline demo 목표 오차 각각 0.119574m / 0.118822m, 최종 속도 0.
-- 전체 colcon 집계는 **235 tests, 0 errors, 62 failures, 0 skipped**.
-  이전 환경과 동일하게 공식 원본 3개 패키지의 pep257/flake8 57건과 실패 wrapper 5건이다.
-  전체 시험이 모두 통과했다고 해석하지 않는다. 공통 launch는 수정하지 않았다.
-- 동기화 도구는 미커밋 호스트 변경이 있을 때 종료 코드 2로 중단함을 확인했다.
-
-[빌드·전체 검사 로그](results/existing-humble-2026-11-22/build-test.log),
-[계약·치수·offline 로그](results/existing-humble-2026-11-22/contracts-offline.log),
-[동기화 중단 검사](results/existing-humble-2026-11-22/sync-dirty-host.log),
-[패키지별 XML](results/existing-humble-2026-11-22/)을 보관했다.
+2026-11-23에 공식 fork의 `/root/mrider-team`에서 9개 패키지를 새로 빌드했다.
+차량 계약 6개가 통과했고, 팀 개별 검사 101개의 최종 XML은 실패 0개다.
+첫 실행의 demo 종료 오류 1회 및 재실행 통과, 남은 공식 lint 실패는
+[전환 검증 기록](build/docker-team-switch-2026-11-23.md)에 구분해 남겼다. 전체 CI green을 의미하지 않는다.
 
 `gz_ros2_control`은 현재 환경에서 조회되지 않았다. 따라서 공식 Gazebo twin 전체가 준비됐다고 간주하지 않는다.
 이번 작업은 팀 실내 시뮬레이션과 공식 차량별 Nav2 설정/시작 조건 검증이며, 공식 Harmonic twin 전체와 실차는 별도 검증 대상이다.

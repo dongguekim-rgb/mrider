@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="mrider_autonomy.test_clock_launch" tests="2" failures="0" errors="0" time="4.709"><testsuite name="mrider_autonomy.test_clock_launch.launch_tests" tests="2" failures="0" errors="0" skipped="0" time="4.709"><testcase classname="mrider_autonomy.ClockWatchdog" name="test_freeze_rewind_recovery" time="4.709" /><testcase classname="mrider_autonomy.ProcessExit" name="test_clean_shutdown" time="0.0" /></testsuite></testsuites>

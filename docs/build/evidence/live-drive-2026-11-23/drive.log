@@ -1,0 +1,1 @@
+SIMULATION_RESULT {"case": "indoor_dynamic", "goal_error_m": 0.1725284022825627, "min_clearance_m": 0.5408695052050174, "collision": false, "manual_rearm_required": false, "stop_state": {"state": "STOPPED", "reason": "obstacle_stop", "speed": 0.0}, "pedestrian_y_at_stop_m": 0.0, "pedestrian_y_after_clear_m": 3.3, "result": "PASS"}

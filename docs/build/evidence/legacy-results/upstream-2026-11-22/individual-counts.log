@@ -1,0 +1,9 @@
+mitt_bringup: 28 individual checks, 24 failures
+mitt_control: 7 individual checks, 0 failures
+mitt_description: 36 individual checks, 28 failures
+mitt_localization: 5 individual checks, 0 failures
+mitt_msgs: 2 individual checks, 0 failures
+mitt_navigation: 14 individual checks, 5 failures
+mitt_sim: 2 individual checks, 0 failures
+mrider_autonomy: 45 individual checks, 0 failures
+mrider_navigation_sim: 51 individual checks, 0 failures

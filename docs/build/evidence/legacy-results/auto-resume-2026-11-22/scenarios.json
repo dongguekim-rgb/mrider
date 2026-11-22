@@ -1,0 +1,124 @@
+[
+  {
+    "case": "indoor_dynamic",
+    "goal_error_m": 0.1722899506038041,
+    "min_clearance_m": 0.5373575701616569,
+    "collision": false,
+    "manual_rearm_required": false,
+    "stop_state": {
+      "state": "STOPPED",
+      "reason": "obstacle_stop",
+      "speed": 0.0
+    },
+    "pedestrian_y_at_stop_m": 0.0,
+    "pedestrian_y_after_clear_m": 3.3,
+    "result": "PASS"
+  },
+  {
+    "case": "indoor",
+    "goal_error_m": 0.17305156070436037,
+    "yaw_error_rad": 5.1665604564087744e-05,
+    "min_clearance_m": 1.0449663041822537,
+    "max_path_lateral_m": 0.04999992623925209,
+    "collision": false,
+    "max_steering_rad": 0.06490859389305115,
+    "result": "PASS"
+  },
+  {
+    "case": "indoor_dynamic",
+    "goal_error_m": 0.17211197721619514,
+    "min_clearance_m": 0.5402381028743851,
+    "collision": false,
+    "manual_rearm_required": true,
+    "stop_state": {
+      "state": "STOPPED",
+      "reason": "obstacle_stop",
+      "speed": 0.0
+    },
+    "pedestrian_y_at_stop_m": 0.0,
+    "pedestrian_y_after_clear_m": 3.3,
+    "result": "PASS"
+  },
+  {
+    "case": "static_obstacle",
+    "goal_error_m": 0.17677732524316767,
+    "yaw_error_rad": 0.15904867770946032,
+    "min_clearance_m": 0.26026406326156626,
+    "max_path_lateral_m": 1.3034503163541324,
+    "collision": false,
+    "max_steering_rad": 0.3757937550544739,
+    "result": "PASS"
+  },
+  {
+    "case": "blocked",
+    "mission": "FAILED",
+    "max_speed": 0.0,
+    "result": "PASS"
+  },
+  {
+    "case": "nav2_obstacle_recovery",
+    "manual_rearm_required": true,
+    "goal_error_m": 0.17416190758791106,
+    "min_clearance_m": 0.27549337328225354,
+    "collision": false,
+    "result": "PASS"
+  },
+  [
+    {
+      "fault": "scan_dropout",
+      "detection_s": 0.315248204395175,
+      "travel_to_stop_m": 0.20448246275984727,
+      "rearm_required": true,
+      "result": "PASS"
+    },
+    {
+      "fault": "scan_bad_frame",
+      "detection_s": 0.054926540702581406,
+      "travel_to_stop_m": 0.060214015908104435,
+      "rearm_required": true,
+      "result": "PASS"
+    },
+    {
+      "fault": "scan_future",
+      "detection_s": 0.11482689529657364,
+      "travel_to_stop_m": 0.0975101922488647,
+      "rearm_required": true,
+      "result": "PASS"
+    },
+    {
+      "fault": "scan_nan",
+      "detection_s": 0.07511395029723644,
+      "travel_to_stop_m": 0.07201091617480382,
+      "rearm_required": true,
+      "result": "PASS"
+    },
+    {
+      "fault": "odom_bad_frame",
+      "detection_s": 0.03560913726687431,
+      "travel_to_stop_m": 0.04883987353673547,
+      "rearm_required": true,
+      "result": "PASS"
+    },
+    {
+      "fault": "odom_dropout",
+      "detection_s": 0.35402948409318924,
+      "travel_to_stop_m": 0.22046569505035485,
+      "rearm_required": true,
+      "result": "PASS"
+    },
+    {
+      "fault": "command_dropout",
+      "detection_s": 0.35527073591947556,
+      "travel_to_stop_m": 0.22045909753205706,
+      "rearm_required": true,
+      "result": "PASS"
+    },
+    {
+      "fault": "dynamic_obstacle",
+      "detection_s": 0.1398355681449175,
+      "travel_to_stop_m": 0.0489189237449863,
+      "rearm_required": true,
+      "result": "PASS"
+    }
+  ]
+]

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_navigation.flake8"
+  tests="4"
+  errors="0"
+  failures="4"
+  time="0.185"
+>
+  <testcase
+    name="E402 (./launch/nav2.launch.py:84:1)"
+    classname="mitt_navigation.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch import LaunchDescription&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/nav2.launch.py:85:1)"
+    classname="mitt_navigation.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.actions import (&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/nav2.launch.py:92:1)"
+    classname="mitt_navigation.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.launch_description_sources import PythonLaunchDescriptionSource&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/nav2.launch.py:93:1)"
+    classname="mitt_navigation.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.substitutions import LaunchConfiguration&#10;"/>
+  </testcase>
+  <system-out>Checked files:
+* ./launch/localization.launch.py
+* ./launch/nav2.launch.py
+* ./launch/slam.launch.py</system-out>
+</testsuite>

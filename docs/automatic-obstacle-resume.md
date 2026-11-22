@@ -65,8 +65,8 @@ colcon test-result --test-result-base build-docker/mrider_navigation_sim --verbo
 `manual_rearm_required=false`였다. 기존 수동 재허가 시나리오도 그대로 통과했다.
 센서 timeout 후 입력 복구, 연속 여유 시간 초기화, 운영자 disarm의 자동 재개 금지도 검사했다.
 
-[Navigation 로그](results/auto-resume-2026-11-22/navigation-tests.log),
-[보호 시험](results/auto-resume-2026-11-22/protection-tests.log),
-[시나리오 측정값](results/auto-resume-2026-11-22/scenarios.json),
-[XML](results/auto-resume-2026-11-22/xml/)을 보관했다.
+[Navigation 로그](build/evidence/legacy-results/auto-resume-2026-11-22/navigation-tests.log),
+[보호 시험](build/evidence/legacy-results/auto-resume-2026-11-22/protection-tests.log),
+[시나리오 측정값](build/evidence/legacy-results/auto-resume-2026-11-22/scenarios.json),
+[XML](build/evidence/legacy-results/auto-resume-2026-11-22/xml/)을 보관했다.
 이번에는 수정한 팀 Navigation 패키지를 검증했으며 공식 원본 lint 실패는 별도 기존 기록을 따른다.

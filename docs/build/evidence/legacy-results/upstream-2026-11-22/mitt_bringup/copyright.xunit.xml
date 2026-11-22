@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_bringup.copyright"
+  tests="2"
+  errors="0"
+  failures="0"
+  time="0.054"
+>
+  <testcase
+    name="launch/real.launch.py"
+    classname="mitt_bringup.copyright"/>
+  <testcase
+    name="launch/sim.launch.py"
+    classname="mitt_bringup.copyright"/>
+  <system-out>Checked files:
+* launch/real.launch.py
+* launch/sim.launch.py</system-out>
+</testsuite>

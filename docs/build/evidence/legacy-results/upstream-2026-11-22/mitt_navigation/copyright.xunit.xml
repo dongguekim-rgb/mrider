@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_navigation.copyright"
+  tests="3"
+  errors="0"
+  failures="0"
+  time="0.096"
+>
+  <testcase
+    name="launch/localization.launch.py"
+    classname="mitt_navigation.copyright"/>
+  <testcase
+    name="launch/nav2.launch.py"
+    classname="mitt_navigation.copyright"/>
+  <testcase
+    name="launch/slam.launch.py"
+    classname="mitt_navigation.copyright"/>
+  <system-out>Checked files:
+* launch/localization.launch.py
+* launch/nav2.launch.py
+* launch/slam.launch.py</system-out>
+</testsuite>

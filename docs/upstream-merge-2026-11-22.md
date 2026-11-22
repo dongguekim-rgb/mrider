@@ -134,13 +134,13 @@ ros2 launch mitt_navigation nav2.launch.py vehicle:="$vehicle_number" use_sim_ti
   실제 사용자명을 `LOGNAME` 환경 변수로 전달해 계약 검사 6개를 재실행하여 통과했다.
 - 실차·Teensy·공식 Gazebo Harmonic twin 전체 실행은 미수행. 공식 차량 실측 overlay도 변경하지 않았다.
 
-[전체 빌드·테스트 로그](results/upstream-2026-11-22/build-test.log),
-[차량 계약 검사](results/upstream-2026-11-22/vehicle-contract.log),
-[차량 치수](results/upstream-2026-11-22/vehicle-dimensions.log),
-[패키지 배치](results/upstream-2026-11-22/package-layout.log),
-[도메인 확인](results/upstream-2026-11-22/environment.log),
-[개별 시험 수](results/upstream-2026-11-22/individual-counts.log),
-[패키지별 XML](results/upstream-2026-11-22/)에 기록했다.
+[전체 빌드·테스트 로그](build/evidence/legacy-results/upstream-2026-11-22/build-test.log),
+[차량 계약 검사](build/evidence/legacy-results/upstream-2026-11-22/vehicle-contract.log),
+[차량 치수](build/evidence/legacy-results/upstream-2026-11-22/vehicle-dimensions.log),
+[패키지 배치](build/evidence/legacy-results/upstream-2026-11-22/package-layout.log),
+[도메인 확인](build/evidence/legacy-results/upstream-2026-11-22/environment.log),
+[개별 시험 수](build/evidence/legacy-results/upstream-2026-11-22/individual-counts.log),
+[패키지별 XML](build/evidence/legacy-results/upstream-2026-11-22/)에 기록했다.
 
 재현 명령(빌드가 완료된 Humble 환경):
 

@@ -1,0 +1,10 @@
+   ok  (turning radius 1.52 m in mitt_dimensions.yaml; Nav2 plans at 1.6 m)
+       vehicle 1: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate
+       vehicle 2: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate
+       vehicle 3: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate

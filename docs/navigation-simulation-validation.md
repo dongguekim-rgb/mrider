@@ -19,7 +19,7 @@
 `colcon test-result`는 실행 wrapper 11개를 포함해 **94 tests, 0 errors, 0 failures, 0 skipped**다.
 고장 8종은 통합 메서드 1개에 포함되므로 8개 메서드로 중복 집계하지 않는다.
 기존 회귀는 공통 노드 종료 처리 변경 후 실행했고, 새 패키지는 이후 상태 수신·DDS 시험 격리 수정을 포함해 재실행했다.
-두 패키지의 최종 XML은 [결과 디렉터리](results/navigation/)에 함께 보관했다.
+두 패키지의 최종 XML은 [결과 디렉터리](build/evidence/legacy-results/navigation/)에 함께 보관했다.
 
 ## 목표 주행·장애물 시험
 
@@ -37,13 +37,13 @@
 Nav2 경로 끝점 허용 오차와 차량 감속 모델을 포함한 최종 pose를 별도로 측정한다.
 재계획은 운영자 재허가 후 수행하며 자율적인 장애물 추적/주기 재계획 성공을 주장하지 않는다.
 
-![실제 모의 궤적과 속도](results/navigation/trajectory.png)
+![실제 모의 궤적과 속도](build/evidence/legacy-results/navigation/trajectory.png)
 
-그림은 [측정 JSON](results/navigation/navigation.json)의 실제 계획 경로·정답 rear-axle 궤적·모의 측정 속도로 생성했다.
+그림은 [측정 JSON](build/evidence/legacy-results/navigation/navigation.json)의 실제 계획 경로·정답 rear-axle 궤적·모의 측정 속도로 생성했다.
 [재생성 스크립트](../tools/ros2/plot_navigation.py)는 matplotlib만 필요하며 ROS 없이 실행한다.
 
 ```bash
-python3 tools/ros2/plot_navigation.py docs/results/navigation/navigation.json /tmp/navigation-trajectory.png
+python3 tools/ros2/plot_navigation.py docs/build/evidence/legacy-results/navigation/navigation.json /tmp/navigation-trajectory.png
 ```
 
 ## 고장 주입·정지·복구
@@ -65,7 +65,7 @@ python3 tools/ros2/plot_navigation.py docs/results/navigation/navigation.json /t
 최대 감지 시간 **0.3671s**, 최대 이동 거리 **0.2282m**다.
 각 시험은 입력을 복구하고 후보 명령을 다시 발행해도 STOPPED·속도 0이 유지됨을 검사했다.
 재허가로만 다음 주행을 시작했으며 모든 케이스에서 collision=false였다.
-[전체 고장 측정값](results/navigation/faults.json), [Nav2 장애물 복구 측정값](results/navigation/recovery.json).
+[전체 고장 측정값](build/evidence/legacy-results/navigation/faults.json), [Nav2 장애물 복구 측정값](build/evidence/legacy-results/navigation/recovery.json).
 
 ## 수정 후 확인한 문제
 
@@ -90,7 +90,7 @@ A2M4-R2 실물 특성·재질·작은 장애물 누락·SLAM/EKF 정확도·카�
 Xvfb에서 실제 Nav2 주행을 시작하고 RViz2의 지도·차량·장애물·계획/추종 경로와 Goal Pose 도구를 화면으로 확인했다.
 종료 순서를 지켜 launch와 각 노드가 정상 종료했으며 `VISUAL_SMOKE_EXIT 0`을 확인했다.
 
-![RViz2 모의 주행 화면](results/navigation/rviz-navigation.png)
+![RViz2 모의 주행 화면](build/evidence/legacy-results/navigation/rviz-navigation.png)
 
 첫 map 수신에서 GLSL sampler 경고가 발생했다. [RViz upstream 이슈](https://github.com/ros2/rviz/issues/463)와 같은 문구이며,
 이번 캡처에서는 지도가 실제 렌더링되는 것을 확인했다. 해당 경고가 해결되었다고 주장하지 않는다.

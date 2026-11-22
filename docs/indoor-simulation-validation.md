@@ -13,8 +13,8 @@ Ubuntu 22.04 / ROS2 Humble 컨테이너, Nav2 1.1.20, 알려진 지도·이상�
 `bash tools/ros2/verify.sh`: colcon 빌드 2개 패키지 PASS, **110 tests, 0 errors, 0 failures, 0 skipped**.
 이는 개별 시험 **96개**와 CTest 실행 wrapper **14개**를 합한 수다.
 개별 시험은 기존 제어 패키지 45개, 안전 단위 32개, 실내 기하 7개, Navigation launch 6개 및 정상 종료 6개다.
-[빌드·시험 출력](results/indoor/build-test.log), [제어 XML](results/indoor/mrider_autonomy/),
-[Navigation XML](results/indoor/mrider_navigation_sim/)에 이번 실행 증거를 보관했다.
+[빌드·시험 출력](build/evidence/legacy-results/indoor/build-test.log), [제어 XML](build/evidence/legacy-results/indoor/mrider_autonomy/),
+[Navigation XML](build/evidence/legacy-results/indoor/mrider_navigation_sim/)에 이번 실행 증거를 보관했다.
 
 | 환경 | 목표 위치 오차 | 최소 차체 이격 거리 | 충돌 | 판정 |
 |---|---:|---:|---|---|
@@ -24,10 +24,10 @@ Ubuntu 22.04 / ROS2 Humble 컨테이너, Nav2 1.1.20, 알려진 지도·이상�
 동적 시험에서 Nav2의 충돌 예측이 추종을 중단했고, 안전 상태는
 `STOPPED / planning_or_tracking_failed`가 됐다. 정지 상태에서 횡단 물체가 y=0.0 m에서
 3.3 m까지 이동해도 차량 명령 0이 유지됐고, arm/start 후 재계획하여 완주했다.
-[정적 JSON](results/indoor/indoor.json), [동적 JSON](results/indoor/indoor_dynamic.json)을 참조한다.
+[정적 JSON](build/evidence/legacy-results/indoor/indoor.json), [동적 JSON](build/evidence/legacy-results/indoor/indoor_dynamic.json)을 참조한다.
 모의 차체의 정답 기하 거리이며 센서로 추정한 실차 거리나 통계적 안전 보장은 아니다.
 
-기존 우회·막힘·장애물 복구·고장 주입 측정도 [결과 디렉터리](results/indoor/)에 함께 저장했다.
+기존 우회·막힘·장애물 복구·고장 주입 측정도 [결과 디렉터리](build/evidence/legacy-results/indoor/)에 함께 저장했다.
 ROS 없는 직선/곡선 데모의 목표 오차는 각각 0.119574 m / 0.118822 m, 최종 속도는 모두 0이었다.
 
 
@@ -44,16 +44,16 @@ SLAM 위치 오차·실물 A2·카메라·Gazebo 물리·Teensy 및 차량은 �
 
 ## 시각화
 
-![실내 지도·횡단 동선·측정 주행 궤적](results/indoor/trajectory.png)
+![실내 지도·횡단 동선·측정 주행 궤적](build/evidence/legacy-results/indoor/trajectory.png)
 
 위 그림의 계획 경로는 재허가 후 마지막 경로이고, 파란 궤적은 출발부터 완주까지의 전체 측정값이다.
 속도 그래프의 가로축은 누적 이동 거리이므로 정지 대기 시간은 폭으로 나타나지 않는다.
 
 ```bash
-python3 tools/ros2/plot_navigation.py docs/results/indoor/indoor_dynamic.json /tmp/indoor-trajectory.png
+python3 tools/ros2/plot_navigation.py docs/build/evidence/legacy-results/indoor/indoor_dynamic.json /tmp/indoor-trajectory.png
 ```
 
-![실제 RViz2 실내 화면](results/indoor/rviz-indoor.png)
+![실제 RViz2 실내 화면](build/evidence/legacy-results/indoor/rviz-indoor.png)
 
 Xvfb 가상 디스플레이에서 실제 `indoor_demo.launch.py`와 RViz2를 실행하여 화면을 확인했다.
 표시된 벽과 가구의 높이는 시각화용이며 센서·충돌 계산은 2D다.

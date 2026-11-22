@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_description.pep257"
+  tests="30"
+  errors="0"
+  failures="28"
+  time="0.059"
+>
+  <testcase
+    name="D213 (./config/vehicle_config.py:101)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D401 (./config/vehicle_config.py:101)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D401: First line should be in imperative mood; try rephrasing (found 'The')"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:116)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D403 (./config/vehicle_config.py:132)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D403: First word of the first line should be properly capitalized ('X', not 'x')"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:137)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D401 (./config/vehicle_config.py:137)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D401: First line should be in imperative mood; try rephrasing (found 'The')"/>
+  </testcase>
+  <testcase
+    name="D205 (./config/vehicle_config.py:167)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D205: 1 blank line required between summary line and description (found 0)"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:167)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D400 (./config/vehicle_config.py:167)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D400: First line should end with a period (not 'm')"/>
+  </testcase>
+  <testcase
+    name="D415 (./config/vehicle_config.py:167)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D415: First line should end with a period, question mark, or exclamation point (not 'm')"/>
+  </testcase>
+  <testcase
+    name="D401 (./config/vehicle_config.py:167)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D401: First line should be in imperative mood; try rephrasing (found 'The')"/>
+  </testcase>
+  <testcase
+    name="D401 (./config/vehicle_config.py:179)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D401: First line should be in imperative mood; try rephrasing (found 'The')"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:198)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:248)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:287)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D401 (./config/vehicle_config.py:287)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D401: First line should be in imperative mood; try rephrasing (found 'What')"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:304)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:329)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D401 (./config/vehicle_config.py:329)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D401: First line should be in imperative mood; try rephrasing (found 'The')"/>
+  </testcase>
+  <testcase
+    name="D205 (./config/vehicle_config.py:357)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D205: 1 blank line required between summary line and description (found 0)"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:357)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D400 (./config/vehicle_config.py:357)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D400: First line should end with a period (not 'f')"/>
+  </testcase>
+  <testcase
+    name="D415 (./config/vehicle_config.py:357)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D415: First line should end with a period, question mark, or exclamation point (not 'f')"/>
+  </testcase>
+  <testcase
+    name="D205 (./config/vehicle_config.py:370)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D205: 1 blank line required between summary line and description (found 0)"/>
+  </testcase>
+  <testcase
+    name="D209 (./config/vehicle_config.py:370)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D209: Multi-line docstring closing quotes should be on a separate line"/>
+  </testcase>
+  <testcase
+    name="D213 (./config/vehicle_config.py:370)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D400 (./config/vehicle_config.py:370)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D400: First line should end with a period (not ':')"/>
+  </testcase>
+  <testcase
+    name="D415 (./config/vehicle_config.py:370)"
+    classname="mitt_description.pep257"
+  >
+      <failure message="D415: First line should end with a period, question mark, or exclamation point (not ':')"/>
+  </testcase>
+  <testcase
+    name="./scripts/extract_body.py"
+    classname="mitt_description.pep257"/>
+  <testcase
+    name="./scripts/make_body_texture.py"
+    classname="mitt_description.pep257"/>
+  <system-out>Checked files:
+* ./config/vehicle_config.py
+* ./scripts/extract_body.py
+* ./scripts/make_body_texture.py</system-out>
+</testsuite>

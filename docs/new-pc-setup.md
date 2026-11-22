@@ -90,7 +90,7 @@ GUI는 데스크톱 PC의 네이티브 실행을 기준으로 한다. headless �
 Humble이 없는 Linux Mint 20.2 호스트에서 `verify.sh`가 설명과 함께 exit 2로 중단되는 것을 확인했다.
 Docker의 새 `build-docker/install-docker` 경로에서 두 패키지 빌드와 전체 회귀 검증을 실행했고,
 **110 tests, 0 errors, 0 failures, 0 skipped**였다. 직선·곡선 offline demo도 완료했다.
-[이번 실행 출력](results/indoor/build-isolation.log)을 참조한다. 호스트 네이티브 Humble 실행은 설치되어 있지 않아 수행하지 않았다.
+[이번 실행 출력](build/evidence/legacy-results/indoor/build-isolation.log)을 참조한다. 호스트 네이티브 Humble 실행은 설치되어 있지 않아 수행하지 않았다.
 
 공식 차량 파라미터 생성기는 임시 파일명에 사용자명을 사용한다. 호스트 UID로 컨테이너를 실행할 때
 해당 UID가 컨테이너 `/etc/passwd`에 없으면 `getpass.getuser()`가 실패할 수 있으므로 위와 같이

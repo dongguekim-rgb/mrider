@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+from mrider_autonomy.nodes import main
+from mrider_navigation_sim.gate_node import SafetyNode
+if __name__ == "__main__":
+    main(SafetyNode)

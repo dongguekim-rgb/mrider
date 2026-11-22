@@ -1,0 +1,43 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Fixed Frame: map
+    Background Color: 35; 35; 35
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 1
+    - Class: rviz_default_plugins/Path
+      Name: Reference Path
+      Enabled: true
+      Topic:
+        Value: /mrider_sim/path
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+      Color: 25; 220; 65
+      Line Style: Billboards
+      Line Width: 0.04
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Vehicle and trail
+      Enabled: true
+      Topic:
+        Value: /mrider_sim/markers
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 13
+      Pitch: 0.9
+      Yaw: 0.8
+      Focal Point:
+        X: 3
+        Y: 2
+        Z: 0
+Window Geometry:
+  Width: 1000
+  Height: 700

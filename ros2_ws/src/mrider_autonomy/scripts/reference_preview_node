@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from mrider_autonomy.nodes import main, ReferencePreview
+if __name__ == "__main__":
+    main(ReferencePreview)

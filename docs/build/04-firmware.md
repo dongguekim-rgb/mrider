@@ -152,8 +152,14 @@ which is what made latency and dropout faults nearly impossible to localize.
 ## 4.2 Toolchain setup
 
 ```bash
-# PlatformIO (firmware)
-pip install --user platformio
+# PlatformIO (firmware) - the official installer, NOT pip. The micro-ROS
+# library build looks for ~/.platformio/penv, and only the installer (or
+# the VS Code extension) creates it. With pip the build fails with
+# "Can't open .../penv/bin/activate".
+curl -fsSL -o get-platformio.py \
+  https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py
+python3 get-platformio.py
+export PATH="$PATH:$HOME/.platformio/penv/bin"   # add to ~/.bashrc
 pio --version
 
 # micro-ROS agent — NOT available in the Humble apt repos, build from source
@@ -168,8 +174,10 @@ ros2 run micro_ros_setup build_agent.sh && source install/local_setup.bash
 > [!CAUTION]
 > **Verify this before writing any firmware**
 >
-> - [ ] A **`micro_ros_arduino` release exists for Humble** with Teensy 4.1 support.
-> - [ ] The transport is **USB serial** — the official package does not ship native
+> - [x] **Closed 2026-08-08**: a Humble micro-ROS release supports Teensy 4.1
+>       ([dbw.md §9](../design/dbw.md#9-teensy-41-firmware-platform-and-version-pinning)).
+>       Since 2026-11-24 the firmware builds it with `micro_ros_platformio`, which can include `mitt_msgs`.
+> - [x] The transport is **USB serial** — the official package does not ship native
 >       Ethernet. Accept that, or scope a custom transport deliberately.
 >
 > **If no Humble release exists**, fall back to a framed **binary** protocol with CRC and
@@ -183,7 +191,8 @@ there is no upstream autopilot provenance to lean on
 
 ```bash
 pio pkg list                     # platform + framework versions
-# record micro_ros_arduino release tag, Teensyduino version, agent commit
+# micro_ros_platformio is pinned by commit in firmware/mitt_dbw/platformio.ini;
+# record the Teensyduino version and the agent commit
 ```
 
 ---

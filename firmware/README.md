@@ -14,12 +14,12 @@ and nothing beyond it.
 | 4 | `as5600_check` | air gap set by AGC, and **no wrap** over the full mechanical travel |
 | 5 | `quad_count` | counts rise one way and fall the other — the first proof of the half-pitch offset |
 
-> [!IMPORTANT]
-> **The vehicle firmware does not exist yet.** Nothing here closes a loop, drives a motor,
-> speaks micro-ROS, reads i-BUS or implements the safety state machine. Those are Stages 0–2
-> in [`04-firmware.md`](../docs/build/04-firmware.md), and that page describes what they must
-> do rather than shipping something that does it.
->
+**The vehicle firmware is in [`mitt_dbw/`](mitt_dbw/README.md)** (written 2026-11-24): the
+steering loop, throttle shaping, i-BUS override, the safety state machine, the watchdog, and
+micro-ROS. **It builds, and it has never run on hardware.** Bring it up in the
+order of [`04-firmware.md`](../docs/build/04-firmware.md), Stages 0–2. What is left is listed in
+[`mitt_dbw/TODO.md`](mitt_dbw/TODO.md).
+
 > *This README exists because the build pages referred to "a scan sketch" and "the decoder" as
 > though they were on the shelf, and until 2026-11-07 there was no `firmware/` directory at
 > all. A procedure that names a tool nobody has written is a procedure nobody can follow.*

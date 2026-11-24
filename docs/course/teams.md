@@ -61,10 +61,10 @@ guarantees a human can always take the vehicle back.
 
 | Deliverable | Today |
 |---|---|
-| `firmware/` — the Teensy DBW controller | **Does not exist.** No firmware in this repository at all |
-| `DbwCommand` / `DbwStatus` actually flowing over micro-ROS | The message types are defined and built, but **nothing publishes or subscribes to them** |
+| `firmware/` — the Teensy DBW controller | **Written 2026-11-24, never run on hardware.** `firmware/mitt_dbw` builds for all three vehicles. What is left is in `firmware/mitt_dbw/TODO.md` |
+| `DbwCommand` / `DbwStatus` actually flowing over micro-ROS | The Teensy side is written (2026-11-24). **No message has crossed the link yet**, and the laptop side, `mitt_hardware`, does not exist (2026-11-24) |
 | The failsafe matrix, demonstrated wheels-off | Specified in [safety.md](../design/safety.md), never executed |
-| The IMU published from the Teensy — `/imu/data`, ≥ 100 Hz | **Does not exist.** Added 2026-11-16, when the IMU moved onto the Teensy's second I²C bus ([sensors.md §3](../design/sensors.md#3-imu)) |
+| The IMU published from the Teensy — `/imu/data`, ≥ 100 Hz | **Written 2026-11-24, never run on hardware** (`firmware/mitt_dbw/src/imu.cpp`). Added 2026-11-16, when the IMU moved onto the Teensy's second I²C bus ([sensors.md §3](../design/sensors.md#3-imu)) |
 | [Build step 4](../build/04-firmware.md) validated | Draft, never run on hardware |
 
 **Acceptance gates you close:** `/mitt/dbw/status` sustains ≥ 50 Hz · zero USB dropouts over 30
@@ -117,7 +117,7 @@ You are the track that decides whether anyone else's claim is true.
 | Deliverable | Today |
 |---|---|
 | A parametric world matching the **real** test hallway | Only the stock warehouse world exists |
-| `mitt_bench` — the acceptance measurement scripts | **Does not exist.** Referenced by three documents |
+| `mitt_bench` — the acceptance measurement scripts | **Started 2026-11-24, for the DBW gates only:** `dbw_steer_test`, `dbw_stale_test`, `dbw_link_monitor`. As of 2026-11-24 nothing measures the odometry or Nav2 gates |
 | Functional and launch tests | The repository has **29 tests and all 29 are linters.** Nothing tests that the URDF loads or that any launch file comes up |
 | ROS build and test in CI | CI currently builds **documentation only** |
 | Sim/real agreement within 10% | An acceptance gate with no measurement behind it yet |

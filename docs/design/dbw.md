@@ -426,7 +426,7 @@ Panel 1 is the asymmetry worth staring at: **one motor is instrumented and the o
 
 - **Controller:** Teensy 4.1 (600 MHz Cortex-M7, FPU, 1024 K RAM). Peripheral budget against MRider's needs: **4 hardware quadrature decoders** (2 used: steering motor, drive shaft), **8 hardware serial ports** (used: RC serial in, debug), **35 PWM-capable pins** (2 used for the motor driver), **18 analog inputs** (pot fallback), I²C for the AS5600. Everything fits with spare capacity.
 - **Toolchain:** PlatformIO with the Teensy platform. Firmware lives in `firmware/mitt_dbw/`.
-- **ROS 2 transport:** `micro_ros_arduino`, USB serial, with `micro_ros_agent` on the laptop.
+- **ROS 2 transport:** micro-ROS Humble over USB serial, built by `micro_ros_platformio` (pinned to a commit in `firmware/mitt_dbw/platformio.ini`), with `micro_ros_agent` on the laptop. *Changed 2026-11-24 from `micro_ros_arduino`: that library ships precompiled, and it cannot carry `mitt_msgs` without a Docker rebuild. Both come from the same upstream and build the same Humble sources.*
 
 > [!WARNING]
 > **Verify before firmware work**
@@ -437,7 +437,7 @@ Panel 1 is the asymmetry worth staring at: **one motor is instrumented and the o
 >
 > **If no Humble release exists**, the fallback is a framed **binary** protocol with CRC and sequence numbers over the same USB serial link — never unframed ASCII. This keeps every architectural gain of D3 except typed-message convenience.
 
-- **Version pinning:** pin the exact `micro_ros_arduino` release, PlatformIO platform version, and Teensyduino version in [software.md](software.md) so results reproduce. Do not float on `main`. This obligation is heavier than it was under PX4 — see the consequence recorded in [adr §4.6](adr-dbw-architecture-review.md#46-decision-adopted-2026-08-07): the platform's replication claim now rests on MRider's own measured bring-up numbers rather than on an upstream autopilot's provenance.
+- **Version pinning:** pin the exact `micro_ros_platformio` commit, PlatformIO platform version, and Teensyduino version in [software.md](software.md) so results reproduce. Do not float on `main`. This obligation is heavier than it was under PX4 — see the consequence recorded in [adr §4.6](adr-dbw-architecture-review.md#46-decision-adopted-2026-08-07): the platform's replication claim now rests on MRider's own measured bring-up numbers rather than on an upstream autopilot's provenance.
 
 ---
 

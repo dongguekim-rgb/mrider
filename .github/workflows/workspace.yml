@@ -57,12 +57,30 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.platformio
-          key: pio-${{ hashFiles('firmware/bench/platformio.ini') }}
+          key: pio-${{ hashFiles('firmware/bench/platformio.ini', 'firmware/mitt_dbw/platformio.ini') }}
+      # The micro-ROS library cache: it is compiled from source, minutes per
+      # environment, and only a .msg, the meta file or the pin can change it.
+      - name: cache the micro-ROS library builds
+        uses: actions/cache@v4
+        with:
+          path: firmware/mitt_dbw/.pio/libdeps
+          key: microros-${{ hashFiles('firmware/mitt_dbw/platformio.ini', 'firmware/mitt_dbw/microros.meta', 'firmware/mitt_dbw/scripts/c_compat.py', 'ros2_ws/src/mitt_msgs/**') }}
+      # Into ~/.platformio/penv, where the official installer puts it:
+      # micro_ros_platformio sources that exact path, and a plain
+      # `pip install platformio` leaves it missing.
       - name: install platformio
-        run: pip install --quiet platformio
+        run: |
+          python -m venv ~/.platformio/penv
+          ~/.platformio/penv/bin/pip install --quiet platformio==6.1.19
+          echo "$HOME/.platformio/penv/bin" >> "$GITHUB_PATH"
       - name: build every bench environment
         working-directory: firmware/bench
         run: pio run
+      - name: vehicle firmware - every vehicle, and the hang-test variant
+        working-directory: firmware/mitt_dbw
+        env:
+          MITT_VEHICLE: '1'
+        run: pio run -e vehicle1 -e vehicle2 -e vehicle3 -e hang_test
 
   # Seconds, no ROS, runs on every touch of the workspace. Catches the
   # empty-directory class on its own.

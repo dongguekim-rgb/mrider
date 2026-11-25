@@ -1,0 +1,74 @@
+{
+  "date": "2026-11-25",
+  "code_commit": "618fa0c6d136371e9d8bd30ff3a7184da566ccfc",
+  "scenario": "sensor_turns, vehicle 1, domain 192",
+  "ground_truth": "evaluation only; not a controller input",
+  "runs": {
+    "first": {
+      "result": "PASS",
+      "elapsed_s": 50.95464164018631,
+      "goal_error_m": 0.13566065608922773,
+      "collision": false,
+      "min_clearance_m": 0.49633965329368923,
+      "left_steering_rad": 0.23174917697906494,
+      "right_steering_rad": -0.07404892146587372,
+      "automatic_resume": true,
+      "final_mission": "GOAL",
+      "requests": [
+        {
+          "service": "/mrider_sim/arm",
+          "success": true,
+          "message": "armed"
+        },
+        {
+          "service": "/mrider_sim/start",
+          "success": true,
+          "message": "planning"
+        }
+      ],
+      "rviz_visible_during_drive": false,
+      "stop_to_resume_s": 13.30819432809949,
+      "left_rotation_rad_from_truth_xy": 0.5879050723352548,
+      "right_rotation_rad_from_truth_xy": 0.7498712310034116,
+      "failed_odom_pose_warnings": 0
+    },
+    "with-rviz": {
+      "result": "PASS",
+      "elapsed_s": 49.48135647177696,
+      "goal_error_m": 0.11137762451011171,
+      "collision": false,
+      "min_clearance_m": 0.5424536164019234,
+      "left_steering_rad": 0.22679701447486877,
+      "right_steering_rad": -0.10478028655052185,
+      "automatic_resume": true,
+      "final_mission": "GOAL",
+      "requests": [
+        {
+          "service": "/mrider_sim/arm",
+          "success": true,
+          "message": "armed"
+        },
+        {
+          "service": "/mrider_sim/start",
+          "success": true,
+          "message": "planning"
+        }
+      ],
+      "rviz_visible_during_drive": true,
+      "stop_to_resume_s": 12.527207676321268,
+      "left_rotation_rad_from_truth_xy": 0.5699995776826231,
+      "right_rotation_rad_from_truth_xy": 0.6959164617624489,
+      "failed_odom_pose_warnings": 0
+    }
+  },
+  "scope": "Two manually launched trials; not a rerun of all automated tests.",
+  "visualization": {
+    "rviz_starts": 1,
+    "rviz_restarts": 0,
+    "window_id": "0x4c00013",
+    "observed": "Map, LiDAR, vehicle/trail and segmentation image visible; Global Status OK",
+    "shader_message": "One indexed_8bit_image sampler warning was logged, but map rendered successfully in the captured window. It does not establish the cause of the earlier user failure.",
+    "qos": "Live RViz /perception/overlay and /scan subscriptions BEST_EFFORT; /map RELIABLE, compatible with publishers.",
+    "first_run_note": "A previously interrupted RViz process remained without a visible main window. RViz was opened once after the first drive and kept visible for the entire second drive."
+  }
+}

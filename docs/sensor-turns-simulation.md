@@ -5,6 +5,10 @@
 > [현재 수정·결과와 원본](sensor-only-navigation.md#slam-tf-fix)을 우선 확인한다.
 > 하단의 이전 측정값은 당시 코드의 결과로 유지한다.
 
+> **직접 실행 재확인:** 같은 Docker/domain 192에서 `arm`·`start`를 각각 한 번 호출해
+> 주행했다. [RViz를 켠 실제 실행 기록](#live-rviz-2026-11-25)은 도착 오차 0.111378 m,
+> 충돌 없음, 장애물 정지·자동 재개를 확인했다.
+
 이 시험은 카메라·LiDAR 관측에서 위치와 지도를 추정한다. 학습 모델, 정답 지도, 정답 위치를
 주행 입력으로 사용하지 않는다. `/evaluation/ground_truth`는 검사 노드에서 오차·실제 회전을 측정할 때만 사용한다.
 Gazebo가 아닌 기존 2D 센서 시뮬레이터이며, RViz에서 지도·경로·분할 영상을 확인한다.
@@ -91,6 +95,52 @@ colcon test-result --test-result-base build-docker/mrider_navigation_sim/test_re
 `test-result`는 같은 디렉터리에 남은 이전 시험 결과도 표시하므로 이번 CTest 로그와 함께 확인한다.
 
 실제 카메라/A2M4-R2, 교차로 90도 회전, 여러 보행자, 반복 부하 시험은 별도 검증 대상이다.
+
+<a id="live-rviz-2026-11-25"></a>
+
+## 사용자 환경에서 직접 실행 — 2026-11-25
+
+코드 `618fa0c`, `ros2_humble:/root/mrider-team`, `vehicle:=1`, domain 192에서 실행했다.
+자동 `launch_testing` 대신 일반 `sensor_turns_demo.launch.py`와 출발 서비스를 사용했고,
+별도 후보 명령·고장 입력을 주입하지 않았다. 각 회차에서 `arm`·`start`는 **한 번씩 성공**했다.
+정답은 주행 완료 오차와 실제 회전을 평가하는 관찰 노드만 사용했다.
+
+| 직접 주행 | 경과 시간 | 목표 도착 오차 | 정지→재개 | 최소 이격 |
+|---|---:|---:|---:|---:|
+| 첫 실행, 실제 RViz 창 없음 | 50.955 s | 0.135661 m | 13.308 s | 0.496340 m |
+| 두 번째, RViz 창을 계속 표시 | **49.481 s** | **0.111378 m** | **12.527 s** | **0.542454 m** |
+
+두 회차 모두 GOAL·충돌 없음·자동 재개 PASS, `Failed to compute odom pose` 0회였다.
+두 번째의 조향 범위는 **−0.104780 ~ +0.226797 rad**다. 평가용 실제 위치 궤적의 이동 방향 변화에서
+좌·우 회전량 각각 0.570000 / 0.695916 rad도 확인했다. 정지 구간의 미소 이동은 이 계산에서 제외했다.
+이 두 회차를 기존 자동 시험 개수에 합산하지 않는다.
+
+확인 당시 이전 RViz는 종료 신호를 받은 프로세스만 남고 실제 창은 없었다.
+첫 주행 뒤 RViz를 **한 번 실행**했고, 두 번째 주행에서는 그 창을 계속 유지했다.
+지도·스캔·차량·궤적·카메라 영상과 `Global Status: Ok`를 실제 화면에서 확인했다.
+중복 창을 만들지 않도록 차량 노드는 `rviz:=false`로 실행하고 별도 RViz supervisor를 `--max-restarts 0`으로 사용했다.
+
+![RViz를 켠 직접 주행 후 GOAL 화면](build/evidence/live-sensor-2026-11-25/with-rviz/rviz-goal.png)
+
+RViz 지도 셰이더의 sampler 메시지는 한 번 출력됐지만 위 화면에서는 지도가 정상 표시됐다.
+[동일 메시지에 대한 RViz 원본 이슈](https://github.com/ros2/rviz/issues/463)도 있으며,
+메시지 하나만으로 이전 화면 실패의 원인을 단정하지 않는다. 초기 QoS 경고 뒤 실제 구독 계약을 조회했을 때
+영상·scan은 BEST_EFFORT, 지도는 RELIABLE로 발행자와 일치했고 영상 수신도 확인했다.
+이 결과가 모든 환경에서 RViz 첫 실행·종료가 안정적임을 보장하지는 않는다.
+
+이번 초기 상태는 `IDLE / DISARMED / operator_permission_required`였다.
+launch만 실행하면 주행 권한은 주어지지 않는다. 위 직접 실행 절차처럼 `arm`의 성공 응답을 확인한 뒤
+`start`를 호출해야 한다. 사용자가 이전에 호출한 서비스 응답 기록은 없어 이전 실패 원인을 확정하지 않는다.
+
+- [두 회차 집계](build/evidence/live-sensor-2026-11-25/summary.json),
+  [RViz 동시 주행 JSON](build/evidence/live-sensor-2026-11-25/with-rviz/drive.json),
+  [출발 응답·상태 로그](build/evidence/live-sensor-2026-11-25/with-rviz/drive.log),
+  [launch 로그](build/evidence/live-sensor-2026-11-25/with-rviz/launch.log),
+  [RViz 로그](build/evidence/live-sensor-2026-11-25/with-rviz/rviz.log).
+- [이번 관찰·출발 스크립트](build/evidence/live-sensor-2026-11-25/drive_trial.py).
+  재현할 때는 새로운 시뮬레이션을 출발점에서 실행하고, 같은 환경/domain을 source한 뒤 이 스크립트를 실행한다.
+  스크립트가 `arm`·`start`를 호출하므로 다른 터미널에서 동시에 출발시키지 않는다.
+  실제 차량에 사용하지 않는다. 이미 GOAL에 도착한 장면을 초기화하는 스크립트는 아니다.
 
 ## 실제 검증 결과 — 2026-11-25 KST
 

@@ -76,7 +76,7 @@ M3 Stage 0~5 순서를 지키며, reset/hang 결과를 서로의 합격 증거�
 
 [기록 양식](real-world-validation-template.md)에 방향 A의 구성과 센서·보정·firmware 버전,
 사전 기준, 측정값, 원본 bag/overlay/계측 위치, PASS/FAIL/NOT RUN을 기록한다.
-[방향 A 계획](camera-lidar-navigation-plan.md)의 지도 주행은 위 선행 시험을 통과한 뒤 수행한다.
+[방향 A 계획](architecture.md)의 지도 주행은 위 선행 시험을 통과한 뒤 수행한다.
 이번 작업은 강의 대조와 문서 수정이며 ROS2 노드·firmware 구현이나 하드웨어 합격을 의미하지 않는다.
 
 ## 이번 문서 변경의 검사 결과

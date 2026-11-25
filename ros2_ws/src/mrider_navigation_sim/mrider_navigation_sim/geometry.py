@@ -3,8 +3,24 @@ import math
 
 
 def obstacles(scenario):
+    if scenario=='large_office':
+        from .large_office import walls_and_furniture
+        return walls_and_furniture()
     walls = [(-2., -5., 12., -4.8), (-2., 4.8, 12., 5.),
              (-2., -5., -1.8, 5.), (11.8, -5., 12., 5.)]
+    if scenario == 'sensor_turns':
+        from .indoor import walls as indoor_walls, furniture
+        # Compact office, within the simulated 15 m scanner range.
+        walls=[(-2.,-5.,14.,-4.8),(-2.,4.8,14.,5.),(-2.,-5.,-1.8,5.),(13.8,-5.,14.,5.)]
+        walls.extend(indoor_walls()+furniture()[:-1])
+        walls.append((3.5,-.7,4.3,.25))
+        return walls
+    if scenario == 'indoor_turns':
+        from .indoor import walls as indoor_walls, furniture
+        walls=[(-2.,-5.,24.,-4.8),(-2.,4.8,24.,5.),(-2.,-5.,-1.8,5.),(23.8,-5.,24.,5.)]
+        walls.extend((2*a,b,2*c,d) for a,b,c,d in indoor_walls()+furniture()[:-1])
+        walls.append((5.,-.5,6.,.5))
+        return walls
     if scenario == 'static_obstacle': walls.append((3.4, -.6, 4.4, .6))
     elif scenario == 'blocked': walls.append((3.4, -5., 3.8, 5.))
     elif scenario in ('indoor', 'indoor_dynamic'):
@@ -76,3 +92,21 @@ def swept_hit(points, curvature, length, front, rear, half_width, margin):
             dx,dy=px-x,py-y; lx,ly=c*dx+s*dy,-s*dx+c*dy
             if -rear-margin <= lx <= front+margin and abs(ly)<=half_width+margin:return d
     return math.inf
+
+
+def ray_distances(x,y,angles,boxes,max_range=15.):
+    """Vectorized slab intersections, identical geometry to ray_distance."""
+    import numpy as np
+    angles=np.asarray(angles,dtype=float)
+    if not boxes:return np.full(angles.shape,max_range)
+    bounds=np.asarray(boxes,float)
+    lo=np.zeros((len(angles),len(boxes)));hi=np.full_like(lo,max_range)
+    for origin,direction,low,high in ((x,np.cos(angles),bounds[:,0],bounds[:,2]),
+                                    (y,np.sin(angles),bounds[:,1],bounds[:,3])):
+        direction=direction[:,None];parallel=np.abs(direction)<1e-10
+        a=np.divide(low[None,:]-origin,direction,out=np.zeros_like(lo),where=~parallel)
+        b=np.divide(high[None,:]-origin,direction,out=np.zeros_like(lo),where=~parallel)
+        lo=np.maximum(lo,np.where(parallel,-np.inf,np.minimum(a,b)))
+        hi=np.minimum(hi,np.where(parallel,np.inf,np.maximum(a,b)))
+        hi=np.where(parallel&((origin<low[None,:])|(origin>high[None,:])),-1.,hi)
+    return np.min(np.where(hi>=lo,lo,max_range),axis=1)

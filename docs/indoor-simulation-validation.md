@@ -59,3 +59,10 @@ Xvfb 가상 디스플레이에서 실제 `indoor_demo.launch.py`와 RViz2를 실
 표시된 벽과 가구의 높이는 시각화용이며 센서·충돌 계산은 2D다.
 기존 RViz2 map 초기 GLSL sampler 경고는 이 환경에서도 관찰되는 알려진 제한이다.
 
+
+## 2026-11-23 기존 실내 demo 재확인
+
+알려진 지도와 정답 odometry를 사용하는 기준 시험에서 횡단 장애물 정지 → 자동 재계획·재개 → 목표 도달을 확인했다.
+목표 오차 **0.172528 m**, 최소 차체 이격 **0.540870 m**, 충돌 false였다.
+[주행 로그](build/evidence/live-drive-2026-11-23/drive.log)와 [측정 JSON](build/evidence/live-drive-2026-11-23/indoor_auto.json)을 보존한다.
+이 수치는 카메라·LiDAR 위치 추정 경로 또는 실차의 성공 근거가 아니다.

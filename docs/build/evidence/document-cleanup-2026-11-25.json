@@ -1,0 +1,442 @@
+{
+  "date": "2026-11-25",
+  "before_count": 118,
+  "removed_count": 7,
+  "removed": {
+    "docs/camera-lidar-navigation-plan.md": {
+      "reason": "이전·공유·초기 설계 기록: 유효한 내용과 증거 링크는 현행 설명서에 통합",
+      "replacement": "docs/architecture.md",
+      "sha256": "a7fbb57f299be9956e3a1c8f81fc5ddd1cbedcf263447294742abe7f40fd7c07"
+    },
+    "docs/autonomy-algorithm-architecture.md": {
+      "reason": "이전·공유·초기 설계 기록: 유효한 내용과 증거 링크는 현행 설명서에 통합",
+      "replacement": "docs/architecture.md",
+      "sha256": "444f694de9832e86fc49933726c78c8e1d25c6453890997451deaa2cfe61b5a5"
+    },
+    "docs/ros2-migration.md": {
+      "reason": "이전·공유·초기 설계 기록: 유효한 내용과 증거 링크는 현행 설명서에 통합",
+      "replacement": "docs/new-pc-setup.md",
+      "sha256": "663f22cb93607bd34329a538d545db8736c4fa1db2db13a9ad7267986c79aa09"
+    },
+    "docs/upstream-merge-2026-11-22.md": {
+      "reason": "이전·공유·초기 설계 기록: 유효한 내용과 증거 링크는 현행 설명서에 통합",
+      "replacement": "docs/build/vehicle1-measurements-2026-11-23.md",
+      "sha256": "dbf23f0ac710f0737d1ac699376974409100b374d531cf267b3126138e857357"
+    },
+    "docs/build/ws-readiness-audit-2026-11-23.md": {
+      "reason": "이전·공유·초기 설계 기록: 유효한 내용과 증거 링크는 현행 설명서에 통합",
+      "replacement": "docs/architecture.md",
+      "sha256": "d1811df4b5731c273db7795a29e0b89c11834798065ec47c400852c703a3245e"
+    },
+    "docs/build/docker-team-switch-2026-11-23.md": {
+      "reason": "이전·공유·초기 설계 기록: 유효한 내용과 증거 링크는 현행 설명서에 통합",
+      "replacement": "docs/existing-humble-container.md",
+      "sha256": "1765a91d62c185f4f04d3ecf565d941023a56c926999a6186180be018950e25a"
+    },
+    "docs/build/team-share-2026-11-23.md": {
+      "reason": "이전·공유·초기 설계 기록: 유효한 내용과 증거 링크는 현행 설명서에 통합",
+      "replacement": "docs/indoor-simulation-validation.md",
+      "sha256": "0c326b196f79c6ceda2877cd8f53aee7374b7bf97c79336e52887b57f71f2c4d"
+    }
+  },
+  "remaining_count": 111,
+  "scope": "Only redundant team-authored transition, sharing and early planning Markdown. All professor-provided course, technical and procurement documents are preserved.",
+  "backup_directory": "/home3/mjk/mrider-document-backups/2026-11-25-cleanup",
+  "restoration": {
+    "date": "2026-11-25",
+    "reason": "User correction: professor-provided course and official documents must be preserved. Only redundant team-created documents are in cleanup scope.",
+    "reinstated_count": 48,
+    "reinstated": [
+      "course/slides/w00.md",
+      "course/slides/w01.md",
+      "course/slides/w02.md",
+      "course/slides/w03.md",
+      "course/slides/w05.md",
+      "course/slides/w06.md",
+      "course/slides/w07.md",
+      "course/slides/w08.md",
+      "course/slides/w09.md",
+      "course/slides/w10.md",
+      "course/slides/w11.md",
+      "course/slides/w12.md",
+      "course/slides/w13.md",
+      "course/slides/w14.md",
+      "course/slides/w15.md",
+      "docs/course/environment.md",
+      "docs/course/final-report.md",
+      "docs/course/grading-workflow.md",
+      "docs/course/grading.md",
+      "docs/course/index.md",
+      "docs/course/labs/lab1.md",
+      "docs/course/labs/lab2.md",
+      "docs/course/labs/lab3.md",
+      "docs/course/labs/lab4.md",
+      "docs/course/labs/lab5.md",
+      "docs/course/submission.md",
+      "docs/course/syllabus.md",
+      "docs/course/weeks/w00.md",
+      "docs/course/weeks/w01.md",
+      "docs/course/weeks/w02.md",
+      "docs/course/weeks/w03.md",
+      "docs/course/weeks/w04.md",
+      "docs/course/weeks/w05.md",
+      "docs/course/weeks/w06.md",
+      "docs/course/weeks/w07.md",
+      "docs/course/weeks/w08.md",
+      "docs/course/weeks/w09.md",
+      "docs/course/weeks/w10.md",
+      "docs/course/weeks/w11.md",
+      "docs/course/weeks/w12.md",
+      "docs/course/weeks/w13.md",
+      "docs/course/weeks/w14.md",
+      "docs/course/weeks/w15.md",
+      "docs/learn/m7-behavior-cloning.md",
+      "docs/learn/m8-capstone.md",
+      "docs/order-log.md",
+      "docs/purchase-request-2026-fall-ko.md",
+      "docs/purchase-request-2026-fall.md"
+    ],
+    "preserved_originals": [
+      {
+        "path": ".github/README.md",
+        "sha256": "0a075f33828e144bdd23e745af61adca6fc4401daf8fb17971118d7bd691a0e0"
+      },
+      {
+        "path": "course/slides/w00.md",
+        "sha256": "37192d7f07963edc1beb7ff6d0c7efea304ed724f38e551c8ef4da6485c1208e"
+      },
+      {
+        "path": "course/slides/w01.md",
+        "sha256": "84c9dbf2af02f302b1256e318ff46a404cc2a8d9a816eb8a341e8094edadeaff"
+      },
+      {
+        "path": "course/slides/w02.md",
+        "sha256": "53d9f5cdfca4152e98afbfc2f263d24032ef2f3b5d2c7efdcdb86b45d7a3742c"
+      },
+      {
+        "path": "course/slides/w03.md",
+        "sha256": "9711972bd080084473fbdcc8dd863319c67a03baae2c4e0c09c83699b3ddd04f"
+      },
+      {
+        "path": "course/slides/w05.md",
+        "sha256": "af1bc21d8549582636247f0a5a77e250d6d03320cd562103c4b65d6f7755058d"
+      },
+      {
+        "path": "course/slides/w06.md",
+        "sha256": "1e61c38c2eef8cf99cecb1ee5844b979a09bcc942365948717950acac59fb3f0"
+      },
+      {
+        "path": "course/slides/w07.md",
+        "sha256": "8a1a86c3157f0908a6022af893b1c70e3144e0be24906147ab8854fa5c4d78f7"
+      },
+      {
+        "path": "course/slides/w08.md",
+        "sha256": "76107712f89605b7b9e78f6289397a6fee972f578bfce94d8daa713709c1bfdb"
+      },
+      {
+        "path": "course/slides/w09.md",
+        "sha256": "1ec55c41874280e8229d09cd54067fdc9017dbcb87d00c48480f75805f1e4bbe"
+      },
+      {
+        "path": "course/slides/w10.md",
+        "sha256": "4ebf89ceba642a68c25e15bc3030b2799eb0fc08f7b2a96d624c6b7cae9098c8"
+      },
+      {
+        "path": "course/slides/w11.md",
+        "sha256": "9403339afd56e50c7dfcc4ef0f1517e85a563a97a935d0a838af6aa5304432e9"
+      },
+      {
+        "path": "course/slides/w12.md",
+        "sha256": "9c764e045af44d8b5c94a793575b6756a879baa6b1ab055a0e0fb6c5a3d62da1"
+      },
+      {
+        "path": "course/slides/w13.md",
+        "sha256": "7eb5b6f4a9885fb324989e7542f16565dd19c2213b13df49d9a9b48e409f469e"
+      },
+      {
+        "path": "course/slides/w14.md",
+        "sha256": "c3c711ffc75f9efb6d909db05c6ee85682965dffe626d602f0726e9fe8b5dbb2"
+      },
+      {
+        "path": "course/slides/w15.md",
+        "sha256": "37c0c5ccab5b8a4fb353c53af1b1cd30a3f218844a813092dc71600f96b5d1ea"
+      },
+      {
+        "path": "docs/build/01-bom-sourcing.md",
+        "sha256": "6de2c8caf3c2ba9d0d67afa42e48c893bbfbcbffadaa1e7afeeba6520c7dc027"
+      },
+      {
+        "path": "docs/build/02-mechanical.md",
+        "sha256": "0d57706ffaa2b1b85e851927c1ec680e34fcadcd1040613ac141a8ac398c36c7"
+      },
+      {
+        "path": "docs/build/03-electrical.md",
+        "sha256": "97df927d7446bf187b5f2bbf49ad6faf556482738e1a8559837005ceae7d1183"
+      },
+      {
+        "path": "docs/build/04-firmware.md",
+        "sha256": "f6259ca1c3b2293cf11b2ec68482fc1c24feb503b189771a1eded8d3e381e410"
+      },
+      {
+        "path": "docs/build/05-software.md",
+        "sha256": "34bdfa4f51456facfbf64232e367d2b775e73e0139aadecdb473e099d027bedb"
+      },
+      {
+        "path": "docs/build/06-bench-test.md",
+        "sha256": "024650a3554267b91dd40c688f1352a401aaf474d3dff3e9ae76f548c5af5b59"
+      },
+      {
+        "path": "docs/build/07-manual-drive.md",
+        "sha256": "42e51577161b97affb66d2eb2c8149d576a3f20cd96443c9173476847588c43c"
+      },
+      {
+        "path": "docs/build/08-autonomous.md",
+        "sha256": "c2de05a82277bd2207a152657dd121ebe21101d8392c45428f5c2d3a3285b990"
+      },
+      {
+        "path": "docs/build/index.md",
+        "sha256": "b3c259e1c24f08efaa2db5eef757da8cc1982a5c072148cde4e9a1444f9c6773"
+      },
+      {
+        "path": "docs/course/environment.md",
+        "sha256": "b2b91eb6e68cd747ad91e2955ea324e7d4ea9ba8acfe4b08c649f601671a7271"
+      },
+      {
+        "path": "docs/course/final-report.md",
+        "sha256": "1f6426c0304ed1ce3bfde7380adfd3fe882be2fe2fa2f6fd2dce565858215d89"
+      },
+      {
+        "path": "docs/course/grading-workflow.md",
+        "sha256": "0d5c886e7baf95655500a5423ee03b803f9ac2e01992f36a4068f31081e796da"
+      },
+      {
+        "path": "docs/course/grading.md",
+        "sha256": "4f32eab8e7956ee7f016c380fe99c3a495f1eaeb4ee507c3ef4fd87c8188ab0c"
+      },
+      {
+        "path": "docs/course/index.md",
+        "sha256": "d0706aaefdbe3e3a2b5bd65ad3a5f670ca66e3840c3606d19c4efb50d0a9445a"
+      },
+      {
+        "path": "docs/course/labs/lab1.md",
+        "sha256": "ab0f808d15b306731382263072578eebf5cc4f5e6b713e560b15d49068a788ef"
+      },
+      {
+        "path": "docs/course/labs/lab2.md",
+        "sha256": "8d2e06d943849ef51cb1e9c079740fb29d6605b740f34f95f7b14b87821cff82"
+      },
+      {
+        "path": "docs/course/labs/lab3.md",
+        "sha256": "284959d237109ec82a4fc4184cae8a881348098b54ea5656f15150f9d3949ce7"
+      },
+      {
+        "path": "docs/course/labs/lab4.md",
+        "sha256": "8ab18647ea576801c53c1f2d405adb234ba1b851f8eedb954f282e7ce1103d4c"
+      },
+      {
+        "path": "docs/course/labs/lab5.md",
+        "sha256": "8692e2a12050678b4ecf8de090d74b34e9488efc0e730b032e7f01accd5ca588"
+      },
+      {
+        "path": "docs/course/submission.md",
+        "sha256": "d2c35ac793483c925042d4baa9070f9adb800779ac8e74ca7580714959b211da"
+      },
+      {
+        "path": "docs/course/syllabus.md",
+        "sha256": "14b3ac6a2d9045f5e89959e2b997aafd603e1683cc7197ddac44154141fce333"
+      },
+      {
+        "path": "docs/course/teams.md",
+        "sha256": "06581a52f599c02c2182f3c6035a8949883b43c8cfc628c86f71b1e8254a91f1"
+      },
+      {
+        "path": "docs/course/weeks/w00.md",
+        "sha256": "b4f1fbb3f44afdd00e24b1eb6807ab8f56e2893fb8a8e52ee0f953ccb3d615fd"
+      },
+      {
+        "path": "docs/course/weeks/w01.md",
+        "sha256": "c8ededc0293e7253d6b89d2b619d98cf98ca01d438605793b56dfe6291a7b8c3"
+      },
+      {
+        "path": "docs/course/weeks/w02.md",
+        "sha256": "0c44308aceaef4ebe43ea3dfea6e879e55aa1da52e02c282684aa45bcac169f1"
+      },
+      {
+        "path": "docs/course/weeks/w03.md",
+        "sha256": "f7cd9bd67330761b895801aad22033501a2a2a87d4ffe0f2f5d44d52da8e7ea6"
+      },
+      {
+        "path": "docs/course/weeks/w04.md",
+        "sha256": "4f301b65bd7d3387135be914537905df8f4a30c79c24fc77263a44dfab350d83"
+      },
+      {
+        "path": "docs/course/weeks/w05.md",
+        "sha256": "d67efa0d877f51769bc0a13c07ea5e7b1cb599eb9a3cff766b79003ef9a5adcc"
+      },
+      {
+        "path": "docs/course/weeks/w06.md",
+        "sha256": "252fefd7c035afe4e0a501e9ed87789f948f5da002e4bf18525c146103340861"
+      },
+      {
+        "path": "docs/course/weeks/w07.md",
+        "sha256": "8a07880d96fc7619820ffdabeaa38758981e7ee4beb7161e1fdebda083380a3f"
+      },
+      {
+        "path": "docs/course/weeks/w08.md",
+        "sha256": "38df1482ee39a346f1261daa97f903747d95ed2fe3e28c5c3fc3755b196ce826"
+      },
+      {
+        "path": "docs/course/weeks/w09.md",
+        "sha256": "4271925366ef2e29f30d1f3f1466bb311c4fbca915497c2de2324e9d76960b5d"
+      },
+      {
+        "path": "docs/course/weeks/w10.md",
+        "sha256": "5a00af96f87121b3f409a75b85a40c6e1ba4b457115ea722fca694afe7f305c6"
+      },
+      {
+        "path": "docs/course/weeks/w11.md",
+        "sha256": "a29ad3a1fb7413bc8a654d70bcb6cb3388bd764b49043ad667a4d75ff8f2a376"
+      },
+      {
+        "path": "docs/course/weeks/w12.md",
+        "sha256": "c5236a1601acbfd47998a6ad85c027b2df73ea303112c5f74f71e6e16c1612ac"
+      },
+      {
+        "path": "docs/course/weeks/w13.md",
+        "sha256": "389034b5934a1f6a15964ad83ae7975683f8dc987ec8a8cdd1f1b6c12518ced9"
+      },
+      {
+        "path": "docs/course/weeks/w14.md",
+        "sha256": "d12f3b17f7509fb734e147b7ae379aa31f6946ee9cf8da79aa56720ac012ac07"
+      },
+      {
+        "path": "docs/course/weeks/w15.md",
+        "sha256": "d379e8db51e36fd23d3588c34039997afa59b5bd64b5615d8fbfc2538da45cd0"
+      },
+      {
+        "path": "docs/design/adr-dbw-architecture-review.md",
+        "sha256": "07fff85c62201935a8b2b29254fab3cb528e322bd95d4c7a0802f0a42c787bfa"
+      },
+      {
+        "path": "docs/design/adr-light.md",
+        "sha256": "1e3893b503dcbd0538611f996bc65b0c3d1c58262e7f5b67631b3489b1e6ee22"
+      },
+      {
+        "path": "docs/design/architecture.md",
+        "sha256": "9df9c0fb5fbf5ee195d705df249631eb2ae2e7c1106be1520ab85c60bf80f3a1"
+      },
+      {
+        "path": "docs/design/bom.md",
+        "sha256": "9d7bf621a74d6f4632b0e10f425fcf7f1ef1d5041d182a43c5e7b73fd82c1f8e"
+      },
+      {
+        "path": "docs/design/calibration.md",
+        "sha256": "5ccc2d48736202bf1786668de186b45ea65de707c9020d4f30f214ec8148dfcc"
+      },
+      {
+        "path": "docs/design/dbw.md",
+        "sha256": "eb73deeb0e94d77624889518bfb046f5369cdb7aa863db1ac8062e95d35c0fbc"
+      },
+      {
+        "path": "docs/design/overview.md",
+        "sha256": "082d0e4244ac2e3153f9e33af92a1dfec97566c21c204df57cafba111b6b281f"
+      },
+      {
+        "path": "docs/design/safety.md",
+        "sha256": "d9ed9b1eb265365d81665269f2423605f942fce6292f436802e5c6095cf93b4c"
+      },
+      {
+        "path": "docs/design/sensors.md",
+        "sha256": "4fe1ce476ff8581e7d6adb86031bc17c9f98eba666ec1c9115e5e6831c9d0e76"
+      },
+      {
+        "path": "docs/design/software.md",
+        "sha256": "86b61a436b16ad7cc14983f8445d85e963a3dafb844a737a1390e193e8fd8125"
+      },
+      {
+        "path": "docs/design/vehicle.md",
+        "sha256": "c72e327a06eefde76ad271f77d68717d9608bfb90e6408558142f4e949d3ccbf"
+      },
+      {
+        "path": "docs/learn/index.md",
+        "sha256": "30320759900e96a42eba4b8bfbcef3afba5c17c96dfd580b58bdaf7154ad6587"
+      },
+      {
+        "path": "docs/learn/m1-ros2-intro.md",
+        "sha256": "999775c20871f067c1b5e55f2cb9fe73b1231fc65874d44a4fcdb5a53068772b"
+      },
+      {
+        "path": "docs/learn/m2-dbw-steering.md",
+        "sha256": "68d6a7b6c552fa97389f1ca8bdb5960ff99956c6795d3d17d62d422ab2c60f1b"
+      },
+      {
+        "path": "docs/learn/m3-teleop-safety.md",
+        "sha256": "4b7b7d4df51f8b2b73eec3393936fbca659b6116186bc468c290441e8285c0a7"
+      },
+      {
+        "path": "docs/learn/m4-perception.md",
+        "sha256": "0159dab903ee54b27018afd7a464708a4afd715d3093e70350d58a8a8f0d2407"
+      },
+      {
+        "path": "docs/learn/m5-slam.md",
+        "sha256": "1e585608528802361a4357189c0e8711bd77e03848990e785dfbeb9e954bbf41"
+      },
+      {
+        "path": "docs/learn/m6-nav2.md",
+        "sha256": "f404a30c2816fb13c013160ef535f7bb73644d43ed80f24d15686f2aff0ced6a"
+      },
+      {
+        "path": "docs/learn/m7-behavior-cloning.md",
+        "sha256": "c787251a423d39a4970889cc690242bbd4aebe1d29ed35b278855c71681e651e"
+      },
+      {
+        "path": "docs/learn/m8-capstone.md",
+        "sha256": "5a89f65069f12800957c1c58cd472e07e95f946d0a8958eb6eb4db2e5fc7a990"
+      },
+      {
+        "path": "docs/order-log.md",
+        "sha256": "0269f217c9bd2b947d6447030ee39e9e69379a67a5872d285ac9d0732f742046"
+      },
+      {
+        "path": "docs/purchase-request-2026-fall-ko.md",
+        "sha256": "e5075d199576ecb24505f4cf66be49fb0868031a9bf72861153ea0a23a3c4939"
+      },
+      {
+        "path": "docs/purchase-request-2026-fall.md",
+        "sha256": "0a44421e09cd5abe6d2c262acc4858f3b3d62fdb2fd0a7002ff4341134038f78"
+      },
+      {
+        "path": "docs/index.md",
+        "sha256": "89d2d04ad31aabe1be092d559ef3994d8744a7d3acbaa94f814428ba76b4abb8"
+      }
+    ],
+    "restored_scripts": [
+      "scripts/check_docs.sh",
+      "scripts/check_env.sh",
+      "scripts/check_translations.py",
+      "scripts/export_student_bundle.sh",
+      "scripts/gen_system_figure.py",
+      "scripts/order_status.py"
+    ],
+    "backup_directory": "/home3/mjk/mrider-document-backups/2026-11-25-cleanup"
+  },
+  "checks": {
+    "status": "PASS",
+    "markdown_files": 111,
+    "local_file_links_checked": 1819,
+    "missing_local_file_links": 0,
+    "originals_matching_backup": 78,
+    "mkdocs_strict": "PASS",
+    "check_docs_sh": "PASS, including original slide and procurement checks",
+    "anchor_links_checked": 5498,
+    "site_pages": 92,
+    "broken_anchors": 0,
+    "docker_markdown_compared": 111,
+    "docker_originals_matching_backup": 78,
+    "docker_mismatches": 0,
+    "log": "document-check-2026-11-25.log",
+    "not_run": [
+      "OpenSCAD arithmetic cross-check and 3 OpenSCAD-dependent figure generators"
+    ]
+  }
+}

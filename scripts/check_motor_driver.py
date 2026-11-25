@@ -98,7 +98,7 @@ NOT_A_RATING = re.compile(r'\d\s*[\u2013-]\s*32\s*A|awg|mm\u00b2|ampacity|gauge'
 #: Where live documentation lives. The firmware and ROS sources are swept too:
 #: a terminal name in a comment is read by the person wiring the board.
 GLOBS = ('docs/**/*.md', 'course/**/*.md', 'README.md',
-         'ros2_ws/**/*.yaml', 'firmware/**/*.cpp', 'firmware/**/*.ini',
+         'ros2_ws/src/**/*.yaml', 'firmware/**/*.cpp', 'firmware/**/*.ini',
          'scripts/*.py')
 
 

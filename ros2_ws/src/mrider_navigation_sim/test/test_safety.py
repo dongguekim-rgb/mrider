@@ -159,3 +159,43 @@ def test_obstruction_resets_dwell_and_disarm_cannot_auto_resume():
     feed(g,16.);assert not g.auto_arm(16.,16.)[0]
     g.disarm();feed(g,20.)
     assert not g.auto_arm(20.,20.)[0] and not g.armed
+
+
+@pytest.mark.parametrize('reason',['camera_unknown','camera_input_stale','invalid_scan','invalid_command'])
+def test_obstacle_cannot_erase_manual_fault(reason):
+    g=active();g.fault(reason);g.fault('camera_obstacle');g.fault('obstacle_stop')
+    assert g.reason==reason
+    for t in [11.,15.,19.]:
+        feed(g,t);assert not g.auto_arm(t,t)[0]
+
+
+def test_camera_obstacle_recovers_only_after_clear_dwell():
+    g=active();g.fault('camera_obstacle')
+    feed(g,11.);assert not g.auto_arm(11.,11.)[0]
+    feed(g,13.);assert not g.auto_arm(13.,13.)[0]
+    feed(g,14.);assert g.auto_arm(14.,14.)[0]
+
+
+def test_camera_obstacle_wait_sensor_loss_remains_manual():
+    g=active();g.fault('camera_obstacle');g.output(11.,11.)
+    assert g.reason=='sensor_timeout'
+    g.fault('camera_obstacle')
+    feed(g,15.);assert not g.auto_arm(15.,15.)[0]
+
+
+def test_camera_obstacle_reappearance_resets_clearance_dwell():
+    g=active();g.fault('camera_obstacle')
+    feed(g,11.);assert not g.auto_arm(11.,11.)[0]
+    g.fault('camera_obstacle')
+    feed(g,13.);assert not g.auto_arm(13.,13.)[0]
+    feed(g,15.);assert not g.auto_arm(15.,15.)[0]
+    feed(g,16.);assert g.auto_arm(16.,16.)[0]
+
+
+def test_waypoint_continuation_never_clears_fault_or_operator_disarm():
+    g=active();g.mission_state('WAYPOINT');feed(g,11.)
+    assert g.continue_route(11.,11.)[0]
+    g.fault('camera_input_stale');feed(g,12.)
+    assert not g.continue_route(12.,12.)[0] and g.latched
+    g.disarm();feed(g,13.)
+    assert not g.continue_route(13.,13.)[0]

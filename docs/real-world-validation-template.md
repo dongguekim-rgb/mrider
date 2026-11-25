@@ -65,4 +65,4 @@
 - 재시험 범위: 미정
 - 최종 판정 및 확인자: NOT RUN / 미정
 
-관련 절차: [방향 A navigation](camera-lidar-navigation-plan.md), [A~F 실차 시험](real-world-test-guide.md).
+관련 절차: [방향 A navigation](architecture.md), [A~F 실차 시험](real-world-test-guide.md).

@@ -39,7 +39,9 @@ class Pedestrians:
     walks to y=0, waits 3 s, then walks through the opposite doorway.
     Vehicle stops never pause the pedestrian clock.
     """
-    def __init__(self):
+    def __init__(self, trigger_x=2.5, crossing_x=6., room_x=10., hold_y=0., hold_duration=3.):
+        self.trigger_x=trigger_x;self.crossing_x=crossing_x;self.room_x=room_x
+        self.hold_y=hold_y;self.hold_duration=hold_duration
         self.elapsed = 0.
         self.crossing_elapsed = None
         self.crossing_y = -2.1
@@ -49,11 +51,12 @@ class Pedestrians:
         if not math.isfinite(dt) or dt < 0:
             raise ValueError('nonnegative finite dt required')
         self.elapsed += dt
-        if self.crossing_elapsed is None and vehicle_x >= 2.5:
+        if self.crossing_elapsed is None and vehicle_x >= self.trigger_x:
             self.crossing_elapsed = 0.
         if self.crossing_elapsed is not None:
             self.crossing_elapsed += dt
             t = self.crossing_elapsed
-            self.crossing_y = min(3.3, max(0., t - 6.5)*.6) if t >= 3.5 else -2.1 + .6*t
+            arrival=(self.hold_y+2.1)/.6
+            self.crossing_y = min(3.3, self.hold_y+max(0.,t-arrival-self.hold_duration)*.6) if t>=arrival else -2.1+.6*t
             self.finished = self.crossing_y >= 3.3
-        return [box(6., self.crossing_y), box(10., 2.45 + .65*math.sin(self.elapsed*.6))]
+        return [box(self.crossing_x, self.crossing_y), box(self.room_x, 2.45 + .65*math.sin(self.elapsed*.6))]

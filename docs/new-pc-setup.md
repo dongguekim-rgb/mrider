@@ -12,9 +12,9 @@ Docker 없이 실행하려면 Ubuntu 22.04가 설치된 PC 또는 별도 OS 환�
 이후 아래 명령은 팀 저장소 checkout을 새로 준비하는 경우다. 기존 checkout은 로컬 변경부터 확인한다.
 
 ```bash
-sudo apt-get install git python3-colcon-common-extensions python3-rosdep python3-pytest \
+sudo apt-get install git python3-colcon-common-extensions python3-rosdep python3-pytest python3-scipy python3-opencv \
   ros-humble-ros-base ros-humble-ackermann-msgs ros-humble-rviz2 ros-humble-gazebo-ros-pkgs \
-  ros-humble-navigation2 ros-humble-nav2-bringup \
+  ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-slam-toolbox \
   ros-humble-launch-testing-ament-cmake ros-humble-launch-testing-ros
 source /opt/ros/humble/setup.bash
 git clone https://github.com/dongguekim-rgb/mrider.git ~/mrider-team
@@ -95,4 +95,4 @@ Docker의 새 `build-docker/install-docker` 경로에서 두 패키지 빌드와
 공식 차량 파라미터 생성기는 임시 파일명에 사용자명을 사용한다. 호스트 UID로 컨테이너를 실행할 때
 해당 UID가 컨테이너 `/etc/passwd`에 없으면 `getpass.getuser()`가 실패할 수 있으므로 위와 같이
 실제 사용자명을 `LOGNAME`으로 전달한다. 공식 업데이트 후 재빌드·차량별 실행은
-[2026-11-22 반영 기록](upstream-merge-2026-11-22.md)을 따른다.
+[차량별 설정과 검증](build/vehicle1-measurements-2026-11-23.md)을 따른다.

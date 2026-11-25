@@ -29,19 +29,23 @@ class Gate:
         self.c=limits;self.scan=None;self.odom=None;self.cmd=None
         self.stamps={};self.armed=False;self.latched=False;self.started=False
         self.state='DISARMED';self.reason='operator_permission_required';self.previous=None
-        self.last_mission=None
+        self.last_mission=None;self.manual_fault=False
         self.clear_since=None
 
     def mission_state(self, state):
         # Repeated status heartbeats must not undo an explicit manual rearm.
         if state==self.last_mission:return
         self.last_mission=state
-        if state=='GOAL':self.goal()
+        if state in ('GOAL','WAYPOINT'):self.goal()
         elif state=='FAILED':self.fault('obstacle_stop' if self.state=='SLOW' and self.reason=='obstacle_slowdown' else 'planning_or_tracking_failed')
+
+    def continue_route(self,now,wall):
+        if self.state!='GOAL' or self.latched:return False,'not_completed_waypoint'
+        return self.arm(now,wall)
 
     def auto_arm(self, now, wall):
         # Only a classified obstacle stop can recover; any other fault wins.
-        eligible=(self.state=='STOPPED' and self.reason=='obstacle_stop' and
+        eligible=(not self.manual_fault and self.state=='STOPPED' and self.reason in ('obstacle_stop','camera_obstacle') and
                   self.sensors_ready(now,wall) and abs(self.odom[0][3])<.01)
         if eligible:
             eligible=swept_hit(self.scan[0],0.,2.,self.c.front,self.c.rear,
@@ -56,7 +60,11 @@ class Gate:
     def fault(self, reason):
         self.clear_since=None
         if self.armed or self.latched:
-            self.latched=True;self.state='STOPPED';self.reason=reason
+            # An obstacle observation must never erase a sensor/control fault.
+            recoverable=reason in ('obstacle_stop','camera_obstacle')
+            if not self.manual_fault or not recoverable:self.reason=reason
+            self.manual_fault=self.manual_fault or not recoverable
+            self.latched=True;self.state='STOPPED'
         self.armed=False
 
     def valid_stamp(self, key, stamp, now):
@@ -109,11 +117,11 @@ class Gate:
         # an old steering command to make a nearby obstacle disappear.
         hit=swept_hit(self.scan[0],0.,.1,self.c.front,self.c.rear,self.c.half_width,self.c.margin)
         if hit<math.inf:return False,'obstacle_not_clear'
-        self.armed=True;self.latched=False;self.started=False;self.cmd=None
+        self.armed=True;self.latched=False;self.manual_fault=False;self.started=False;self.cmd=None
         self.state='READY';self.reason='manual_arm';return True,'armed'
 
     def disarm(self):
-        self.armed=False;self.latched=False;self.started=False;self.cmd=None
+        self.armed=False;self.latched=False;self.manual_fault=False;self.started=False;self.cmd=None
         self.state='DISARMED';self.reason='operator_disarm'
 
     def goal(self):
@@ -124,7 +132,7 @@ class Gate:
         if self.previous is not None and now<self.previous:
             self.scan=self.odom=self.cmd=None;self.stamps.clear();self.fault('clock_rewind')
         self.previous=now
-        if self.state=='STOPPED' and self.reason=='obstacle_stop' and not self.sensors_ready(now,wall):
+        if self.state=='STOPPED' and self.reason in ('obstacle_stop','camera_obstacle') and not self.sensors_ready(now,wall):
             self.fault('sensor_timeout')
         if not self.armed:return 0.,0.
         if not self.sensors_ready(now,wall):self.fault('sensor_timeout');return 0.,0.

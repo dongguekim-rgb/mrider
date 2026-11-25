@@ -1,0 +1,442 @@
+Starting >>> mrider_navigation_sim
+UpdateCTestConfiguration  from :/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Parse Config file:/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+   Site: platinum
+   Build name: (empty)
+ Add coverage exclude regular expressions.
+Create new tag: 20261124-1635 - Experimental
+UpdateCTestConfiguration  from :/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Parse Config file:/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Test project /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 6
+    Start 6: test_test_sensor_only_launch.py
+
+6: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/launch_test/test_test_sensor_only_launch.py.txt" "--command" "/usr/bin/python3" "-m" "launch_testing.launch_test" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_only_launch.py" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml" "--package-name=mrider_navigation_sim"
+6: Test timeout computed to be: 180
+6: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+6:  - /usr/bin/python3 -m launch_testing.launch_test /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_only_launch.py --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml --package-name=mrider_navigation_sim
+6: [INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-24-16-35-22-524253-platinum-47803
+6: [INFO] [launch]: Default logging verbosity is set to INFO
+6: test_sensor_only (mrider_navigation_sim.SensorOnly) ... [INFO] [laser_odometry_node-1]: process started with pid [47816]
+6: [INFO] [camera_rules_node-2]: process started with pid [47818]
+6: [INFO] [async_slam_toolbox_node-3]: process started with pid [47820]
+6: [INFO] [world_node-4]: process started with pid [47822]
+6: [INFO] [safety_node-5]: process started with pid [47824]
+6: [INFO] [mission_node-6]: process started with pid [47826]
+6: [INFO] [planner_server-7]: process started with pid [47828]
+6: [INFO] [controller_server-8]: process started with pid [47830]
+6: [INFO] [lifecycle_manager-9]: process started with pid [47832]
+6: [INFO] [visualization_node-10]: process started with pid [47834]
+6: [async_slam_toolbox_node-3] [INFO] [1795538122.713253766] [slam_toolbox]: Node using stack size 40000000
+6: [lifecycle_manager-9] [INFO] [1795538122.713548647] [navigation_lifecycle]: Creating
+6: [lifecycle_manager-9] [INFO] [1795538122.716392052] [navigation_lifecycle]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+6: [planner_server-7] [INFO] [1795538122.719536318] [planner_server]: 
+6: [planner_server-7] 	planner_server lifecycle node launched. 
+6: [planner_server-7] 	Waiting on external lifecycle transitions to activate
+6: [planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [planner_server-7] [INFO] [1795538122.722279078] [planner_server]: Creating
+6: [controller_server-8] [INFO] [1795538122.724873637] [controller_server]: 
+6: [controller_server-8] 	controller_server lifecycle node launched. 
+6: [controller_server-8] 	Waiting on external lifecycle transitions to activate
+6: [controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [planner_server-7] [INFO] [1795538122.730358265] [global_costmap.global_costmap]: 
+6: [planner_server-7] 	global_costmap lifecycle node launched. 
+6: [planner_server-7] 	Waiting on external lifecycle transitions to activate
+6: [planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [planner_server-7] [INFO] [1795538122.731358060] [global_costmap.global_costmap]: Creating Costmap
+6: [controller_server-8] [INFO] [1795538122.732249339] [controller_server]: Creating controller server
+6: [controller_server-8] [INFO] [1795538122.743611642] [local_costmap.local_costmap]: 
+6: [controller_server-8] 	local_costmap lifecycle node launched. 
+6: [controller_server-8] 	Waiting on external lifecycle transitions to activate
+6: [controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [controller_server-8] [INFO] [1795538122.744792376] [local_costmap.local_costmap]: Creating Costmap
+6: [async_slam_toolbox_node-3] [INFO] [1795538122.752372625] [slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+6: [async_slam_toolbox_node-3] [INFO] [1795538122.752765909] [slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+6: [lifecycle_manager-9] [INFO] [1795538122.819398371] [navigation_lifecycle]: [34m[1mStarting managed nodes bringup...[0m[0m
+6: [lifecycle_manager-9] [INFO] [1795538122.819489561] [navigation_lifecycle]: [34m[1mConfiguring planner_server[0m[0m
+6: [planner_server-7] [INFO] [1795538122.819924995] [planner_server]: Configuring
+6: [planner_server-7] [INFO] [1795538122.819977315] [global_costmap.global_costmap]: Configuring
+6: [planner_server-7] [INFO] [1795538122.825871440] [global_costmap.global_costmap]: Using plugin "static_layer"
+6: [planner_server-7] [INFO] [1795538122.831455320] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+6: [planner_server-7] [INFO] [1795538122.834060361] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+6: [planner_server-7] [INFO] [1795538122.834098861] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+6: [planner_server-7] [INFO] [1795538122.834431250] [global_costmap.global_costmap]: Subscribed to Topics: scan
+6: [planner_server-7] [INFO] [1795538122.837020417] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+6: [planner_server-7] [INFO] [1795538122.837052320] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+6: [planner_server-7] [INFO] [1795538122.837538241] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+6: [planner_server-7] [INFO] [1795538122.852374174] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538122.852442297] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538122.853413937] [planner_server]: Even sized heuristic lookup table size set 200.000000, increasing size by 1 to make odd
+6: [async_slam_toolbox_node-3] [INFO] [1795538123.279648273] [slam_toolbox]: Message Filter dropping message: frame 'laser' at time 1795538123.153 for reason 'discarding message because the queue is full'
+6: [planner_server-7] [INFO] [1795538124.116341021] [planner_server]: Configured plugin GridBased of type SmacPlannerHybrid with maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal. Tolerance 0.20.Using motion model: Dubin.
+6: [planner_server-7] [INFO] [1795538124.116420796] [planner_server]: Planner Server has GridBased  planners available.
+6: [lifecycle_manager-9] [INFO] [1795538124.124612311] [navigation_lifecycle]: [34m[1mConfiguring controller_server[0m[0m
+6: [controller_server-8] [INFO] [1795538124.128352690] [controller_server]: Configuring controller interface
+6: [controller_server-8] [INFO] [1795538124.128565426] [controller_server]: getting goal checker plugins..
+6: [controller_server-8] [INFO] [1795538124.128696514] [controller_server]: Controller frequency set to 30.0000Hz
+6: [controller_server-8] [INFO] [1795538124.128764710] [local_costmap.local_costmap]: Configuring
+6: [controller_server-8] [INFO] [1795538124.136214093] [local_costmap.local_costmap]: Using plugin "static_layer"
+6: [controller_server-8] [INFO] [1795538124.140934597] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+6: [controller_server-8] [INFO] [1795538124.143107702] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+6: [controller_server-8] [INFO] [1795538124.143156153] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+6: [controller_server-8] [INFO] [1795538124.143566061] [local_costmap.local_costmap]: Subscribed to Topics: scan
+6: [controller_server-8] [INFO] [1795538124.147069610] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+6: [controller_server-8] [INFO] [1795538124.147115314] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+6: [controller_server-8] [INFO] [1795538124.147736469] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+6: [controller_server-8] [INFO] [1795538124.163594455] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+6: [controller_server-8] [INFO] [1795538124.164429661] [controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+6: [controller_server-8] [INFO] [1795538124.164656133] [controller_server]: Controller Server has goal_checker  goal checkers available.
+6: [controller_server-8] [INFO] [1795538124.165442893] [controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538124.169320594] [controller_server]: Controller Server has FollowPath  controllers available.
+6: [lifecycle_manager-9] [INFO] [1795538124.182005141] [navigation_lifecycle]: [34m[1mActivating planner_server[0m[0m
+6: [planner_server-7] [INFO] [1795538124.182235464] [planner_server]: Activating
+6: [planner_server-7] [INFO] [1795538124.182290462] [global_costmap.global_costmap]: Activating
+6: [planner_server-7] [INFO] [1795538124.182313324] [global_costmap.global_costmap]: Checking transform
+6: [planner_server-7] [INFO] [1795538124.182341956] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+6: [async_slam_toolbox_node-3] [WARN] [1795538124.259736680] [slam_toolbox]: minimum laser range setting (0.0 m) exceeds the capabilities of the used Lidar (0.1 m)
+6: [async_slam_toolbox_node-3] Registering sensor: [Custom Described Lidar]
+6: [controller_server-8] [INFO] [1795538124.269607468] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538124.269806682] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538124.682510766] [global_costmap.global_costmap]: start
+6: [planner_server-7] [INFO] [1795538124.833627238] [planner_server]: Activating plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538124.834896929] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+6: [lifecycle_manager-9] [INFO] [1795538124.940521681] [navigation_lifecycle]: Server planner_server connected with bond.
+6: [lifecycle_manager-9] [INFO] [1795538124.940619740] [navigation_lifecycle]: [34m[1mActivating controller_server[0m[0m
+6: [controller_server-8] [INFO] [1795538124.940984601] [controller_server]: Activating
+6: [controller_server-8] [INFO] [1795538124.941054791] [local_costmap.local_costmap]: Activating
+6: [controller_server-8] [INFO] [1795538124.941073086] [local_costmap.local_costmap]: Checking transform
+6: [controller_server-8] [INFO] [1795538124.941195655] [local_costmap.local_costmap]: start
+6: [controller_server-8] [INFO] [1795538125.092569162] [controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538125.092659617] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+6: [lifecycle_manager-9] [INFO] [1795538125.198070365] [navigation_lifecycle]: Server controller_server connected with bond.
+6: [lifecycle_manager-9] [INFO] [1795538125.198172758] [navigation_lifecycle]: [34m[1mManaged nodes are active[0m[0m
+6: [lifecycle_manager-9] [INFO] [1795538125.198197828] [navigation_lifecycle]: [34m[1mCreating bond timer...[0m[0m
+6: [controller_server-8] [INFO] [1795538125.659633345] [controller_server]: Received a goal, begin computing control effort.
+6: [planner_server-7] [INFO] [1795538126.782673700] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538126.841846940] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538127.282668612] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538127.341861766] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538127.782642757] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538127.841851086] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538128.282641513] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538128.341867964] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538130.282642712] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538130.341866791] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538130.782648762] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538130.841846403] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538131.282632688] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538131.341847630] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538131.782647313] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538131.841870896] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 193 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538133.282667972] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538133.341875248] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 193 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538133.782649892] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538133.841889353] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538134.782641415] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538134.841874307] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538136.782630583] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538136.841843963] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538137.782662361] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538137.841859727] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538141.093175024] [controller_server]: Goal was canceled. Stopping the robot.
+6: [controller_server-8] [INFO] [1795538141.093274403] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+6: SENSOR_ONLY_RESULT {"sensor_only": true, "vehicle": "1", "result": "FAIL", "error": "(9371004.69097584, {'state': 'STOPPED', 'reason': 'camera_input_stale', 'speed': 0.0, 'camera': {'stamp': 1795538140.712012, 'valid': True, 'clear': True, 'reason': 'clear', 'floor_fraction': 1.0, 'obstacle_fraction': 0.0, 'unknown_fraction': 0.0, 'scan_image_offset_s': 0.0, 'processing_ms': 80.41080087423325, 'source_age_s': 0.15413928031921387}, 'camera_receive_age_s': 0.20314392633736134})", "truth_goal_error_m": 1.8312965538865666, "odometry_position_error_m": 0.09314369094264273, "final_safety": {"state": "STOPPED", "reason": "camera_input_stale", "speed": 0.0, "camera": {"stamp": 1795538140.712012, "valid": true, "clear": true, "reason": "clear", "floor_fraction": 1.0, "obstacle_fraction": 0.0, "unknown_fraction": 0.0, "scan_image_offset_s": 0.0, "processing_ms": 80.41080087423325, "source_age_s": 0.15413928031921387}, "camera_receive_age_s": 0.20314392633736134}}
+6: FAIL
+6: 
+6: ======================================================================
+6: FAIL: test_sensor_only (mrider_navigation_sim.SensorOnly)
+6: ----------------------------------------------------------------------
+6: Traceback (most recent call last):
+6:   File "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_only_launch.py", line 48, in test_sensor_only
+6:     assert node.mission=='GOAL',node.states[-1]
+6: AssertionError: (9371004.69097584, {'state': 'STOPPED', 'reason': 'camera_input_stale', 'speed': 0.0, 'camera': {'stamp': 1795538140.712012, 'valid': True, 'clear': True, 'reason': 'clear', 'floor_fraction': 1.0, 'obstacle_fraction': 0.0, 'unknown_fraction': 0.0, 'scan_image_offset_s': 0.0, 'processing_ms': 80.41080087423325, 'source_age_s': 0.15413928031921387}, 'camera_receive_age_s': 0.20314392633736134})
+6: 
+6: ----------------------------------------------------------------------
+6: Ran 1 test in 18.897s
+6: 
+6: FAILED (failures=1)
+6: [INFO] [visualization_node-10]: sending signal 'SIGINT' to process[visualization_node-10]
+6: [INFO] [lifecycle_manager-9]: sending signal 'SIGINT' to process[lifecycle_manager-9]
+6: [INFO] [controller_server-8]: sending signal 'SIGINT' to process[controller_server-8]
+6: [INFO] [planner_server-7]: sending signal 'SIGINT' to process[planner_server-7]
+6: [INFO] [mission_node-6]: sending signal 'SIGINT' to process[mission_node-6]
+6: [INFO] [safety_node-5]: sending signal 'SIGINT' to process[safety_node-5]
+6: [INFO] [world_node-4]: sending signal 'SIGINT' to process[world_node-4]
+6: [INFO] [async_slam_toolbox_node-3]: sending signal 'SIGINT' to process[async_slam_toolbox_node-3]
+6: [INFO] [camera_rules_node-2]: sending signal 'SIGINT' to process[camera_rules_node-2]
+6: [INFO] [laser_odometry_node-1]: sending signal 'SIGINT' to process[laser_odometry_node-1]
+6: [lifecycle_manager-9] [INFO] [1795538141.559219911] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [lifecycle_manager-9] [INFO] [1795538141.559351233] [navigation_lifecycle]: Running Nav2 LifecycleManager rcl preshutdown (navigation_lifecycle)
+6: [lifecycle_manager-9] [INFO] [1795538141.559430119] [navigation_lifecycle]: [34m[1mTerminating bond timer...[0m[0m
+6: [controller_server-8] [INFO] [1795538141.560644301] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [controller_server-8] [INFO] [1795538141.560709060] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+6: [controller_server-8] [INFO] [1795538141.560787054] [controller_server]: Deactivating
+6: [controller_server-8] [INFO] [1795538141.560807027] [controller_server]: Deactivating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538141.560831914] [local_costmap.local_costmap]: Deactivating
+6: [planner_server-7] [INFO] [1795538141.562107770] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [planner_server-7] [INFO] [1795538141.562164951] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+6: [planner_server-7] [INFO] [1795538141.562230360] [planner_server]: Deactivating
+6: [planner_server-7] [INFO] [1795538141.562260864] [global_costmap.global_costmap]: Deactivating
+6: [async_slam_toolbox_node-3] [INFO] [1795538141.567918896] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [planner_server-7] [INFO] [1795538141.582680144] [planner_server]: Deactivating plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538141.582750798] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+6: [lifecycle_manager-9] [INFO] [1795538141.584756897] [navigation_lifecycle]: Destroying navigation_lifecycle
+6: [planner_server-7] [INFO] [1795538141.593059007] [planner_server]: Cleaning up
+6: [planner_server-7] [INFO] [1795538141.599001363] [global_costmap.global_costmap]: Cleaning up
+6: [planner_server-7] [INFO] [1795538141.602032369] [planner_server]: Cleaning up plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538141.602304341] [planner_server]: Destroying plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538141.607800169] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+6: [planner_server-7] [INFO] [1795538141.611083335] [global_costmap.global_costmap]: Destroying
+6: [planner_server-7] [INFO] [1795538141.617691649] [planner_server]: Destroying
+6: [controller_server-8] [INFO] [1795538141.641919366] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+6: [controller_server-8] [INFO] [1795538141.652182027] [controller_server]: Cleaning up
+6: [controller_server-8] [INFO] [1795538141.652239763] [controller_server]: Cleaning up controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538141.652304766] [local_costmap.local_costmap]: Cleaning up
+6: [controller_server-8] [INFO] [1795538141.661817731] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+6: [controller_server-8] [INFO] [1795538141.665697942] [local_costmap.local_costmap]: Destroying
+6: [controller_server-8] [INFO] [1795538141.671687024] [controller_server]: Destroying
+6: [INFO] [async_slam_toolbox_node-3]: process has finished cleanly [pid 47820]
+6: [INFO] [lifecycle_manager-9]: process has finished cleanly [pid 47832]
+6: [INFO] [planner_server-7]: process has finished cleanly [pid 47828]
+6: [INFO] [safety_node-5]: process has finished cleanly [pid 47824]
+6: [INFO] [mission_node-6]: process has finished cleanly [pid 47826]
+6: [INFO] [controller_server-8]: process has finished cleanly [pid 47830]
+6: [INFO] [world_node-4]: process has finished cleanly [pid 47822]
+6: [INFO] [visualization_node-10]: process has finished cleanly [pid 47834]
+6: [INFO] [camera_rules_node-2]: process has finished cleanly [pid 47818]
+6: [INFO] [laser_odometry_node-1]: process has finished cleanly [pid 47816]
+6: test_shutdown (mrider_navigation_sim.Exit) ... ok
+6: 
+6: ----------------------------------------------------------------------
+6: Ran 1 test in 0.000s
+6: 
+6: OK
+6: -- run_test.py: return code 1
+6: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml'
+1/1 Test #6: test_test_sensor_only_launch.py ...***Failed   20.29 sec
+-- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+ - /usr/bin/python3 -m launch_testing.launch_test /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_only_launch.py --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml --package-name=mrider_navigation_sim
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-24-16-35-22-524253-platinum-47803
+[INFO] [launch]: Default logging verbosity is set to INFO
+test_sensor_only (mrider_navigation_sim.SensorOnly) ... [INFO] [laser_odometry_node-1]: process started with pid [47816]
+[INFO] [camera_rules_node-2]: process started with pid [47818]
+[INFO] [async_slam_toolbox_node-3]: process started with pid [47820]
+[INFO] [world_node-4]: process started with pid [47822]
+[INFO] [safety_node-5]: process started with pid [47824]
+[INFO] [mission_node-6]: process started with pid [47826]
+[INFO] [planner_server-7]: process started with pid [47828]
+[INFO] [controller_server-8]: process started with pid [47830]
+[INFO] [lifecycle_manager-9]: process started with pid [47832]
+[INFO] [visualization_node-10]: process started with pid [47834]
+[async_slam_toolbox_node-3] [INFO] [1795538122.713253766] [slam_toolbox]: Node using stack size 40000000
+[lifecycle_manager-9] [INFO] [1795538122.713548647] [navigation_lifecycle]: Creating
+[lifecycle_manager-9] [INFO] [1795538122.716392052] [navigation_lifecycle]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[planner_server-7] [INFO] [1795538122.719536318] [planner_server]: 
+[planner_server-7] 	planner_server lifecycle node launched. 
+[planner_server-7] 	Waiting on external lifecycle transitions to activate
+[planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-7] [INFO] [1795538122.722279078] [planner_server]: Creating
+[controller_server-8] [INFO] [1795538122.724873637] [controller_server]: 
+[controller_server-8] 	controller_server lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-7] [INFO] [1795538122.730358265] [global_costmap.global_costmap]: 
+[planner_server-7] 	global_costmap lifecycle node launched. 
+[planner_server-7] 	Waiting on external lifecycle transitions to activate
+[planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-7] [INFO] [1795538122.731358060] [global_costmap.global_costmap]: Creating Costmap
+[controller_server-8] [INFO] [1795538122.732249339] [controller_server]: Creating controller server
+[controller_server-8] [INFO] [1795538122.743611642] [local_costmap.local_costmap]: 
+[controller_server-8] 	local_costmap lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-8] [INFO] [1795538122.744792376] [local_costmap.local_costmap]: Creating Costmap
+[async_slam_toolbox_node-3] [INFO] [1795538122.752372625] [slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+[async_slam_toolbox_node-3] [INFO] [1795538122.752765909] [slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+[lifecycle_manager-9] [INFO] [1795538122.819398371] [navigation_lifecycle]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-9] [INFO] [1795538122.819489561] [navigation_lifecycle]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-7] [INFO] [1795538122.819924995] [planner_server]: Configuring
+[planner_server-7] [INFO] [1795538122.819977315] [global_costmap.global_costmap]: Configuring
+[planner_server-7] [INFO] [1795538122.825871440] [global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-7] [INFO] [1795538122.831455320] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[planner_server-7] [INFO] [1795538122.834060361] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-7] [INFO] [1795538122.834098861] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-7] [INFO] [1795538122.834431250] [global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-7] [INFO] [1795538122.837020417] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-7] [INFO] [1795538122.837052320] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-7] [INFO] [1795538122.837538241] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-7] [INFO] [1795538122.852374174] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlannerHybrid
+[planner_server-7] [INFO] [1795538122.852442297] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+[planner_server-7] [INFO] [1795538122.853413937] [planner_server]: Even sized heuristic lookup table size set 200.000000, increasing size by 1 to make odd
+[async_slam_toolbox_node-3] [INFO] [1795538123.279648273] [slam_toolbox]: Message Filter dropping message: frame 'laser' at time 1795538123.153 for reason 'discarding message because the queue is full'
+[planner_server-7] [INFO] [1795538124.116341021] [planner_server]: Configured plugin GridBased of type SmacPlannerHybrid with maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal. Tolerance 0.20.Using motion model: Dubin.
+[planner_server-7] [INFO] [1795538124.116420796] [planner_server]: Planner Server has GridBased  planners available.
+[lifecycle_manager-9] [INFO] [1795538124.124612311] [navigation_lifecycle]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-8] [INFO] [1795538124.128352690] [controller_server]: Configuring controller interface
+[controller_server-8] [INFO] [1795538124.128565426] [controller_server]: getting goal checker plugins..
+[controller_server-8] [INFO] [1795538124.128696514] [controller_server]: Controller frequency set to 30.0000Hz
+[controller_server-8] [INFO] [1795538124.128764710] [local_costmap.local_costmap]: Configuring
+[controller_server-8] [INFO] [1795538124.136214093] [local_costmap.local_costmap]: Using plugin "static_layer"
+[controller_server-8] [INFO] [1795538124.140934597] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[controller_server-8] [INFO] [1795538124.143107702] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[controller_server-8] [INFO] [1795538124.143156153] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[controller_server-8] [INFO] [1795538124.143566061] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[controller_server-8] [INFO] [1795538124.147069610] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[controller_server-8] [INFO] [1795538124.147115314] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-8] [INFO] [1795538124.147736469] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-8] [INFO] [1795538124.163594455] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-8] [INFO] [1795538124.164429661] [controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-8] [INFO] [1795538124.164656133] [controller_server]: Controller Server has goal_checker  goal checkers available.
+[controller_server-8] [INFO] [1795538124.165442893] [controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-8] [INFO] [1795538124.169320594] [controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-9] [INFO] [1795538124.182005141] [navigation_lifecycle]: [34m[1mActivating planner_server[0m[0m
+[planner_server-7] [INFO] [1795538124.182235464] [planner_server]: Activating
+[planner_server-7] [INFO] [1795538124.182290462] [global_costmap.global_costmap]: Activating
+[planner_server-7] [INFO] [1795538124.182313324] [global_costmap.global_costmap]: Checking transform
+[planner_server-7] [INFO] [1795538124.182341956] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[async_slam_toolbox_node-3] [WARN] [1795538124.259736680] [slam_toolbox]: minimum laser range setting (0.0 m) exceeds the capabilities of the used Lidar (0.1 m)
+[async_slam_toolbox_node-3] Registering sensor: [Custom Described Lidar]
+[controller_server-8] [INFO] [1795538124.269607468] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538124.269806682] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538124.682510766] [global_costmap.global_costmap]: start
+[planner_server-7] [INFO] [1795538124.833627238] [planner_server]: Activating plugin GridBased of type SmacPlannerHybrid
+[planner_server-7] [INFO] [1795538124.834896929] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1795538124.940521681] [navigation_lifecycle]: Server planner_server connected with bond.
+[lifecycle_manager-9] [INFO] [1795538124.940619740] [navigation_lifecycle]: [34m[1mActivating controller_server[0m[0m
+[controller_server-8] [INFO] [1795538124.940984601] [controller_server]: Activating
+[controller_server-8] [INFO] [1795538124.941054791] [local_costmap.local_costmap]: Activating
+[controller_server-8] [INFO] [1795538124.941073086] [local_costmap.local_costmap]: Checking transform
+[controller_server-8] [INFO] [1795538124.941195655] [local_costmap.local_costmap]: start
+[controller_server-8] [INFO] [1795538125.092569162] [controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-8] [INFO] [1795538125.092659617] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1795538125.198070365] [navigation_lifecycle]: Server controller_server connected with bond.
+[lifecycle_manager-9] [INFO] [1795538125.198172758] [navigation_lifecycle]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-9] [INFO] [1795538125.198197828] [navigation_lifecycle]: [34m[1mCreating bond timer...[0m[0m
+[controller_server-8] [INFO] [1795538125.659633345] [controller_server]: Received a goal, begin computing control effort.
+[planner_server-7] [INFO] [1795538126.782673700] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538126.841846940] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538127.282668612] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538127.341861766] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538127.782642757] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538127.841851086] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538128.282641513] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538128.341867964] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538130.282642712] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538130.341866791] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538130.782648762] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538130.841846403] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538131.282632688] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538131.341847630] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538131.782647313] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538131.841870896] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538133.282667972] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538133.341875248] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538133.782649892] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538133.841889353] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538134.782641415] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538134.841874307] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538136.782630583] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538136.841843963] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795538137.782662361] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538137.841859727] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795538141.093175024] [controller_server]: Goal was canceled. Stopping the robot.
+[controller_server-8] [INFO] [1795538141.093274403] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+SENSOR_ONLY_RESULT {"sensor_only": true, "vehicle": "1", "result": "FAIL", "error": "(9371004.69097584, {'state': 'STOPPED', 'reason': 'camera_input_stale', 'speed': 0.0, 'camera': {'stamp': 1795538140.712012, 'valid': True, 'clear': True, 'reason': 'clear', 'floor_fraction': 1.0, 'obstacle_fraction': 0.0, 'unknown_fraction': 0.0, 'scan_image_offset_s': 0.0, 'processing_ms': 80.41080087423325, 'source_age_s': 0.15413928031921387}, 'camera_receive_age_s': 0.20314392633736134})", "truth_goal_error_m": 1.8312965538865666, "odometry_position_error_m": 0.09314369094264273, "final_safety": {"state": "STOPPED", "reason": "camera_input_stale", "speed": 0.0, "camera": {"stamp": 1795538140.712012, "valid": true, "clear": true, "reason": "clear", "floor_fraction": 1.0, "obstacle_fraction": 0.0, "unknown_fraction": 0.0, "scan_image_offset_s": 0.0, "processing_ms": 80.41080087423325, "source_age_s": 0.15413928031921387}, "camera_receive_age_s": 0.20314392633736134}}
+FAIL
+
+======================================================================
+FAIL: test_sensor_only (mrider_navigation_sim.SensorOnly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_only_launch.py", line 48, in test_sensor_only
+    assert node.mission=='GOAL',node.states[-1]
+AssertionError: (9371004.69097584, {'state': 'STOPPED', 'reason': 'camera_input_stale', 'speed': 0.0, 'camera': {'stamp': 1795538140.712012, 'valid': True, 'clear': True, 'reason': 'clear', 'floor_fraction': 1.0, 'obstacle_fraction': 0.0, 'unknown_fraction': 0.0, 'scan_image_offset_s': 0.0, 'processing_ms': 80.41080087423325, 'source_age_s': 0.15413928031921387}, 'camera_receive_age_s': 0.20314392633736134})
+
+----------------------------------------------------------------------
+Ran 1 test in 18.897s
+
+FAILED (failures=1)
+[INFO] [visualization_node-10]: sending signal 'SIGINT' to process[visualization_node-10]
+[INFO] [lifecycle_manager-9]: sending signal 'SIGINT' to process[lifecycle_manager-9]
+[INFO] [controller_server-8]: sending signal 'SIGINT' to process[controller_server-8]
+[INFO] [planner_server-7]: sending signal 'SIGINT' to process[planner_server-7]
+[INFO] [mission_node-6]: sending signal 'SIGINT' to process[mission_node-6]
+[INFO] [safety_node-5]: sending signal 'SIGINT' to process[safety_node-5]
+[INFO] [world_node-4]: sending signal 'SIGINT' to process[world_node-4]
+[INFO] [async_slam_toolbox_node-3]: sending signal 'SIGINT' to process[async_slam_toolbox_node-3]
+[INFO] [camera_rules_node-2]: sending signal 'SIGINT' to process[camera_rules_node-2]
+[INFO] [laser_odometry_node-1]: sending signal 'SIGINT' to process[laser_odometry_node-1]
+[lifecycle_manager-9] [INFO] [1795538141.559219911] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-9] [INFO] [1795538141.559351233] [navigation_lifecycle]: Running Nav2 LifecycleManager rcl preshutdown (navigation_lifecycle)
+[lifecycle_manager-9] [INFO] [1795538141.559430119] [navigation_lifecycle]: [34m[1mTerminating bond timer...[0m[0m
+[controller_server-8] [INFO] [1795538141.560644301] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[controller_server-8] [INFO] [1795538141.560709060] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[controller_server-8] [INFO] [1795538141.560787054] [controller_server]: Deactivating
+[controller_server-8] [INFO] [1795538141.560807027] [controller_server]: Deactivating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-8] [INFO] [1795538141.560831914] [local_costmap.local_costmap]: Deactivating
+[planner_server-7] [INFO] [1795538141.562107770] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planner_server-7] [INFO] [1795538141.562164951] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[planner_server-7] [INFO] [1795538141.562230360] [planner_server]: Deactivating
+[planner_server-7] [INFO] [1795538141.562260864] [global_costmap.global_costmap]: Deactivating
+[async_slam_toolbox_node-3] [INFO] [1795538141.567918896] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planner_server-7] [INFO] [1795538141.582680144] [planner_server]: Deactivating plugin GridBased of type SmacPlannerHybrid
+[planner_server-7] [INFO] [1795538141.582750798] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1795538141.584756897] [navigation_lifecycle]: Destroying navigation_lifecycle
+[planner_server-7] [INFO] [1795538141.593059007] [planner_server]: Cleaning up
+[planner_server-7] [INFO] [1795538141.599001363] [global_costmap.global_costmap]: Cleaning up
+[planner_server-7] [INFO] [1795538141.602032369] [planner_server]: Cleaning up plugin GridBased of type SmacPlannerHybrid
+[planner_server-7] [INFO] [1795538141.602304341] [planner_server]: Destroying plugin GridBased of type SmacPlannerHybrid
+[planner_server-7] [INFO] [1795538141.607800169] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[planner_server-7] [INFO] [1795538141.611083335] [global_costmap.global_costmap]: Destroying
+[planner_server-7] [INFO] [1795538141.617691649] [planner_server]: Destroying
+[controller_server-8] [INFO] [1795538141.641919366] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[controller_server-8] [INFO] [1795538141.652182027] [controller_server]: Cleaning up
+[controller_server-8] [INFO] [1795538141.652239763] [controller_server]: Cleaning up controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-8] [INFO] [1795538141.652304766] [local_costmap.local_costmap]: Cleaning up
+[controller_server-8] [INFO] [1795538141.661817731] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[controller_server-8] [INFO] [1795538141.665697942] [local_costmap.local_costmap]: Destroying
+[controller_server-8] [INFO] [1795538141.671687024] [controller_server]: Destroying
+[INFO] [async_slam_toolbox_node-3]: process has finished cleanly [pid 47820]
+[INFO] [lifecycle_manager-9]: process has finished cleanly [pid 47832]
+[INFO] [planner_server-7]: process has finished cleanly [pid 47828]
+[INFO] [safety_node-5]: process has finished cleanly [pid 47824]
+[INFO] [mission_node-6]: process has finished cleanly [pid 47826]
+[INFO] [controller_server-8]: process has finished cleanly [pid 47830]
+[INFO] [world_node-4]: process has finished cleanly [pid 47822]
+[INFO] [visualization_node-10]: process has finished cleanly [pid 47834]
+[INFO] [camera_rules_node-2]: process has finished cleanly [pid 47818]
+[INFO] [laser_odometry_node-1]: process has finished cleanly [pid 47816]
+test_shutdown (mrider_navigation_sim.Exit) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+-- run_test.py: return code 1
+-- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml'
+
+
+0% tests passed, 1 tests failed out of 1
+
+Label Time Summary:
+launch_test    =  20.29 sec*proc (1 test)
+
+Total Test time (real) =  20.30 sec
+
+The following tests FAILED:
+	  6 - test_test_sensor_only_launch.py (Failed)
+Errors while running CTest
+--- stderr: mrider_navigation_sim
+Errors while running CTest
+---
+Finished <<< mrider_navigation_sim [20.4s]	[ with test failures ]
+
+Summary: 1 package finished [20.8s]
+  1 package had stderr output: mrider_navigation_sim
+  1 package had test failures: mrider_navigation_sim

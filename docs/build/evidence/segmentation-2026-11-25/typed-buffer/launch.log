@@ -1,0 +1,303 @@
+Starting >>> mrider_navigation_sim
+UpdateCTestConfiguration  from :/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Parse Config file:/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+   Site: platinum
+   Build name: (empty)
+ Add coverage exclude regular expressions.
+Create new tag: 20261124-1636 - Experimental
+UpdateCTestConfiguration  from :/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Parse Config file:/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Test project /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: camera_contract
+
+1: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/camera_contract.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/camera_contract.txt" "--command" "/usr/bin/python3" "-u" "-m" "pytest" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_camera_contract.py" "-o" "cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/camera_contract/.cache" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/camera_contract.xunit.xml" "--junit-prefix=mrider_navigation_sim"
+1: Test timeout computed to be: 60
+1: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+1:  - /usr/bin/python3 -u -m pytest /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_camera_contract.py -o cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/camera_contract/.cache --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/camera_contract.xunit.xml --junit-prefix=mrider_navigation_sim
+1: ============================= test session starts ==============================
+1: platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+1: cachedir: build-docker/mrider_navigation_sim/ament_cmake_pytest/camera_contract/.cache
+1: rootdir: /root/mrider-team/ros2_ws
+1: plugins: ament-copyright-0.12.15, ament-lint-0.12.15, ament-pep257-0.12.15, launch-testing-1.0.14, ament-flake8-0.12.15, ament-xmllint-0.12.15, launch-testing-ros-0.19.14, colcon-core-0.21.1
+1: collected 11 items
+1: 
+1: ../../src/mrider_navigation_sim/test/test_camera_contract.py ........... [100%]
+1: 
+1: - generated xml file: /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/camera_contract.xunit.xml -
+1: ============================== 11 passed in 0.05s ==============================
+1: -- run_test.py: return code 0
+1: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/camera_contract.xunit.xml'
+1/5 Test #1: camera_contract ...................   Passed    0.69 sec
+test 2
+    Start 2: segmentation
+
+2: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/segmentation.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/segmentation.txt" "--command" "/usr/bin/python3" "-u" "-m" "pytest" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py" "-o" "cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/segmentation/.cache" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/segmentation.xunit.xml" "--junit-prefix=mrider_navigation_sim"
+2: Test timeout computed to be: 60
+2: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+2:  - /usr/bin/python3 -u -m pytest /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py -o cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/segmentation/.cache --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/segmentation.xunit.xml --junit-prefix=mrider_navigation_sim
+2: ============================= test session starts ==============================
+2: platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+2: cachedir: build-docker/mrider_navigation_sim/ament_cmake_pytest/segmentation/.cache
+2: rootdir: /root/mrider-team/ros2_ws
+2: plugins: ament-copyright-0.12.15, ament-lint-0.12.15, ament-pep257-0.12.15, launch-testing-1.0.14, ament-flake8-0.12.15, ament-xmllint-0.12.15, launch-testing-ros-0.19.14, colcon-core-0.21.1
+2: collected 13 items
+2: 
+2: ../../src/mrider_navigation_sim/test/test_segmentation.py .............  [100%]
+2: 
+2: - generated xml file: /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/segmentation.xunit.xml -
+2: ============================== 13 passed in 1.51s ==============================
+2: -- run_test.py: return code 0
+2: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/segmentation.xunit.xml'
+2/5 Test #2: segmentation ......................   Passed    2.16 sec
+test 4
+    Start 4: safety
+
+4: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/safety.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/safety.txt" "--command" "/usr/bin/python3" "-u" "-m" "pytest" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_safety.py" "-o" "cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/safety/.cache" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/safety.xunit.xml" "--junit-prefix=mrider_navigation_sim"
+4: Test timeout computed to be: 60
+4: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+4:  - /usr/bin/python3 -u -m pytest /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_safety.py -o cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/safety/.cache --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/safety.xunit.xml --junit-prefix=mrider_navigation_sim
+4: ============================= test session starts ==============================
+4: platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+4: cachedir: build-docker/mrider_navigation_sim/ament_cmake_pytest/safety/.cache
+4: rootdir: /root/mrider-team/ros2_ws
+4: plugins: ament-copyright-0.12.15, ament-lint-0.12.15, ament-pep257-0.12.15, launch-testing-1.0.14, ament-flake8-0.12.15, ament-xmllint-0.12.15, launch-testing-ros-0.19.14, colcon-core-0.21.1
+4: collected 35 items
+4: 
+4: ../../src/mrider_navigation_sim/test/test_safety.py .................... [ 57%]
+4: ...............                                                          [100%]
+4: 
+4: - generated xml file: /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/safety.xunit.xml -
+4: ============================== 35 passed in 0.30s ==============================
+4: -- run_test.py: return code 0
+4: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/safety.xunit.xml'
+3/5 Test #4: safety ............................   Passed    0.93 sec
+test 5
+    Start 5: indoor_geometry
+
+5: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/indoor_geometry.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/indoor_geometry.txt" "--command" "/usr/bin/python3" "-u" "-m" "pytest" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_indoor.py" "-o" "cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/indoor_geometry/.cache" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/indoor_geometry.xunit.xml" "--junit-prefix=mrider_navigation_sim"
+5: Test timeout computed to be: 60
+5: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+5:  - /usr/bin/python3 -u -m pytest /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_indoor.py -o cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/indoor_geometry/.cache --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/indoor_geometry.xunit.xml --junit-prefix=mrider_navigation_sim
+5: ============================= test session starts ==============================
+5: platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+5: cachedir: build-docker/mrider_navigation_sim/ament_cmake_pytest/indoor_geometry/.cache
+5: rootdir: /root/mrider-team/ros2_ws
+5: plugins: ament-copyright-0.12.15, ament-lint-0.12.15, ament-pep257-0.12.15, launch-testing-1.0.14, ament-flake8-0.12.15, ament-xmllint-0.12.15, launch-testing-ros-0.19.14, colcon-core-0.21.1
+5: collected 7 items
+5: 
+5: ../../src/mrider_navigation_sim/test/test_indoor.py .......              [100%]
+5: 
+5: - generated xml file: /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/indoor_geometry.xunit.xml -
+5: ============================== 7 passed in 3.09s ===============================
+5: -- run_test.py: return code 0
+5: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/indoor_geometry.xunit.xml'
+4/5 Test #5: indoor_geometry ...................   Passed    3.67 sec
+test 6
+    Start 6: test_test_sensor_only_launch.py
+
+6: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/launch_test/test_test_sensor_only_launch.py.txt" "--command" "/usr/bin/python3" "-m" "launch_testing.launch_test" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_only_launch.py" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml" "--package-name=mrider_navigation_sim"
+6: Test timeout computed to be: 180
+6: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+6:  - /usr/bin/python3 -m launch_testing.launch_test /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_only_launch.py --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml --package-name=mrider_navigation_sim
+6: [INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-24-16-36-15-303520-platinum-48073
+6: [INFO] [launch]: Default logging verbosity is set to INFO
+6: test_sensor_only (mrider_navigation_sim.SensorOnly) ... [INFO] [laser_odometry_node-1]: process started with pid [48086]
+6: [INFO] [camera_rules_node-2]: process started with pid [48088]
+6: [INFO] [async_slam_toolbox_node-3]: process started with pid [48090]
+6: [INFO] [world_node-4]: process started with pid [48092]
+6: [INFO] [safety_node-5]: process started with pid [48094]
+6: [INFO] [mission_node-6]: process started with pid [48096]
+6: [INFO] [planner_server-7]: process started with pid [48098]
+6: [INFO] [controller_server-8]: process started with pid [48100]
+6: [INFO] [lifecycle_manager-9]: process started with pid [48102]
+6: [INFO] [visualization_node-10]: process started with pid [48104]
+6: [async_slam_toolbox_node-3] [INFO] [1795538175.537718395] [slam_toolbox]: Node using stack size 40000000
+6: [lifecycle_manager-9] [INFO] [1795538175.538296874] [navigation_lifecycle]: Creating
+6: [lifecycle_manager-9] [INFO] [1795538175.541206417] [navigation_lifecycle]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+6: [controller_server-8] [INFO] [1795538175.541237341] [controller_server]: 
+6: [controller_server-8] 	controller_server lifecycle node launched. 
+6: [controller_server-8] 	Waiting on external lifecycle transitions to activate
+6: [controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [planner_server-7] [INFO] [1795538175.543309618] [planner_server]: 
+6: [planner_server-7] 	planner_server lifecycle node launched. 
+6: [planner_server-7] 	Waiting on external lifecycle transitions to activate
+6: [planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [lifecycle_manager-9] [INFO] [1795538175.544072730] [navigation_lifecycle]: [34m[1mStarting managed nodes bringup...[0m[0m
+6: [lifecycle_manager-9] [INFO] [1795538175.544115752] [navigation_lifecycle]: [34m[1mConfiguring planner_server[0m[0m
+6: [planner_server-7] [INFO] [1795538175.546567741] [planner_server]: Creating
+6: [controller_server-8] [INFO] [1795538175.550555455] [controller_server]: Creating controller server
+6: [planner_server-7] [INFO] [1795538175.557530086] [global_costmap.global_costmap]: 
+6: [planner_server-7] 	global_costmap lifecycle node launched. 
+6: [planner_server-7] 	Waiting on external lifecycle transitions to activate
+6: [planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [planner_server-7] [INFO] [1795538175.558741932] [global_costmap.global_costmap]: Creating Costmap
+6: [planner_server-7] [INFO] [1795538175.560270577] [planner_server]: Configuring
+6: [planner_server-7] [INFO] [1795538175.560319826] [global_costmap.global_costmap]: Configuring
+6: [controller_server-8] [INFO] [1795538175.560646414] [local_costmap.local_costmap]: 
+6: [controller_server-8] 	local_costmap lifecycle node launched. 
+6: [controller_server-8] 	Waiting on external lifecycle transitions to activate
+6: [controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+6: [controller_server-8] [INFO] [1795538175.561677362] [local_costmap.local_costmap]: Creating Costmap
+6: [planner_server-7] [INFO] [1795538175.565611963] [global_costmap.global_costmap]: Using plugin "static_layer"
+6: [planner_server-7] [INFO] [1795538175.571254943] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+6: [planner_server-7] [INFO] [1795538175.572812620] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+6: [planner_server-7] [INFO] [1795538175.572852323] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+6: [planner_server-7] [INFO] [1795538175.573289131] [global_costmap.global_costmap]: Subscribed to Topics: scan
+6: [async_slam_toolbox_node-3] [INFO] [1795538175.576017481] [slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+6: [async_slam_toolbox_node-3] [INFO] [1795538175.576417169] [slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+6: [planner_server-7] [INFO] [1795538175.576291137] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+6: [planner_server-7] [INFO] [1795538175.576328023] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+6: [planner_server-7] [INFO] [1795538175.576985967] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+6: [planner_server-7] [INFO] [1795538175.593236052] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538175.593319317] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538175.594275718] [planner_server]: Even sized heuristic lookup table size set 200.000000, increasing size by 1 to make odd
+6: [async_slam_toolbox_node-3] [INFO] [1795538176.114343954] [slam_toolbox]: Message Filter dropping message: frame 'laser' at time 1795538176.005 for reason 'discarding message because the queue is full'
+6: [planner_server-7] [INFO] [1795538176.884500250] [planner_server]: Configured plugin GridBased of type SmacPlannerHybrid with maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal. Tolerance 0.20.Using motion model: Dubin.
+6: [planner_server-7] [INFO] [1795538176.884563558] [planner_server]: Planner Server has GridBased  planners available.
+6: [lifecycle_manager-9] [INFO] [1795538176.892749062] [navigation_lifecycle]: [34m[1mConfiguring controller_server[0m[0m
+6: [controller_server-8] [INFO] [1795538176.893112993] [controller_server]: Configuring controller interface
+6: [controller_server-8] [INFO] [1795538176.893371417] [controller_server]: getting goal checker plugins..
+6: [controller_server-8] [INFO] [1795538176.893590930] [controller_server]: Controller frequency set to 30.0000Hz
+6: [controller_server-8] [INFO] [1795538176.893664839] [local_costmap.local_costmap]: Configuring
+6: [controller_server-8] [INFO] [1795538176.900079666] [local_costmap.local_costmap]: Using plugin "static_layer"
+6: [controller_server-8] [INFO] [1795538176.904645873] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+6: [controller_server-8] [INFO] [1795538176.906082450] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+6: [controller_server-8] [INFO] [1795538176.906117589] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+6: [controller_server-8] [INFO] [1795538176.906434116] [local_costmap.local_costmap]: Subscribed to Topics: scan
+6: [controller_server-8] [INFO] [1795538176.910716312] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+6: [controller_server-8] [INFO] [1795538176.910805025] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+6: [controller_server-8] [INFO] [1795538176.911929770] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+6: [async_slam_toolbox_node-3] [WARN] [1795538176.913842213] [slam_toolbox]: minimum laser range setting (0.0 m) exceeds the capabilities of the used Lidar (0.1 m)
+6: [async_slam_toolbox_node-3] Registering sensor: [Custom Described Lidar]
+6: [controller_server-8] [INFO] [1795538176.922044492] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+6: [controller_server-8] [INFO] [1795538176.922883656] [controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+6: [controller_server-8] [INFO] [1795538176.923207036] [controller_server]: Controller Server has goal_checker  goal checkers available.
+6: [controller_server-8] [INFO] [1795538176.923945776] [controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538176.927167681] [controller_server]: Controller Server has FollowPath  controllers available.
+6: [lifecycle_manager-9] [INFO] [1795538176.937843823] [navigation_lifecycle]: [34m[1mActivating planner_server[0m[0m
+6: [planner_server-7] [INFO] [1795538176.938039755] [planner_server]: Activating
+6: [planner_server-7] [INFO] [1795538176.938095190] [global_costmap.global_costmap]: Activating
+6: [planner_server-7] [INFO] [1795538176.938109499] [global_costmap.global_costmap]: Checking transform
+6: [planner_server-7] [INFO] [1795538176.938194409] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Lookup would require extrapolation at time 1795538176.904943, but only time 1795538177.104944 is in the buffer, when looking up transform from frame [base_link] to frame [map]
+6: [planner_server-7] [INFO] [1795538177.086497769] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538177.086515569] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538177.438306983] [global_costmap.global_costmap]: start
+6: [planner_server-7] [INFO] [1795538177.589259808] [planner_server]: Activating plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538177.590839347] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+6: [lifecycle_manager-9] [INFO] [1795538177.696957384] [navigation_lifecycle]: Server planner_server connected with bond.
+6: [lifecycle_manager-9] [INFO] [1795538177.697018907] [navigation_lifecycle]: [34m[1mActivating controller_server[0m[0m
+6: [controller_server-8] [INFO] [1795538177.697356403] [controller_server]: Activating
+6: [controller_server-8] [INFO] [1795538177.697431023] [local_costmap.local_costmap]: Activating
+6: [controller_server-8] [INFO] [1795538177.697454158] [local_costmap.local_costmap]: Checking transform
+6: [controller_server-8] [INFO] [1795538177.697612918] [local_costmap.local_costmap]: start
+6: [controller_server-8] [INFO] [1795538177.798736529] [controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538177.798807624] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+6: [lifecycle_manager-9] [INFO] [1795538177.902841158] [navigation_lifecycle]: Server controller_server connected with bond.
+6: [lifecycle_manager-9] [INFO] [1795538177.902909827] [navigation_lifecycle]: [34m[1mManaged nodes are active[0m[0m
+6: [lifecycle_manager-9] [INFO] [1795538177.902929398] [navigation_lifecycle]: [34m[1mCreating bond timer...[0m[0m
+6: [controller_server-8] [INFO] [1795538178.365339409] [controller_server]: Received a goal, begin computing control effort.
+6: [controller_server-8] [INFO] [1795538179.097788167] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538179.138448069] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538179.597813784] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538179.638456314] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538182.097802639] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 272 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538182.138468734] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 272 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538183.597785965] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538183.638478855] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538184.097802522] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 192 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538184.138473398] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 192 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538186.597795380] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 273 X 193 at 0.050000 m/pix
+6: [planner_server-7] [INFO] [1795538186.638486187] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 273 X 193 at 0.050000 m/pix
+6: [controller_server-8] [INFO] [1795538195.832563628] [controller_server]: Reached the goal!
+6: SENSOR_ONLY_RESULT {"sensor_only": true, "vehicle": "1", "navigation": "GOAL", "truth_goal_error_m": 0.0627577543639156, "odometry_position_error_m": 0.26214704456222176, "camera_dropout_latched": true, "result": "PASS", "final_safety": {"state": "STOPPED", "reason": "camera_status_timeout", "speed": 0.0, "camera": {"stamp": 1795538197.4049377, "valid": true, "clear": true, "reason": "clear", "floor_fraction": 1.0, "obstacle_fraction": 0.0, "unknown_fraction": 0.0, "scan_image_offset_s": 0.0, "processing_ms": 17.872927710413933, "source_age_s": 0.03273916244506836}, "camera_receive_age_s": 0.03242144361138344}}
+[Processing: mrider_navigation_sim]
+6: ok
+6: 
+6: ----------------------------------------------------------------------
+6: Ran 1 test in 22.466s
+6: 
+6: OK
+6: [INFO] [visualization_node-10]: sending signal 'SIGINT' to process[visualization_node-10]
+6: [INFO] [lifecycle_manager-9]: sending signal 'SIGINT' to process[lifecycle_manager-9]
+6: [INFO] [controller_server-8]: sending signal 'SIGINT' to process[controller_server-8]
+6: [INFO] [planner_server-7]: sending signal 'SIGINT' to process[planner_server-7]
+6: [INFO] [mission_node-6]: sending signal 'SIGINT' to process[mission_node-6]
+6: [INFO] [safety_node-5]: sending signal 'SIGINT' to process[safety_node-5]
+6: [INFO] [world_node-4]: sending signal 'SIGINT' to process[world_node-4]
+6: [INFO] [async_slam_toolbox_node-3]: sending signal 'SIGINT' to process[async_slam_toolbox_node-3]
+6: [INFO] [camera_rules_node-2]: sending signal 'SIGINT' to process[camera_rules_node-2]
+6: [INFO] [laser_odometry_node-1]: sending signal 'SIGINT' to process[laser_odometry_node-1]
+6: [lifecycle_manager-9] [INFO] [1795538197.952595951] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [lifecycle_manager-9] [INFO] [1795538197.952757595] [navigation_lifecycle]: Running Nav2 LifecycleManager rcl preshutdown (navigation_lifecycle)
+6: [lifecycle_manager-9] [INFO] [1795538197.952820576] [navigation_lifecycle]: [34m[1mTerminating bond timer...[0m[0m
+6: [controller_server-8] [INFO] [1795538197.954060373] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [controller_server-8] [INFO] [1795538197.954151588] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+6: [controller_server-8] [INFO] [1795538197.954247487] [controller_server]: Deactivating
+6: [controller_server-8] [INFO] [1795538197.954273996] [controller_server]: Deactivating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538197.954310010] [local_costmap.local_costmap]: Deactivating
+6: [planner_server-7] [INFO] [1795538197.955532176] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [planner_server-7] [INFO] [1795538197.955595151] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+6: [planner_server-7] [INFO] [1795538197.955660387] [planner_server]: Deactivating
+6: [planner_server-7] [INFO] [1795538197.955697168] [global_costmap.global_costmap]: Deactivating
+6: [async_slam_toolbox_node-3] [INFO] [1795538197.961190366] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+6: [lifecycle_manager-9] [INFO] [1795538197.978905291] [navigation_lifecycle]: Destroying navigation_lifecycle
+6: [controller_server-8] [INFO] [1795538197.997841689] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+6: [controller_server-8] [INFO] [1795538198.008082924] [controller_server]: Cleaning up
+6: [controller_server-8] [INFO] [1795538198.008135773] [controller_server]: Cleaning up controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+6: [controller_server-8] [INFO] [1795538198.008189055] [local_costmap.local_costmap]: Cleaning up
+6: [controller_server-8] [INFO] [1795538198.018506391] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+6: [controller_server-8] [INFO] [1795538198.023370681] [local_costmap.local_costmap]: Destroying
+6: [controller_server-8] [INFO] [1795538198.032560150] [controller_server]: Destroying
+6: [planner_server-7] [INFO] [1795538198.038501926] [planner_server]: Deactivating plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538198.038577421] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+6: [planner_server-7] [INFO] [1795538198.048895278] [planner_server]: Cleaning up
+6: [planner_server-7] [INFO] [1795538198.054054078] [global_costmap.global_costmap]: Cleaning up
+6: [planner_server-7] [INFO] [1795538198.057129338] [planner_server]: Cleaning up plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538198.057468379] [planner_server]: Destroying plugin GridBased of type SmacPlannerHybrid
+6: [planner_server-7] [INFO] [1795538198.060419259] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+6: [planner_server-7] [INFO] [1795538198.062949447] [global_costmap.global_costmap]: Destroying
+6: [planner_server-7] [INFO] [1795538198.066932482] [planner_server]: Destroying
+6: [INFO] [async_slam_toolbox_node-3]: process has finished cleanly [pid 48090]
+6: [INFO] [lifecycle_manager-9]: process has finished cleanly [pid 48102]
+6: [INFO] [controller_server-8]: process has finished cleanly [pid 48100]
+6: [INFO] [mission_node-6]: process has finished cleanly [pid 48096]
+6: [INFO] [safety_node-5]: process has finished cleanly [pid 48094]
+6: [INFO] [planner_server-7]: process has finished cleanly [pid 48098]
+6: [INFO] [world_node-4]: process has finished cleanly [pid 48092]
+6: [INFO] [visualization_node-10]: process has finished cleanly [pid 48104]
+6: [INFO] [camera_rules_node-2]: process has finished cleanly [pid 48088]
+6: [INFO] [laser_odometry_node-1]: process has finished cleanly [pid 48086]
+6: test_shutdown (mrider_navigation_sim.Exit) ... ok
+6: 
+6: ----------------------------------------------------------------------
+6: Ran 1 test in 0.000s
+6: 
+6: OK
+6: -- run_test.py: return code 0
+6: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_sensor_only_launch.py.xunit.xml'
+5/5 Test #6: test_test_sensor_only_launch.py ...   Passed   23.92 sec
+
+The following tests passed:
+	camera_contract
+	segmentation
+	safety
+	indoor_geometry
+	test_test_sensor_only_launch.py
+
+100% tests passed, 0 tests failed out of 5
+
+Label Time Summary:
+launch_test    =  23.92 sec*proc (1 test)
+pytest         =   7.45 sec*proc (4 tests)
+
+Total Test time (real) =  31.37 sec
+Finished <<< mrider_navigation_sim [31.5s]
+
+Summary: 1 package finished [32.0s]

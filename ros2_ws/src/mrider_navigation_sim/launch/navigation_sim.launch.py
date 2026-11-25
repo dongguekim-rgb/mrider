@@ -4,6 +4,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -12,12 +13,13 @@ def generate_launch_description():
     config=os.path.join(share,'config','nav2.yaml')
     simulation=os.path.join(share,'config','simulation.yaml')
     return LaunchDescription([
-        DeclareLaunchArgument('scenario',default_value='static_obstacle',choices=['clear','static_obstacle','blocked','indoor','indoor_dynamic']),
+        DeclareLaunchArgument('scenario',default_value='static_obstacle',choices=['clear','static_obstacle','blocked','indoor','indoor_dynamic','indoor_turns']),
+        DeclareLaunchArgument('goal_x',default_value='8.0'),
         DeclareLaunchArgument('rviz',default_value='true'),
         DeclareLaunchArgument('auto_resume',default_value='false'),
         Node(package='mrider_navigation_sim',executable='world_node',output='screen',parameters=[simulation,{'scenario':LaunchConfiguration('scenario')}]),
         Node(package='mrider_navigation_sim',executable='safety_node',output='screen',parameters=[simulation]),
-        Node(package='mrider_navigation_sim',executable='mission_node',output='screen',parameters=[{'auto_resume':LaunchConfiguration('auto_resume')}]),
+        Node(package='mrider_navigation_sim',executable='mission_node',output='screen',parameters=[{'auto_resume':LaunchConfiguration('auto_resume'),'goal_x':ParameterValue(LaunchConfiguration('goal_x'),value_type=float)}]),
         Node(package='nav2_planner',executable='planner_server',name='planner_server',output='screen',parameters=[config]),
         Node(package='nav2_controller',executable='controller_server',name='controller_server',output='screen',parameters=[config],
              remappings=[('cmd_vel','/mrider_sim/candidate_cmd_vel')]),

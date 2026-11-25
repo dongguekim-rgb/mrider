@@ -19,5 +19,5 @@ reset 시험을 firmware hang 합격으로 대체하지 않으며 hardware E-sto
 권한 상실/복구 후 자동 재출발 금지 계약은 최종 실차 게이트에서 구현·검증해야 한다.
 
 세부 기준은 [M2/M3/M4 검사표](perception-safety-dbw-validation.md),
-[A2 센서 검사](rplidar-a2-setup.md), [방향 A 구현 계획](camera-lidar-navigation-plan.md)을 사용한다.
+[A2 센서 검사](rplidar-a2-setup.md), [방향 A 구현 계획](architecture.md)을 사용한다.
 모든 회차는 [실환경 기록 양식](real-world-validation-template.md)에 PASS/FAIL/NOT RUN과 증거를 기록한다.

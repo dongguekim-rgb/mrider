@@ -1,4 +1,28 @@
-# MRider — Michigan Rider
+# MRider — 팀 W·S 자율주행
+
+**ROS2 Humble에서 카메라와 RPLiDAR A2M4-R2만으로 위치·지도를 추정하는 규칙 기반 Navigation**을 구현·검증 중입니다.
+학습 모델과 Ground Truth 지도·위치는 주행 입력으로 사용하지 않습니다. 모의 차량과 센서는 실제 차량 검증을 대체하지 않습니다.
+
+| 필요한 정보 | 문서 |
+|---|---|
+| 교수님 원본 프로젝트·수업 안내 | [프로젝트 소개](docs/index.md), [수업 자료](docs/course/index.md) |
+| 설치·colcon 빌드·컨테이너 | [새 PC](docs/new-pc-setup.md), [기존 Docker](docs/existing-humble-container.md) |
+| 알고리즘 입출력·파일 책임 | [현재 아키텍처](docs/architecture.md), [폴더 구조](docs/folder-tree.md) |
+| 카메라 인지·SLAM·센서 기반 주행 | [인지](docs/classical-perception.md), [센서 Navigation](docs/sensor-only-navigation.md) |
+| 좌우 우회·횡단 정지·재개 | [복합 시나리오](docs/sensor-turns-simulation.md) |
+| 60×40 m 실내 맵·장거리 검증 | [맵 설계](docs/large-office-simulation.md), [단계별 주행](docs/large-office-navigation.md) |
+| 실차 준비·검증 | [실환경 설명서](docs/real-world-test-guide.md), [차량 실측값](docs/build/vehicle1-measurements-2026-11-23.md) |
+| 팀 역할·인터페이스 규칙 | [.github/README.md](.github/README.md) |
+
+`indoor_demo`·`turns_demo` 등 초기 데모는 정답 지도·위치를 사용하는 계획/제어 기준 시험입니다.
+센서 기반 주행은 `sensor_only_demo`·`sensor_turns_demo`·`large_office_demo`로 실행합니다.
+각 설명서의 검증 날짜·결과·미검증 항목을 확인하세요. 실제 카메라/A2와 Teensy DBW 통합 주행은 아직 남아 있습니다.
+
+교수님이 제공한 수업·과제·채점·설계·구매 문서는 원문을 보존합니다. 문서 정리는 팀에서 작성한 중복·임시 자료에만 적용합니다.
+
+## 공식 플랫폼 배경
+
+아래 내용은 upstream 플랫폼 설계의 배경입니다. 공식 wheel odometry·IMU·학습 경로를 팀 센서 실험의 실행 입력으로 사용한다는 뜻은 아닙니다.
 
 <p align="center">
   <img src="docs/images/mrider-small.png" alt="MRider">

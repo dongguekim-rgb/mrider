@@ -41,3 +41,12 @@ def test_actor_trigger_and_stop_independence():
 @pytest.mark.parametrize('dt',[-1.,math.nan,math.inf])
 def test_invalid_actor_time(dt):
     with pytest.raises(ValueError):Pedestrians().step(dt,0.)
+
+
+def test_sensor_turns_actor_clear_of_building():
+    actor=Pedestrians(trigger_x=3.,crossing_x=6.2,room_x=10.,hold_y=.8,hold_duration=8.)
+    world=obstacles('sensor_turns')
+    for _ in range(250):
+        for a,b,c,d in actor.step(.1,4.):
+            assert clearance(((a+c)/2,(b+d)/2,0.),world,.25,.25,.25)>0
+    assert actor.finished

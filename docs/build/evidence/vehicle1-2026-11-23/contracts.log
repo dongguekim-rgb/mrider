@@ -1,0 +1,11 @@
+test_generated_parameters_use_measurements_without_editing_stock (__main__.VehicleContract) ... ok
+test_installed_shared_module (__main__.VehicleContract) ... ok
+test_real_requires_matching_domain (__main__.VehicleContract) ... ok
+test_real_requires_measured_radius (__main__.VehicleContract) ... ok
+test_real_requires_vehicle (__main__.VehicleContract) ... ok
+test_twin_allows_unmeasured_overlays (__main__.VehicleContract) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.914s
+
+OK

@@ -6,8 +6,10 @@
 <depend>rclpy</depend><depend>mrider_autonomy</depend><depend>sensor_msgs</depend><depend>nav_msgs</depend>
 <depend>geometry_msgs</depend><depend>ackermann_msgs</depend><depend>std_msgs</depend><depend>std_srvs</depend>
 <depend>tf2_ros</depend><depend>visualization_msgs</depend><depend>nav2_msgs</depend><depend>action_msgs</depend><depend>lifecycle_msgs</depend>
+<exec_depend>python3-numpy</exec_depend><exec_depend>python3-scipy</exec_depend><exec_depend>python3-opencv</exec_depend><exec_depend>slam_toolbox</exec_depend><exec_depend>mitt_description</exec_depend><exec_depend>python3-yaml</exec_depend>
 <exec_depend>nav2_planner</exec_depend><exec_depend>nav2_controller</exec_depend><exec_depend>nav2_smac_planner</exec_depend>
 <exec_depend>nav2_regulated_pure_pursuit_controller</exec_depend><exec_depend>nav2_lifecycle_manager</exec_depend>
 <exec_depend>launch_ros</exec_depend><exec_depend>ament_index_python</exec_depend><exec_depend>rviz2</exec_depend>
 <test_depend>ament_cmake_pytest</test_depend><test_depend>python3-yaml</test_depend><test_depend>launch_testing_ament_cmake</test_depend>
+<test_depend>tf2_msgs</test_depend>
 <export><build_type>ament_cmake</build_type></export></package>

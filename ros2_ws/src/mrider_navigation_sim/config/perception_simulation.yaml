@@ -1,0 +1,13 @@
+# Simulation calibration, not measured camera/LiDAR calibration for vehicle 1.
+# Zero camera x/y/yaw/roll and laser x/y offsets are assumed by this prototype.
+# Real use must supply measured extrinsics and rectified RGB + CameraInfo.
+camera_floor_rules:
+  ros__parameters:
+    extrinsics_verified: true
+    camera_height: 0.6
+    camera_pitch: 0.0
+    laser_height: 0.2
+
+    # Synthetic raycaster returns finite range_max only after a clear ray cast.
+    # Do not enable for a real driver without verifying its no-return contract.
+    max_range_is_clear: true

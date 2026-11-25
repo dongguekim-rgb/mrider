@@ -1,0 +1,97 @@
+Panels:
+- Class: rviz_common/Displays
+  Name: Displays
+- Class: rviz_common/Views
+  Name: Views
+Visualization Manager:
+  Class: ''
+  Global Options:
+    Fixed Frame: map
+    Background Color: 235; 238; 242
+    Frame Rate: 20
+  Displays:
+  - Class: rviz_default_plugins/Grid
+    Name: Grid
+    Enabled: true
+    Cell Size: 1
+    Value: true
+    Color: 130; 130; 130
+  - Class: rviz_default_plugins/Path
+    Name: Reference Path
+    Enabled: true
+    Topic:
+      Value: /mrider_sim/planned_path
+      Reliability Policy: Best Effort
+      Durability Policy: Volatile
+    Color: 25; 220; 65
+    Line Style: Billboards
+    Line Width: 0.04
+    Value: true
+  - Class: rviz_default_plugins/MarkerArray
+    Name: Vehicle and trail
+    Enabled: true
+    Topic:
+      Value: /mrider_sim/markers
+      Reliability Policy: Reliable
+      Durability Policy: Volatile
+    Value: true
+  - Class: rviz_default_plugins/Map
+    Name: Map
+    Enabled: true
+    Topic:
+      Value: /map
+      Durability Policy: Transient Local
+      Reliability Policy: Reliable
+    Value: true
+    Alpha: 0.6
+    Draw Behind: true
+  - Class: rviz_default_plugins/LaserScan
+    Name: Simulated scan
+    Enabled: true
+    Topic:
+      Value: /scan
+      Reliability Policy: Best Effort
+      Durability Policy: Volatile
+    Size (m): 0.04
+    Value: true
+    Color Transformer: FlatColor
+    Color: 220; 40; 40
+    Style: Points
+  - Class: rviz_default_plugins/MarkerArray
+    Name: Evaluation world (optional)
+    Enabled: false
+    Topic:
+      Value: /mrider_sim/world_markers
+      Reliability Policy: Reliable
+      Durability Policy: Volatile
+    Value: false
+  - Class: rviz_default_plugins/Image
+    Name: Camera segmentation candidates
+    Enabled: true
+    Topic:
+      Value: /perception/overlay
+      Reliability Policy: Best Effort
+      Durability Policy: Volatile
+    Transport Hint: raw
+    Queue Size: 1
+    Value: true
+  Tools:
+  - Class: rviz_default_plugins/Interact
+  - Class: rviz_default_plugins/MoveCamera
+  - Class: rviz_default_plugins/Select
+  - Class: rviz_default_plugins/SetGoal
+    Topic: /goal_pose
+  Views:
+    Current:
+      Class: rviz_default_plugins/TopDownOrtho
+      Name: Top View
+      Scale: 40
+      Angle: 0
+      X: 4
+      Y: 0
+      Target Frame: map
+  Enabled: true
+  Value: true
+Window Geometry:
+  Width: 1280
+  Height: 900

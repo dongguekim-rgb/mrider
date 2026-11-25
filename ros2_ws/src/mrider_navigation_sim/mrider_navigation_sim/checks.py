@@ -27,7 +27,7 @@ class Checks(Node):
         self.create_subscription(Bool,'/mrider_sim/collision',lambda m:setattr(self,'collision',self.collision or m.data),COMMAND_QOS)
         self.candidate=self.create_publisher(Twist,'/mrider_sim/candidate_cmd_vel',COMMAND_QOS)
         self.inject=False
-        self.crossing_y=None;self.actor_trace=[]
+        self.crossing_y=None;self.actor_trace=[];self.headings=[];self.turns=False;self.video_frames=[];self.video_start=time.monotonic()
         self.create_subscription(MarkerArray,'/mrider_sim/world_markers',self.markers,COMMAND_QOS)
         self.create_timer(.03,self.command)
 
@@ -37,13 +37,19 @@ class Checks(Node):
     def markers(self,msg):
         from .geometry import obstacles
         for m in msg.markers:
-            if m.ns=='obstacles' and m.id==len(obstacles('indoor')) and m.action==m.ADD:
+            if m.ns=='obstacles' and m.id==len(obstacles('indoor_turns' if self.turns else 'indoor')) and m.action==m.ADD:
                 self.crossing_y=m.pose.position.y
                 self.actor_trace.append((m.pose.position.x,m.pose.position.y))
 
     def odometry(self,msg):
         self.odom=msg
+        q=msg.pose.pose.orientation;self.headings.append(2*math.atan2(q.z,q.w))
         self.trace.append((msg.pose.pose.position.x,msg.pose.pose.position.y,msg.twist.twist.linear.x))
+        self.video_frames.append({'t':time.monotonic()-self.video_start,
+            'x':msg.pose.pose.position.x,'y':msg.pose.pose.position.y,'yaw':self.headings[-1],
+            'speed':msg.twist.twist.linear.x,'pedestrian_y':self.crossing_y,
+            'mission':self.mission,'safety':self.states[-1][1] if self.states else {},
+            'steering':self.commands[-1].drive.steering_angle if self.commands else 0.})
 
     def command(self):
         if self.inject:
@@ -117,10 +123,10 @@ class Checks(Node):
             assert all(m.drive.speed==0 for m in self.commands)
             assert not self.collision
             return {'case':'blocked','mission':self.mission,'max_speed':max(m.drive.speed for m in self.commands),'result':'PASS'}
-        self.wait(lambda:self.mission in ('GOAL','FAILED','STOPPED'),60.)
+        self.wait(lambda:self.mission in ('GOAL','FAILED','STOPPED'),110. if self.turns else 60.)
         assert self.mission=='GOAL',(self.mission,self.states[-1])
         self.wait(lambda:self.odom is not None and abs(self.odom.twist.twist.linear.x)<.01)
-        error=math.hypot(self.odom.pose.pose.position.x-8.,self.odom.pose.pose.position.y)
+        error=math.hypot(self.odom.pose.pose.position.x-(20. if self.turns else 8.),self.odom.pose.pose.position.y)
         q=self.odom.pose.pose.orientation;yaw=2*math.atan2(q.z,q.w)
         assert error<=.23 and abs(yaw)<=.25,(error,yaw)
         assert not self.collision and min(self.clearances)>0
@@ -143,17 +149,17 @@ class Checks(Node):
         assert self.states[-1][1]['state']=='STOPPED' and self.mission=='STOPPED'
         assert all(m.drive.speed==0 for m in self.commands[-10:])
         self.arm();self.start()
-        self.wait(lambda:self.mission in ('GOAL','FAILED','STOPPED'),60.)
+        self.wait(lambda:self.mission in ('GOAL','FAILED','STOPPED'),110. if self.turns else 60.)
         assert self.mission=='GOAL',(self.mission,self.states[-1])
         self.wait(lambda:abs(self.odom.twist.twist.linear.x)<.01)
-        error=math.hypot(self.odom.pose.pose.position.x-8.,self.odom.pose.pose.position.y)
+        error=math.hypot(self.odom.pose.pose.position.x-(20. if self.turns else 8.),self.odom.pose.pose.position.y)
         assert error<=.23 and not self.collision
         return {'case':'nav2_obstacle_recovery','manual_rearm_required':True,'goal_error_m':error,
                 'min_clearance_m':min(self.clearances),'collision':self.collision,'result':'PASS'}
 
     def indoor_dynamic(self,auto=False):
         self.assert_single_output();self.nav_ready();self.arm();self.start()
-        self.wait(lambda:self.mission in ('STOPPED','FAILED','GOAL'),65.)
+        self.wait(lambda:self.mission in ('STOPPED','FAILED','GOAL'),100. if self.turns else 65.)
         assert self.mission in ('STOPPED','FAILED'),(self.mission,self.states[-1])
         self.wait(lambda:self.states[-1][1]['state']=='STOPPED')
         self.wait(lambda:abs(self.odom.twist.twist.linear.x)<.01)
@@ -169,15 +175,30 @@ class Checks(Node):
             self.arm();self.start()
         else:
             self.wait(lambda:self.mission in ('PLANNING','FOLLOWING','GOAL'),10.)
-        self.wait(lambda:self.mission in ('GOAL','FAILED','STOPPED'),60.)
+        self.wait(lambda:self.mission in ('GOAL','FAILED','STOPPED'),110. if self.turns else 60.)
         assert self.mission=='GOAL',(self.mission,self.states[-1])
         self.wait(lambda:abs(self.odom.twist.twist.linear.x)<.01)
-        error=math.hypot(self.odom.pose.pose.position.x-8.,self.odom.pose.pose.position.y)
+        error=math.hypot(self.odom.pose.pose.position.x-(20. if self.turns else 8.),self.odom.pose.pose.position.y)
         assert error<=.23 and not self.collision and min(self.clearances)>0
         assert all(0<=m.drive.speed<=.5001 and abs(m.drive.steering_angle)<=.3937 for m in self.commands)
         return {'case':'indoor_dynamic','goal_error_m':error,'min_clearance_m':min(self.clearances),
                 'collision':self.collision,'manual_rearm_required':not auto,'stop_state':stopped_reason,
                 'pedestrian_y_at_stop_m':stopped_y,'pedestrian_y_after_clear_m':self.crossing_y,'result':'PASS'}
+
+    def turns_demo(self):
+        self.turns=True
+        result=self.indoor_dynamic(auto=True)
+        moving=[m.drive.steering_angle for m in self.commands if m.drive.speed>.05]
+        left=max(moving);right=min(moving)
+        changes=[math.atan2(math.sin(b-a),math.cos(b-a)) for a,b in zip(self.headings,self.headings[1:])]
+        left_yaw=sum(d for d in changes if d>0);right_yaw=-sum(d for d in changes if d<0)
+        lateral=max(abs(y) for x,y,v in self.trace)
+        assert left>.1 and right<-.1, ('missing steering direction',left,right)
+        assert left_yaw>math.radians(20) and right_yaw>math.radians(20), ('missing actual turn',left_yaw,right_yaw)
+        assert lateral>.8, ('missing detour',lateral)
+        result.update(case='indoor_turns',max_left_steering_rad=left,min_right_steering_rad=right,
+                      left_yaw_accumulated_rad=left_yaw,right_yaw_accumulated_rad=right_yaw,max_lateral_m=lateral)
+        return result
 
     def faults(self):
         self.assert_single_output()
@@ -212,14 +233,14 @@ class Checks(Node):
 def run(kind):
     rclpy.init();node=Checks()
     try:
-        result=node.indoor_dynamic(auto=kind=='indoor_auto') if kind in ('indoor_dynamic','indoor_auto') else node.faults() if kind=='faults' else (node.recovery() if kind=='recovery' else node.navigation(kind=='blocked',kind=='indoor'))
+        result=node.turns_demo() if kind=='indoor_turns' else node.indoor_dynamic(auto=kind=='indoor_auto') if kind in ('indoor_dynamic','indoor_auto') else node.faults() if kind=='faults' else (node.recovery() if kind=='recovery' else node.navigation(kind=='blocked',kind=='indoor'))
         if kind=='indoor':result['case']='indoor'
         import os
         from pathlib import Path as FilePath
         directory=os.environ.get('MRIDER_SIM_REPORT_DIR')
         if directory:
             target=FilePath(directory);target.mkdir(parents=True,exist_ok=True)
-            payload={'result':result,'pedestrian_trajectory':node.actor_trace,'trajectory':node.trace,'planned_path':
+            payload={'video_frames':node.video_frames,'result':result,'pedestrian_trajectory':node.actor_trace,'trajectory':node.trace,'planned_path':
                      [(p.pose.position.x,p.pose.position.y) for p in node.path.poses] if node.path else []}
             (target/(kind+'.json')).write_text(json.dumps(payload))
         print('SIMULATION_RESULT '+json.dumps(result),flush=True)

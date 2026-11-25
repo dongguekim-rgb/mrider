@@ -52,7 +52,13 @@ class VehicleContract(unittest.TestCase):
         self.refuse('1', '191', 'ROS_DOMAIN_ID')
 
     def test_real_requires_measured_radius(self):
-        self.refuse('1', '11', 'no measured min_turning_radius')
+        # Never depend on a real team's overlay remaining unmeasured.
+        with tempfile.TemporaryDirectory(prefix='mrider-unmeasured-') as temp:
+            desc = Path(temp) / 'mitt_description'
+            shutil.copytree(DESC / 'config', desc / 'config')
+            (desc / 'config/vehicles/vehicle1.yaml').write_text('{}\n')
+            with self.assertRaisesRegex(ValueError, 'no measured min_turning_radius'):
+                VC.nav2_for(1, str(desc), str(STOCK), real=True)
 
     def test_generated_parameters_use_measurements_without_editing_stock(self):
         before = STOCK.read_bytes()

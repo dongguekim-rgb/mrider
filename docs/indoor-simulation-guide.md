@@ -102,3 +102,8 @@ LiDAR 반사/유리/노이즈·SLAM/EKF·보행자 행동 예측·실물 A2M4-R2
 벽·가구는 `mrider_navigation_sim/indoor.py`, 가상 차량 설정은 `config/simulation.yaml`에 있다.
 차량 치수 변경 시 Nav2 footprint와 회전 반경도 함께 맞춰야 한다.
 모의 명령을 차량에 연결하지 않는다.
+
+
+## 큰 실내 맵 추가
+
+[60×40 m 다중 방 환경](large-office-simulation.md)은 논문 참고 설계와 오프라인 기하 검증 단계입니다. 기존 작은 맵의 주행 성공과 구분하며, 현재 시작 위치에서 카메라 미확인 판정이 발생합니다.

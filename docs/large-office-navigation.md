@@ -1,5 +1,9 @@
 # 큰 실내 맵의 관측 기반 단계별 주행
 
+> **추가 수정:** SLAM scan의 `laser` frame을 보존하도록 헤더 공유 오류를 수정했다.
+> [수정 후 검증](sensor-only-navigation.md#slam-tf-fix)에서 24 m 도착 오차 0.120646 m,
+> 해당 odometry 경고 0회를 확인했다. 하단 115개 시험 기록은 헤더 수정 전 결과다.
+
 2026-11-25. 학습 모델과 정답 지도/위치를 주행 입력으로 사용하지 않는다.
 [환경 설계도](large-office-simulation.md)의 60×40 m 맵에서, 우선 남쪽 복도의 `(24,0)` 목표를 단계적으로 향하는 구현이다.
 건물 전체 탐색·방 진입·교차로 90도 회전까지 완료된 시스템으로 해석하지 않는다.
@@ -135,7 +139,7 @@ colcon --log-base log-docker test --build-base build-docker --install-base insta
 
 <a id="validation-2026-11-25"></a>
 
-## 최종 검증 결과 — 2026-11-25
+## 장거리 보완 검증 결과 — 2026-11-25, 헤더 수정 전
 
 기존 `ros2_humble`의 `/root/mrider-team`에서 vehicle 1, GUI 없이 실행했다.
 팀 Navigation 패키지 colcon 빌드가 성공했다. 이번 수정본의 단위 시험 **109개**와

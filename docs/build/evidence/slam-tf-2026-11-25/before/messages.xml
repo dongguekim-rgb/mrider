@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="1.239" timestamp="2026-11-25T12:19:45.472312" hostname="platinum"><testcase classname="test_sensor_messages" name="test_odometry_does_not_relabel_source_or_slam_scan" time="0.372"><failure message="AssertionError: odometry must not mutate its source LaserScan&#10;assert sensor_msgs.msg.LaserScan(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1795609186, nanosec=6273576...13, 1.8068757057189941, 1.8043954372406006, 1.8024702072143555, 1.8010971546173096, 1.800274133682251], intensities=[]) == sensor_msgs.msg.LaserScan(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1795609186, nanosec=6273576...13, 1.8068757057189941, 1.8043954372406006, 1.8024702072143555, 1.8010971546173096, 1.800274133682251], intensities=[])">estimator = &lt;mrider_navigation_sim.sensor_nodes.LaserOdometry object at 0x7f4d5fd23ac0&gt;
+
+    def test_odometry_does_not_relabel_source_or_slam_scan(estimator):
+        scan = sample(estimator)
+        before = copy.deepcopy(scan)
+        with patch.object(estimator.pub, 'publish') as odometry, \
+                patch.object(estimator.slam_pub, 'publish') as slam, \
+                patch.object(estimator.tf, 'sendTransform') as broadcast:
+            estimator.scan(scan)
+        odometry.assert_called_once()
+        slam.assert_called_once()
+        broadcast.assert_called_once()
+&gt;       assert scan == before, 'odometry must not mutate its source LaserScan'
+E       AssertionError: odometry must not mutate its source LaserScan
+E       assert sensor_msgs.msg.LaserScan(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1795609186, nanosec=6273576...13, 1.8068757057189941, 1.8043954372406006, 1.8024702072143555, 1.8010971546173096, 1.800274133682251], intensities=[]) == sensor_msgs.msg.LaserScan(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1795609186, nanosec=6273576...13, 1.8068757057189941, 1.8043954372406006, 1.8024702072143555, 1.8010971546173096, 1.800274133682251], intensities=[])
+
+/tmp/test_sensor_messages.py:51: AssertionError</failure></testcase><testcase classname="test_sensor_messages" name="test_invalid_source_frame_is_not_forwarded_to_slam" time="0.012" /></testsuite></testsuites>

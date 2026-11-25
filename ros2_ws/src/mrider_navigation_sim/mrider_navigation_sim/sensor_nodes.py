@@ -44,7 +44,9 @@ class LaserOdometry(Node):
             self.pose,rmse=self.estimator.update(points)
             v,w=self.velocity.update(self.pose,stamp)
             self.previous=points;self.stamp=stamp
-            out=Odometry();out.header=msg.header;out.header.frame_id='odom';out.child_frame_id='base_link'
+            # ROS Python message fields share objects on assignment. Preserve
+            # the source laser frame for SLAM's scan-time TF message filter.
+            out=Odometry();out.header=copy.deepcopy(msg.header);out.header.frame_id='odom';out.child_frame_id='base_link'
             out.pose.pose.position.x=float(self.pose[0]);out.pose.pose.position.y=float(self.pose[1])
             out.pose.pose.orientation.z=math.sin(self.pose[2]/2);out.pose.pose.orientation.w=math.cos(self.pose[2]/2)
             out.twist.twist.linear.x=v;out.twist.twist.angular.z=w

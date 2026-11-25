@@ -68,7 +68,7 @@ Nav2 BT Navigator를 실행하는 구성은 아니다. 지도와 scan은 Nav2 co
 | `/perception/labels`, `/perception/overlay` | `Image` | 영상 분할 → RViz·검증 |
 | `/mrider_sim/camera_status` | JSON `String` | 영상 분할 → 안전 게이트 |
 | `/mrider_sim/odometry` | `nav_msgs/msg/Odometry`, `odom` → `base_link` | LiDAR 추정기 → Nav2·안전 게이트·검증 |
-| `/mrider_sim/slam_scan` | `sensor_msgs/msg/LaserScan` | LiDAR 노드의 전용 복사본 → SLAM |
+| `/mrider_sim/slam_scan` | `sensor_msgs/msg/LaserScan`, `laser`, 원본 scan 시각 | LiDAR 노드의 전용 복사본 → SLAM |
 | `/map` | `nav_msgs/msg/OccupancyGrid` | SLAM → Nav2·지역 목표 선택·RViz |
 | `/goal_pose`, `/mrider_sim/local_goal` | `geometry_msgs/msg/PoseStamped`, `map` | 운영자 → mission / mission → 관측·검증 |
 | `/mrider_sim/planned_path` | `nav_msgs/msg/Path` | mission → 시각화·검증 |
@@ -77,7 +77,8 @@ Nav2 BT Navigator를 실행하는 구성은 아니다. 지도와 scan은 Nav2 co
 | `/evaluation/ground_truth`, `/mrider_sim/collision`, `/mrider_sim/clearance` | 평가용 정답 지표 | world → 검사 노드만 |
 
 `map→odom`은 SLAM, `odom→base_link`는 LiDAR 추정기가 발행한다.
-`base_link`는 후륜축 중심의 지면 좌표계다. 현재 합성 LiDAR는 이 위치에 있고 `base_link→laser`는 항등 변환이다.
+`base_link`는 후륜축 중심의 지면 좌표계다. 현재 합성 LiDAR는 이 축 위 0.2 m에 있으며,
+`base_link→laser`의 평면 이동·회전은 0이고 z 이동은 +0.2 m다.
 실제 센서 위치·방향을 이 가정으로 대체할 수 없다. 장착 TF와 카메라 보정은 실측해야 한다.
 
 안전 게이트는 scan·odom·영상의 누락/지연/잘못된 frame·비정상 값을 검사한다.

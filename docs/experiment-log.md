@@ -7,7 +7,13 @@
 
 ## 현재 판정
 
-**이번에 선택한 시뮬레이션 검사 212개 항목의 최종 결과는 모두 PASS다.**
+**최신 추가 GUI 실행은 완주 실패다.** RViz 표시와 첫 24 m 목표는 통과했지만,
+좌회전 중 `insufficient_static_matches`로 LiDAR odometry 갱신이 멈추고 `sensor_timeout`으로 정지했다.
+도착 오차 0.106559 m, 실패까지 131.269초, 그때까지 충돌 없음·최소 평가 여유 0.035021 m다.
+입력 scan은 계속 들어왔으며 대응점 비율이 70% 기준 아래 약 67%로 내려갔다. 임계값을 낮추거나 강제 재출발하지 않았다.
+[추가 실행 보고서](build/evidence/navigation-recovery-2026-11-27/live-rviz/result.json)와 E31을 참고한다.
+
+**직전 헤드리스 회귀에서 선택한 검사 212개 항목의 최종 결과는 모두 PASS였다.**
 전체 회귀 `navigation-recovery/regression-08`은 **211/212 PASS**, 주행/종료는 모두 통과했고 설정 검사 로더 1건이 실패했다.
 새 위치 추정 파라미터를 차량 제한 생성자에 넘기던 **시험 코드만 수정**하여 `fix-20`에서 안전 검사 **46/46 PASS**를 확인했다.
 두 실행 사이 주행 소스·설정은 동일하다. 최종 집계는 안전 묶음 결과를 교체한 것이며, 한 번에 212개가 통과했다고 주장하지 않는다.
@@ -339,14 +345,17 @@ E04~E11의 개발 원본: [개발 실행 압축본](build/evidence/path-curvatur
 - **남은 검증:** 반복 부하·다른 시작점/보행자 타이밍의 성공률, 60×40 m 전체 탐색·방 진입, 시간 기반 동적 충돌 예측, 실제 카메라/A2M4-R2 및 Gazebo·Teensy 통합. 정지 차량 쪽으로 물체가 계속 접근하는 경우를 현재 기능으로 일반적으로 해결했다고 주장하지 않는다.
 - **증거:** [전체 실행](build/evidence/navigation-recovery-2026-11-27/regression-08/), [설정 검사 재검증](build/evidence/navigation-recovery-2026-11-27/fix-20/), [항목별 최종 집계](build/evidence/navigation-recovery-2026-11-27/final-summary.json).
 
-### E31. 사용자 화면에서 큰 맵 실행·주행 시작 확인 (2026-11-27)
+### E31. 사용자 화면 표시·첫 목표 도착 후 LiDAR 정합 손실 (2026-11-27)
 
 - **환경:** Docker의 같은 검증 소스 `ff8cd9f`, domain 192, vehicle 1, 합성 카메라·LiDAR 시뮬레이션. 기존 GUI 전용 프로세스는 주 화면이 없이 남아 있어 재시작하지 않고, 표시용 RViz를 한 번 실행했다. supervisor의 자동 재시작 횟수는 0이다.
 - **표시 확인:** RViz 주 화면에서 관측 지도·scan·차량·계획 경로·카메라 분할 영상이 실제로 표시되는 것을 캡처했다. 시작 로그에 indexed-map shader 경고가 있었지만 이번 화면은 표시됐다. 일반적인 RViz 첫 실행 문제를 완전히 해결했다는 판정은 아니다.
 - **주행 시작:** `FOLLOWING / TRACKING`, 명령 속도 0.35 m/s, 추정 위치 `(7.657,0.012)` m를 확인했다. 고정된 세 목표 `(24,0,0°) → (24,16,90°) → (40,16,0°)`를 보내는 검증 루틴을 실행했으며, 실패하면 `/mrider_sim/disarm`을 호출한다. 주행 알고리즘의 GT 입력은 없다.
 - **첫 목표:** 24 m 목표에 평가 오차 **0.106559 m**로 도착했고 다음 회전 구간으로 진행했다.
-- **이 기록의 범위:** GUI 표시·주행 시작 확인이다. 이 시점에는 세 목표 완주 판정을 추가하지 않았으며 앞의 212개 검사 집계에 합산하지 않는다. 시뮬레이션과 RViz는 사용자가 볼 수 있도록 실행 상태로 둔다.
-- **증거·로그:** [주행 화면](build/evidence/navigation-recovery-2026-11-27/live-rviz/driving.png), [시작 상태와 Docker 내 로그·최종 보고서 경로](build/evidence/navigation-recovery-2026-11-27/live-rviz/startup.json).
+- **최종 결과:** 추가 화면 주행 **FAIL**, 131.269초 후 좌회전 구간에서 `sensor_timeout`으로 정지했다. 마지막 추정 위치는 약 `(24.741,13.298)` m다. 보고서 종료까지 충돌은 없었지만 최소 평가 여유가 **0.035021 m**로 좁았다. 이후 자동 루틴은 disarm했고 재출발시키지 않았다.
+- **확인한 최초 원인:** source stamp `1795719366.8202102`에서 정합 대응점은 217개 중 147개(67.742%)로 70% 조건을 만족하지 못했다. 앞선 scan은 155/217(71.429%)로 유효했다. 이후 218개 중 147개가 유지되어 odom·TF를 발행하지 못했고 `scan_gap_manual_restart_required`가 뒤따랐다. 원본 scan은 약 0.1초 간격으로 계속 도착했고 카메라도 valid/clear였다. 단순한 원본 LiDAR 통신 중단이 아니었다.
+- **추가 조사:** 이 GUI 실행은 화면 확인 후 출발했으므로 launch부터 계속 움직이는 보행자의 위상이 헤드리스 시험과 달라질 수 있다. 근접 전경의 가림 등 대응점 감소의 환경 원인은 저장된 scan으로 분리 재현해야 한다. 이번 결과만으로 RViz 렌더링이 원인이라고 판단하지 않는다. 기존 70% 지지·0.35초 신선도 조건은 유지한다.
+- **집계·현재 상태:** GUI 표시와 첫 목표 성공, 세 목표 주행 실패를 구분한다. 앞의 212개 헤드리스 검사에 합산하거나 그 통과 결과를 이번 성공으로 대신하지 않는다. 시뮬레이션과 RViz는 확인용으로 열어 두고 차량은 disarm 상태다.
+- **증거·로그:** [주행 화면](build/evidence/navigation-recovery-2026-11-27/live-rviz/driving.png), [결과·최초 거부 진단](build/evidence/navigation-recovery-2026-11-27/live-rviz/result.json), [원본 trace](build/evidence/navigation-recovery-2026-11-27/live-rviz/large_office_turns.trace.json.gz), [시작 상태·Docker 로그 경로](build/evidence/navigation-recovery-2026-11-27/live-rviz/startup.json).
 
 ## 진단 당시 가설과 재검증 기준
 

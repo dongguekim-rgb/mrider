@@ -33,6 +33,7 @@ colcon test-result --verbose
 ```
 
 각 터미널에서 `/opt/ros/humble/setup.bash`와 팀 `ros2_ws/install/setup.bash`를 source한다.
+`mrider_navigation_sim`에는 SLAM 종료와 Nav2의 오래된 costmap 대기를 정리하는 C++ 실행 파일도 포함된다. `package.xml`의 `rclcpp`·`slam_toolbox`·`nav2_controller`·Boost·TBB 의존성은 위 `rosdep install`로 설치하고, 수정 뒤에는 colcon 빌드를 다시 한다.
 `catkin_make`/`catkin build`는 현행 workspace에 사용하지 않는다. 다른 PC의 build/install 디렉터리를 복사하지 않는다.
 이 문서의 clone은 해당 커밋이 원격에 존재할 때 재현된다. 전달받은 checkout이면 clone을 생략하고 커밋 해시를 기록한다.
 

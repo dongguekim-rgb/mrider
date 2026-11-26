@@ -24,7 +24,7 @@ Ground Truth 지도·위치·속도를 제어 입력으로 쓰지 않는다. 시
 
 [PDF](figures/sensor-only-navigation-pipeline.pdf) · [PNG](figures/sensor-only-navigation-pipeline.png) · [생성 코드](../tools/ros2/render_sensor_architecture.py)
 
-그림의 주행 연결은 `sensor_only_demo.launch.py vehicle:=1` 기준이다. 같은 이름의 입력은 동일 ROS 토픽을 받는 연결 포트다. 초기 기본 주행·카메라 중단 검증 범위이며 실센서·동적 장애물 통합 검증 완료를 뜻하지 않는다.
+위 SVG/PDF는 11/25 기본 주행·카메라 중단 검증 당시 연결이다. 11/27 추가한 지도 재검증과 영상·scan 수신 버퍼는 아래 흐름 및 [현행 아키텍처](architecture.md)를 따른다. 같은 이름의 입력은 동일 ROS 토픽을 받는 연결 포트다.
 
 
 ```mermaid
@@ -34,7 +34,9 @@ flowchart LR
   SCAN --> FILTER["무반사점을 제외한 SLAM용 복사본"] --> SLAM["slam_toolbox"]
   ODOM --> SLAM
   SLAM --> MAP["추정 /map + map→odom"]
-  MAP --> NAV["Nav2 계획·추종"]
+  MAP --> LIVE["최신 scan 3회 점유 재검증"]
+  SCAN --> LIVE
+  LIVE -->|/navigation/observed_map| NAV["Nav2 계획·추종"]
   ODOM --> NAV
   SCAN --> NAV
   RGB["카메라 RGB 영상"] --> FLOOR["보정·LiDAR 기하·Watershed 후보 분할"]
@@ -48,6 +50,7 @@ flowchart LR
 - `sensor_core.py`: scan-to-keyframe 점-직선 ICP와 SLAM용 무반사점 제외. 학습 가중치 없음.
 - `sensor_nodes.py`: `/scan`만으로 odometry 생성. 첫 유효 scan의 위치를 로컬 원점으로 정의한다. 실제 정답 위치로 초기화하지 않는다.
 - `slam_toolbox`: SLAM 전용 scan 복사본과 추정 odom TF로 지도·위치 보정 생성. 미리 만든 지도 파일 없음.
+- `observed_map.py`: 원본 SLAM 지도는 보존하고 최신 scan 3회에서 빈 공간으로 확인된 셀을 별도 navigation 지도에 갱신한다. 반사점 뒤나 미관측 공간을 임의로 지우지 않는다.
 - `CameraRules`: `/camera/image_raw`·CameraInfo·동기화된 scan으로 바닥/벽/장애물 후보·미확인 영역을 분할한다. RGB로 절대 거리를 추론하지 않는다.
 - `SafetyNode(require_camera=true)`: 카메라 불량·중단·통행 불가 판정은 정지 latch. 복구 후 수동 재허가 필요.
 - `world.py(sensor_only=true)`: 제어용 지도와 odom TF 발행 중지. 정답은 `/evaluation/ground_truth`에만 발행.

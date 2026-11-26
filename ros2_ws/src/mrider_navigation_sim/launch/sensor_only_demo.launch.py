@@ -33,11 +33,12 @@ def nodes(context):
         follower=nav['controller_server']['ros__parameters']['FollowPath']
         follower.update(desired_linear_vel=.35,lookahead_dist=2.,min_lookahead_dist=2.,max_lookahead_dist=2.)
         if LaunchConfiguration('scenario').perform(context)=='sensor_turns':
-            # RPP can cut inside the planned arc. Reserve tracking clearance
-            # outside the safety gate's 0.15 m margin; never weaken the gate.
-            for costmap in ('global_costmap','local_costmap'):
-                parameters=nav[costmap][costmap]['ros__parameters']
-                parameters['footprint_padding']=max(.40,parameters['footprint_padding'])
+            # Planning reserves 0.25 m beyond the controller/gate margin.
+            # Equal padding in both maps leaves no room for tracking error.
+            nav['global_costmap']['global_costmap']['ros__parameters']['footprint_padding']=.40
+            nav['local_costmap']['local_costmap']['ros__parameters']['footprint_padding']=.15
+    for costmap in ('global_costmap','local_costmap'):
+        nav[costmap][costmap]['ros__parameters']['static_layer']['map_topic']='/navigation/observed_map'
     if nav is not None:
         with tempfile.NamedTemporaryFile(mode='w',prefix='mrider-sensor-vehicle-',suffix='.yaml',delete=False) as output:
             yaml.safe_dump(nav,output);config=output.name
@@ -47,19 +48,22 @@ def nodes(context):
     goal_radius=math.hypot(max(body['front'],body['rear']),body['half_width'])+body['margin']
     sensor_env={'OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1'}
     return [
-        Node(package='mrider_navigation_sim',executable='laser_odometry_node',output='screen',additional_env=sensor_env,parameters=[{'max_range_is_clear':True}]),
+        Node(package='mrider_navigation_sim',executable='laser_odometry_node',output='screen',additional_env=sensor_env,parameters=[simulation,{'max_range_is_clear':True}]),
         Node(package='mrider_navigation_sim',executable='camera_rules_node',output='screen',additional_env=sensor_env,parameters=[os.path.join(share,'config','perception_simulation.yaml')]),
-        Node(package='slam_toolbox',executable='async_slam_toolbox_node',name='slam_toolbox',output='screen',parameters=[slam_config]),
+        Node(package='mrider_navigation_sim',executable='managed_slam_node',name='slam_toolbox',output='screen',parameters=[slam_config]),
+        Node(package='mrider_navigation_sim',executable='observed_map_node',output='screen',additional_env=sensor_env,parameters=[{'max_range_is_clear':True}]),
         Node(package='mrider_navigation_sim',executable='world_node',output='screen',additional_env=sensor_env,parameters=[simulation,limits,{'scenario':LaunchConfiguration('scenario'),'sensor_only':True,'floor_rgb':yaml.safe_load(LaunchConfiguration('floor_rgb').perform(context)),'image_gain':ParameterValue(LaunchConfiguration('image_gain'),value_type=float)}]),
         Node(package='mrider_navigation_sim',executable='safety_node',output='screen',parameters=[simulation,limits,{'require_camera':True}]),
-        Node(package='mrider_navigation_sim',executable='mission_node',output='screen',additional_env=sensor_env,parameters=[{
+        Node(package='mrider_navigation_sim',executable='mission_node',output='screen',additional_env=sensor_env,remappings=[('/map','/navigation/observed_map')],parameters=[{
             'wheelbase':body['wheelbase'],'max_steering':body['max_steering'],
+            'front':body['front'],'rear':body['rear'],'half_width':body['half_width'],'margin':body['margin'],
             'path_lookahead':nav['controller_server']['ros__parameters']['FollowPath']['lookahead_dist'],
             'planning_turning_radius':nav['planner_server']['ros__parameters']['GridBased']['minimum_turning_radius'],
             'expected_map_resolution':slam_resolution,
+            'publish_goal_debug':ParameterValue(LaunchConfiguration('diagnostics'),value_type=bool),
             'goal_clearance_radius':goal_radius,'max_range_is_clear':True,'staged_goals':LaunchConfiguration('scenario').perform(context)=='large_office','auto_resume':LaunchConfiguration('auto_resume'),'goal_extension':1.0 if LaunchConfiguration('scenario').perform(context) in ('sensor_turns','large_office') else 0.,'goal_x':ParameterValue(LaunchConfiguration('goal_x'),value_type=float)}]),
         Node(package='nav2_planner',executable='planner_server',name='planner_server',output='screen',parameters=[config]),
-        Node(package='nav2_controller',executable='controller_server',name='controller_server',output='screen',parameters=[config],
+        Node(package='mrider_navigation_sim',executable='managed_controller_node',name='controller_server',output='screen',parameters=[config],
              remappings=[('cmd_vel','/mrider_sim/candidate_cmd_vel')]),
         Node(package='nav2_lifecycle_manager',executable='lifecycle_manager',name='navigation_lifecycle',output='screen',
              parameters=[{'autostart':True,'node_names':['planner_server','controller_server'],'bond_timeout':4.}]),
@@ -73,6 +77,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('scenario',default_value='indoor',choices=['clear','static_obstacle','blocked','indoor','indoor_dynamic','indoor_turns','sensor_turns','large_office']),
         DeclareLaunchArgument('goal_x',default_value='8.0'),
+        DeclareLaunchArgument('diagnostics',default_value='false'),
         DeclareLaunchArgument('rviz',default_value='true'),
         DeclareLaunchArgument('rviz_rendering',default_value='software',choices=['software','auto']),
         DeclareLaunchArgument('auto_resume',default_value='false'),

@@ -14,7 +14,10 @@ planner_server:
       max_planning_time: 4.0
       motion_model_for_search: DUBIN
       angle_quantization_bins: 72
-      minimum_turning_radius: 3.0
+      # Stay above vehicle 1's measured 2.10 m + 5% (2.205 m), without
+      # forcing a 3 m turn to finish immediately beside an 8 m corridor wall.
+      # Vehicle overlays can raise this floor; mission still audits curvature.
+      minimum_turning_radius: 2.5
       # Preserve Dubins primitives. Humble's simple smoother can increase
       # interior curvature; the mission audits the final geometry as well.
       smooth_path: false

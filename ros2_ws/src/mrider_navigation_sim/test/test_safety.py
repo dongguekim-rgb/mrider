@@ -78,6 +78,31 @@ def test_slowdown():
     v,s=g.output(10.,10.);assert 0<v<.4 and g.state=='SLOW'
 
 
+def test_controller_zero_preserves_obstacle_stop_through_abort():
+    g=active();g.scan=([(1.6,0.)],10.,10.)
+    g.output(10.,10.);assert g.state=='SLOW'
+    g.command_input(0.,0.,10.1,10.1)
+    assert g.output(10.1,10.1)==(0.,0.) and g.reason=='obstacle_stop'
+    g.mission_state('FAILED')
+    assert not g.manual_fault and g.reason=='obstacle_stop'
+    feed(g,11.);assert not g.auto_arm(11.,11.)[0]
+    feed(g,14.);assert g.auto_arm(14.,14.)[0]
+
+
+def test_zero_without_obstacle_does_not_make_failure_auto_recoverable():
+    g=active();g.command_input(0.,0.,10.1,10.1);g.output(10.1,10.1)
+    g.mission_state('FAILED')
+    assert g.manual_fault and g.reason=='planning_or_tracking_failed'
+
+
+def test_controller_stop_cannot_hide_new_sensor_fault():
+    g=active();g.scan=([(1.6,0.)],10.,10.);g.output(10.,10.)
+    g.command_input(0.,0.,10.1,10.1);g.output(10.1,10.1)
+    g.fault('invalid_scan');g.mission_state('FAILED')
+    assert g.manual_fault
+    feed(g,11.);assert not g.auto_arm(11.,11.)[0]
+
+
 def test_curved_swept_footprint():
     args=(1.,.9,.2,.3,.15)
     assert swept_hit([(1.3,.7)],0.,*args)==math.inf
@@ -102,7 +127,14 @@ def test_ray_and_collision_geometry():
 
 
 def test_config_consistency():
-    p=Path(__file__).resolve().parents[1]/'config/nav2.yaml';cfg=yaml.safe_load(p.read_text());c=Limits(**yaml.safe_load((p.parent/'simulation.yaml').read_text())['/**']['ros__parameters'])
+    p=Path(__file__).resolve().parents[1]/'config/nav2.yaml'
+    cfg=yaml.safe_load(p.read_text())
+    parameters=yaml.safe_load((p.parent/'simulation.yaml').read_text())['/**']['ros__parameters']
+    # This shared YAML also configures laser_odometry. Check its one field
+    # separately; do not silently discard misspelled/unknown safety limits.
+    reference_age=parameters.pop('keyframe_max_age')
+    assert math.isfinite(reference_age) and reference_age>0
+    c=Limits(**parameters)
     planner=cfg['planner_server']['ros__parameters']['GridBased']
     assert planner['minimum_turning_radius']>=c.wheelbase/math.tan(c.max_steering)
     assert planner['motion_model_for_search']=='DUBIN'

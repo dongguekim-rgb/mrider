@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="mrider_navigation_sim.test_sensor_only_launch" tests="2" failures="0" errors="0" time="25.692"><testsuite name="mrider_navigation_sim.test_sensor_only_launch.launch_tests" tests="2" failures="0" errors="0" skipped="0" time="25.692"><testcase classname="mrider_navigation_sim.SensorOnly" name="test_sensor_only" time="25.692" /><testcase classname="mrider_navigation_sim.Exit" name="test_shutdown" time="0.0" /></testsuite></testsuites>

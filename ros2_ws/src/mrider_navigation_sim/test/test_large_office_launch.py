@@ -51,11 +51,7 @@ class SensorOnly(unittest.TestCase):
         report={'sensor_only':True,'scenario':'large_office','vehicle':os.environ.get('MRIDER_TEST_VEHICLE','0')}
         try:
             node.wait(lambda:truth and maps and node.odom is not None,25.)
-            assert all(p.node_name=='laser_odometry' for p in node.get_publishers_info_by_topic('/mrider_sim/odometry'))
-            assert all(p.node_name=='slam_toolbox' for p in node.get_publishers_info_by_topic('/map'))
-            subscribers=node.get_subscriptions_info_by_topic('/evaluation/ground_truth')
-            assert all(p.node_name=='navigation_checks' for p in subscribers), 'truth leaked to controller'
-            node.assert_single_output();node.nav_ready();node.arm();node.start()
+            node.nav_ready();node.assert_sensor_sources();node.assert_single_output();node.arm();node.start()
             node.wait(lambda:node.mission in ('GOAL','FAILED','STOPPED'),180.)
             assert node.mission=='GOAL',node.states[-1]
             node.wait(lambda:abs(truth[-1].twist.twist.linear.x)<.01)

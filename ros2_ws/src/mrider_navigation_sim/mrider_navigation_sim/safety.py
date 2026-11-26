@@ -37,7 +37,11 @@ class Gate:
         if state==self.last_mission:return
         self.last_mission=state
         if state in ('GOAL','WAYPOINT'):self.goal()
-        elif state=='FAILED':self.fault('obstacle_stop' if self.state=='SLOW' and self.reason=='obstacle_slowdown' else 'planning_or_tracking_failed')
+        elif state=='FAILED':
+            obstacle=(not self.manual_fault and
+                      ((self.state=='SLOW' and self.reason=='obstacle_slowdown') or
+                       (self.state=='STOPPED' and self.reason=='obstacle_stop')))
+            self.fault('obstacle_stop' if obstacle else 'planning_or_tracking_failed')
 
     def continue_route(self,now,wall):
         if self.state!='GOAL' or self.latched:return False,'not_completed_waypoint'
@@ -140,6 +144,11 @@ class Gate:
             if self.started:self.fault('command_timeout')
             return 0.,0.
         v,steer=self.cmd[0]
+        # RPP sends zero while its collision check waits/aborts. That zero
+        # loses the commanded curve; it must not erase an already observed
+        # obstacle slowdown and turn its stop into an unrelated manual fault.
+        if v==0 and self.started and self.state=='SLOW' and self.reason=='obstacle_slowdown':
+            self.fault('obstacle_stop');return 0.,0.
         if v>0:self.started=True
         measured_v=self.odom[0][3];measured_w=self.odom[0][4]
         speed=max(v,abs(measured_v))

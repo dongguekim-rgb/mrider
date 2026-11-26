@@ -68,3 +68,36 @@ def test_full_scan_wrap_has_no_unobserved_seam_inside_free_circle():
     rows,cols=np.indices(result.shape)
     interior=np.hypot(-5+(cols+.5)*.1,-5+(rows+.5)*.1)<4.75
     assert (result[interior]==0).all()
+
+
+def test_oriented_body_can_progress_where_enclosing_circle_cannot():
+    from mrider_navigation_sim.local_goal import select_pose_goal
+    grid=np.zeros((500,700),dtype=int);grid[110:360,640:]=100
+    args=(grid,.05,(-4.,-2.),(27.05,3.64,1.63),(24.,16.,math.pi/2),3.)
+    assert select_pose_goal(*args,radius=.96) is None
+    result=select_pose_goal(*args,radius=.96,footprint=(.733,.2,.28,.15))
+    assert result is not None and result[1]>3.64
+
+
+def test_oriented_check_covers_interior_and_unknown_cells():
+    from scipy.ndimage import distance_transform_edt
+    from mrider_navigation_sim.local_goal import footprint_free
+    grid=np.ones((100,100),dtype=bool)
+    grid[52,54]=False  # strictly inside, not just on the rectangle boundary
+    clear=distance_transform_edt(np.pad(grid,1))[1:-1,1:-1]*.1
+    assert not footprint_free(clear,.1,(-5.,-5.),[(0.,0.,0.)],(.9,.2,.3,.15))[0]
+    assert not footprint_free(clear,.1,(-5.,-5.),[(4.9,0.,0.)],(.9,.2,.3,.15))[0]
+
+
+@pytest.mark.parametrize('sign',[-1,1])
+def test_quarter_turn_subgoal_faces_remaining_destination(sign):
+    from mrider_navigation_sim.local_goal import select_pose_goal
+    goal=(0.,sign*16.,sign*math.pi/2)
+    result=select_pose_goal(np.zeros((500,300)),.1,(-10.,-25.),(0.,0.,0.),goal,
+                            2.5,footprint=(.733,.2,.28,.15))
+    assert result is not None and not result[3]
+    x,y,yaw,_=result
+    bearing=math.atan2(goal[1]-y,goal[0]-x)
+    mismatch=abs(math.atan2(math.sin(bearing-yaw),math.cos(bearing-yaw)))
+    # The old distance-dominated score over-rotated by ~0.54 rad here.
+    assert mismatch<.15 and sign*yaw>1.2

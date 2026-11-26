@@ -13,11 +13,17 @@ mrider-team/
 │   └── test/                          # core/boundary + ROS2 launch tests
 ├── ros2_ws/src/mrider_navigation_sim/
 │   ├── mrider_navigation_sim/           # 센서 추정/분할/SLAM 연결/지역 목표/안전/세계
-│   │   └── path_feasibility.py          # 지도 해상도·생성 경로·초기 추종 곡률 검사
+│   │   ├── path_feasibility.py          # 지도 해상도·생성 경로·초기 추종 곡률 검사
+│   │   ├── observed_map.py              # 반복된 최신 scan으로 점유 흔적 재검증
+│   │   ├── synchronization.py           # 영상·scan 시각별 수신 버퍼
+│   │   └── trace_navigation.py          # 주행에 관여하지 않는 평가용 진단 기록
+│   ├── src/managed_slam_node.cpp        # 설치된 SLAM 실행과 종료 전 worker 정리
+│   ├── src/managed_controller_node.cpp  # stale costmap 대기 중 취소·정지·종료
+│   ├── licenses/Apache-2.0.txt          # Nav2 파생 제어 코드 고지
 │   ├── launch/                         # sensor_only, sensor_turns, large_office 및 기준 시험
 │   ├── config/                         # Nav2/SLAM/카메라/차량/정지 규칙
 │   ├── scripts/                        # 노드와 run_scenario
-│   ├── rviz/navigation.rviz
+│   ├── rviz/                           # sensor_only.rviz(센서), navigation.rviz(기준 시험)
 │   └── test/                           # 단위 + Nav2/고장/복구 실토픽
 ├── ros2_ws/src/mitt_*/                 # 공식 패키지; vehicle1 측정 overlay 반영
 ├── tools/ros2/                        # 컨테이너와 검증 스크립트

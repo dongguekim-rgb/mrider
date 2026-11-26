@@ -101,6 +101,24 @@ class Checks(Node):
         publishers=self.get_publishers_info_by_topic('/mrider_sim/command')
         assert len(publishers)==1 and publishers[0].node_name=='mrider_safety_gate', 'command gate bypass'
 
+    def assert_sensor_sources(self):
+        expected={'/map':'slam_toolbox','/navigation/observed_map':'observed_map',
+                  '/mrider_sim/odometry':'laser_odometry'}
+        snapshot={}
+        def ready():
+            snapshot['publishers']={topic:sorted(p.node_name for p in self.get_publishers_info_by_topic(topic)) for topic in expected}
+            snapshot['raw_map_users']=sorted(p.node_name for p in self.get_subscriptions_info_by_topic('/map'))
+            snapshot['observed_map_users']=sorted(p.node_name for p in self.get_subscriptions_info_by_topic('/navigation/observed_map'))
+            snapshot['truth_users']=sorted(p.node_name for p in self.get_subscriptions_info_by_topic('/evaluation/ground_truth'))
+            return (all(names==[expected[topic]] for topic,names in snapshot['publishers'].items())
+                    and not set(snapshot['raw_map_users']).intersection({'global_costmap','local_costmap','mrider_mission'})
+                    and {'global_costmap','local_costmap','mrider_mission'}<=set(snapshot['observed_map_users'])
+                    and set(snapshot['truth_users'])=={'navigation_checks'})
+        # DDS endpoint discovery and node-name discovery need not finish in
+        # the same callback. Do not arm until the complete graph is verified.
+        try:self.wait(ready,5.)
+        except AssertionError as error:raise AssertionError(('sensor_graph',snapshot)) from error
+
     def nav_ready(self):
         from lifecycle_msgs.srv import GetState
         for name in ('planner_server','controller_server'):

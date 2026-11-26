@@ -36,13 +36,23 @@ Visualization Manager:
       Durability Policy: Volatile
     Value: true
   - Class: rviz_default_plugins/Map
-    Name: Map
+    Name: Navigation observed map
     Enabled: true
+    Topic:
+      Value: /navigation/observed_map
+      Durability Policy: Transient Local
+      Reliability Policy: Reliable
+    Value: true
+    Alpha: 0.6
+    Draw Behind: true
+  - Class: rviz_default_plugins/Map
+    Name: Raw SLAM map (optional)
+    Enabled: false
     Topic:
       Value: /map
       Durability Policy: Transient Local
       Reliability Policy: Reliable
-    Value: true
+    Value: false
     Alpha: 0.6
     Draw Behind: true
   - Class: rviz_default_plugins/LaserScan

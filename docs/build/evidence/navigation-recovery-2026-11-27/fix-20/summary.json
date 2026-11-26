@@ -1,0 +1,21 @@
+{
+  "date_kst": "2026-11-27",
+  "environment": "ros2_humble:/root/mrider-team; ROS2 Humble; vehicle 1; headless 2D sensor simulation",
+  "suites": [
+    {
+      "name": "safety",
+      "tests": 46,
+      "passed": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "total": {
+    "tests": 46,
+    "passed": 46,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

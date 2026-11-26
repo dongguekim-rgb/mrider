@@ -15,6 +15,7 @@ from mrider_autonomy.nodes import SENSOR_QOS, COMMAND_QOS, seconds
 from mrider_autonomy.ros_adapter import stamp_seconds
 from .sensor_core import KeyframeOdometry, VelocityWindow, slam_ranges
 from .segmentation import CameraGeometry, segment
+from .synchronization import ImageScanBuffer
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
 
@@ -22,7 +23,8 @@ class LaserOdometry(Node):
     def __init__(self):
         super().__init__('laser_odometry')
         self.previous=None;self.stamp=None;self.pose=np.zeros(3)
-        self.estimator=KeyframeOdometry()
+        self.last_error=None
+        self.estimator=KeyframeOdometry(self.declare_parameter('keyframe_max_age',2.).value)
         self.velocity=VelocityWindow()
         self.max_range_is_clear=self.declare_parameter('max_range_is_clear',False).value
         self.slam_pub=self.create_publisher(LaserScan,'/mrider_sim/slam_scan',SENSOR_QOS)
@@ -32,16 +34,19 @@ class LaserOdometry(Node):
         self.diagnostics=self.create_publisher(String,'/mrider_sim/estimator_status',COMMAND_QOS)
 
     def scan(self,msg):
+        stamp=stamp_seconds(msg.header.stamp)
+        details={'stamp':stamp,'last_valid_stamp':self.stamp}
+        self.estimator.diagnostics.clear()
         try:
-            stamp=stamp_seconds(msg.header.stamp)
             if msg.header.frame_id!='laser' or not -.05<=seconds(self)-stamp<=.35:raise ValueError('scan_frame_or_age')
             if self.stamp is not None and not 0<stamp-self.stamp<=.35:raise ValueError('scan_gap_manual_restart_required')
             matching_ranges=slam_ranges(msg.ranges,msg.range_min,msg.range_max,self.max_range_is_clear)
             ranges=np.asarray(msg.ranges);angles=msg.angle_min+np.arange(len(ranges))*msg.angle_increment
             mask=np.isfinite(ranges)&(ranges>msg.range_min)&(ranges<msg.range_max-.05)
             points=np.column_stack((ranges[mask]*np.cos(angles[mask]),ranges[mask]*np.sin(angles[mask])))
+            details['points']=len(points)
             if len(points)<60:raise ValueError('insufficient_scan')
-            self.pose,rmse=self.estimator.update(points)
+            self.pose,rmse=self.estimator.update(points,stamp)
             v,w=self.velocity.update(self.pose,stamp)
             self.previous=points;self.stamp=stamp
             # ROS Python message fields share objects on assignment. Preserve
@@ -56,10 +61,14 @@ class LaserOdometry(Node):
             tf.transform.rotation=out.pose.pose.orientation;self.tf.sendTransform(tf)
             matching_scan=copy.deepcopy(msg);matching_scan.ranges=matching_ranges.tolist()
             self.slam_pub.publish(matching_scan)
-            self.diagnostics.publish(String(data=json.dumps({'valid':True,'rmse':rmse})))
+            self.last_error=None
+            self.diagnostics.publish(String(data=json.dumps({**details,**self.estimator.diagnostics,'valid':True,'rmse':rmse})))
         except (ValueError,TypeError,np.linalg.LinAlgError) as error:
             # Do not integrate commands or fall back to truth on lost registration.
-            self.diagnostics.publish(String(data=json.dumps({'valid':False,'reason':str(error)})))
+            reason=str(error)
+            if reason!=self.last_error:self.get_logger().warn('LiDAR odometry rejected scan: '+reason)
+            self.last_error=reason
+            self.diagnostics.publish(String(data=json.dumps({**details,**self.estimator.diagnostics,'valid':False,'reason':reason})))
 
 
 class CameraRules(Node):
@@ -72,16 +81,29 @@ class CameraRules(Node):
         self.pitch=self.declare_parameter('camera_pitch',0.).value
         self.laser_height=self.declare_parameter('laser_height',.2).value
         self.max_range_is_clear=self.declare_parameter('max_range_is_clear',False).value
-        self.scan_msg=None;self.info=None;self.last_stamp=0.
+        self.pairs=ImageScanBuffer();self.info=None;self.last_stamp=0.
         self.pub=self.create_publisher(String,'/mrider_sim/camera_status',COMMAND_QOS)
         self.labels=self.create_publisher(Image,'/perception/labels',SENSOR_QOS)
         self.overlay=self.create_publisher(Image,'/perception/overlay',SENSOR_QOS)
         latest=QoSProfile(depth=1,reliability=ReliabilityPolicy.BEST_EFFORT,durability=DurabilityPolicy.VOLATILE)
         self.create_subscription(Image,'/camera/image_raw',self.image,latest)
         self.create_subscription(CameraInfo,'/camera/camera_info',lambda m:setattr(self,'info',m),latest)
-        self.create_subscription(LaserScan,'/scan',lambda m:setattr(self,'scan_msg',m),latest)
+        self.create_subscription(LaserScan,'/scan',self.scan_input,SENSOR_QOS)
+        self.create_timer(.02,self.flush_images)
+
+    def scan_input(self,msg):
+        self.pairs.scan(stamp_seconds(msg.header.stamp),msg)
+        self.flush_images()
 
     def image(self,msg):
+        self.pairs.image(stamp_seconds(msg.header.stamp),msg,time.monotonic())
+        self.flush_images()
+
+    def flush_images(self):
+        for msg,scan in self.pairs.ready(time.monotonic()):
+            self.process_image(msg,scan)
+
+    def process_image(self,msg,scan):
         start=time.monotonic();stamp=stamp_seconds(msg.header.stamp)
         status={'stamp':stamp,'valid':False,'clear':False,'reason':'unprocessed'}
         try:
@@ -90,13 +112,14 @@ class CameraRules(Node):
             if not -.05<=seconds(self)-stamp<=.35:raise ValueError('image_age')
             if stamp<=self.last_stamp:raise ValueError('nonmonotonic_image')
             self.last_stamp=stamp
-            info=self.info;scan=self.scan_msg
+            info=self.info
             if info is None:raise ValueError('camera_info_missing')
             if (info.header.frame_id!=msg.header.frame_id or info.width!=msg.width or info.height!=msg.height
                     or any(not math.isfinite(v) or abs(v)>1e-9 for v in info.d)):
                 raise ValueError('camera_info_or_rectification')
             if scan is None:raise ValueError('scan_missing')
             scan_stamp=stamp_seconds(scan.header.stamp)
+            status['scan_image_offset_s']=scan_stamp-stamp
             if scan.header.frame_id!='laser' or abs(scan_stamp-stamp)>.12:raise ValueError('scan_image_unsynchronized')
             if not -.05<=seconds(self)-scan_stamp<=.35:raise ValueError('scan_age')
             if msg.step<msg.width*3:raise ValueError('image_step')

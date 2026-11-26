@@ -17,6 +17,7 @@ from std_msgs.msg import String
 from nav_msgs.msg import Odometry, OccupancyGrid, Path as NavPath
 from mrider_autonomy.nodes import SENSOR_QOS
 from mrider_navigation_sim.checks import Checks
+from mrider_navigation_sim.trace_navigation import NavigationTrace
 from rclpy.qos import QoSProfile, DurabilityPolicy
 
 @pytest.mark.launch_test
@@ -32,6 +33,7 @@ def generate_test_description():
 class SensorOnly(unittest.TestCase):
     def test_sensor_only(self):
         rclpy.init();node=Checks();truth=[];maps=[];camera=[];images={};paths=[]
+        trace=NavigationTrace(node,costmaps=True)
         node.create_subscription(NavPath,'/mrider_sim/planned_path',lambda m:paths.append([
             [p.pose.position.x,p.pose.position.y,2*math.atan2(p.pose.orientation.z,p.pose.orientation.w)] for p in m.poses]),10)
         node.create_subscription(String,'/mrider_sim/camera_status',lambda m:camera.append(json.loads(m.data)),10)
@@ -43,11 +45,7 @@ class SensorOnly(unittest.TestCase):
         report={'scenario':'sensor_turns', 'sensor_only':True,'vehicle':os.environ.get('MRIDER_TEST_VEHICLE','0')}
         try:
             node.wait(lambda:truth and maps and node.odom is not None,25.)
-            assert all(p.node_name=='laser_odometry' for p in node.get_publishers_info_by_topic('/mrider_sim/odometry'))
-            assert all(p.node_name=='slam_toolbox' for p in node.get_publishers_info_by_topic('/map'))
-            subscribers=node.get_subscriptions_info_by_topic('/evaluation/ground_truth')
-            assert all(p.node_name=='navigation_checks' for p in subscribers), 'truth leaked to controller'
-            node.assert_single_output();node.nav_ready();node.arm();node.start()
+            node.nav_ready();node.assert_sensor_sources();node.assert_single_output();node.arm();node.start()
             node.wait(lambda:node.states[-1][1]['state']=='STOPPED',50.)
             stopped_at=time.monotonic()
             stop=node.states[-1][1]
@@ -106,6 +104,7 @@ class SensorOnly(unittest.TestCase):
             report['min_clearance_m']=min(node.clearances) if node.clearances else None
             report['final_safety']=node.states[-1][1] if node.states else None
             out=Path(os.environ.get('MRIDER_SIM_REPORT_DIR','/tmp'));out.mkdir(parents=True,exist_ok=True)
+            trace.save(out,'sensor_turns')
             (out/'sensor_turns.json').write_text(json.dumps(report))
             import cv2
             import numpy as np

@@ -13,3 +13,5 @@
     slowdown_distance: 0.7
     timeout: 0.35
     future_tolerance: 0.05
+    # Replace aged scan references only after a successful registration.
+    keyframe_max_age: 2.0

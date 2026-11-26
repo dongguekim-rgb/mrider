@@ -1,0 +1,19 @@
+{
+  "source": "regression-02/source.tar.gz",
+  "input_map": "regression-02/map.json.gz",
+  "shape": [
+    637,
+    905
+  ],
+  "scan_mask_full_grid_s": 0.21464110352098942,
+  "scan_mask_3_calls_profile_total_s": 0.646,
+  "scan_mask_range_window_s": [
+    0.04429527372121811,
+    0.043100686743855476,
+    0.04239784739911556
+  ],
+  "different_cells": 0,
+  "message_deepcopy_and_list_setter_mean_5_s": 0.147455570101738,
+  "message_deepcopy_and_array_setter_mean_5_s": 0.00041879527270793915,
+  "method": "Docker Python; 720 beams at 15m; pose=(24.1,14.7,1.8); resolution/origin from captured map. Isolated microbenchmark, not a hard realtime guarantee."
+}

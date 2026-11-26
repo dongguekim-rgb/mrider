@@ -24,6 +24,7 @@ from std_msgs.msg import String
 from mrider_autonomy.nodes import COMMAND_QOS, SENSOR_QOS
 from mrider_navigation_sim.checks import Checks
 from mrider_navigation_sim.vehicle_overlay import measured_parameters
+from mrider_navigation_sim.trace_navigation import NavigationTrace
 
 
 @pytest.mark.launch_test
@@ -33,7 +34,7 @@ def generate_test_description():
     return launch.LaunchDescription([
         launch.actions.SetEnvironmentVariable('ROS_DOMAIN_ID','216'),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(source),launch_arguments={
-            'rviz':'false','scenario':'large_office','goal_x':'24.0','auto_resume':'true','vehicle':'1'}.items()),
+            'rviz':'false','scenario':'large_office','goal_x':'24.0','auto_resume':'true','vehicle':'1','diagnostics':'true'}.items()),
         launch_testing.actions.ReadyToTest(),
     ])
 
@@ -41,6 +42,7 @@ def generate_test_description():
 class LargeOfficeTurns(unittest.TestCase):
     def test_reachable_paths_and_both_turns(self):
         rclpy.init();node=Checks();truth=[];validations=[];candidates=[];goals_seen=[];paths=[];maps={}
+        trace=NavigationTrace(node,costmaps=True)
         node.create_subscription(Odometry,'/evaluation/ground_truth',truth.append,SENSOR_QOS)
         node.create_subscription(String,'/mrider_sim/path_validation',lambda m:validations.append(json.loads(m.data)),COMMAND_QOS)
         node.create_subscription(Twist,'/mrider_sim/candidate_cmd_vel',lambda m:candidates.append((m.linear.x,m.angular.z)),COMMAND_QOS)
@@ -57,7 +59,7 @@ class LargeOfficeTurns(unittest.TestCase):
         report={'case':'large_office_turns','legs':[]};started=time.monotonic()
         try:
             node.wait(lambda:truth and node.odom is not None and node.states,25.)
-            node.assert_single_output();node.nav_ready()
+            node.nav_ready();node.assert_sensor_sources();node.assert_single_output()
             assert {x.node_name for x in node.get_subscriptions_info_by_topic('/evaluation/ground_truth')}=={'navigation_checks'}
             for index,(gx,gy,heading) in enumerate(goals):
                 node.arm()
@@ -67,7 +69,7 @@ class LargeOfficeTurns(unittest.TestCase):
                     goal.pose.position.x=gx;goal.pose.position.y=gy
                     goal.pose.orientation.z=math.sin(heading/2);goal.pose.orientation.w=math.cos(heading/2)
                     offset=len(node.mission_events);goal_pub.publish(goal)
-                    node.wait(lambda:any(s in ('PLANNING','FOLLOWING') for s in node.mission_events[offset:]),5.)
+                    node.wait(lambda:any(s in ('WAITING','PLANNING','FOLLOWING') for s in node.mission_events[offset:]),5.)
                 deadline=time.monotonic()+190.
                 while time.monotonic()<deadline:
                     rclpy.spin_once(node,timeout_sec=.02)
@@ -104,6 +106,7 @@ class LargeOfficeTurns(unittest.TestCase):
                 evaluation_truth_trace=[[m.pose.pose.position.x,m.pose.pose.position.y,
                     2*math.atan2(m.pose.pose.orientation.z,m.pose.pose.orientation.w)] for m in truth])
             directory=Path(os.environ.get('MRIDER_SIM_REPORT_DIR','/tmp'));directory.mkdir(parents=True,exist_ok=True)
+            trace.save(directory,'large_office_turns')
             if 'last' in maps:
                 m=maps['last']
                 (directory/'map.json').write_text(json.dumps(dict(width=m.info.width,height=m.info.height,

@@ -35,6 +35,9 @@ class Mission(Node):
         self.planning_radius=self.declare_parameter('planning_turning_radius',3.).value
         self.map_resolution=self.declare_parameter('expected_map_resolution',0.).value
         self.path_status=self.create_publisher(String,'/mrider_sim/path_validation',COMMAND_QOS)
+        self.goal_status=self.create_publisher(String,'/mrider_sim/goal_validation',COMMAND_QOS)
+        self.debug_goals=self.declare_parameter('publish_goal_debug',False).value
+        self.goal_grid=self.create_publisher(OccupancyGrid,'/mrider_sim/goal_grid',COMMAND_QOS)
         self.lifecycle_clients={name:self.create_client(GetState,'/'+name+'/get_state') for name in ('planner_server','controller_server')}
         self.active={name:False for name in self.lifecycle_clients};self.pending={}
         self.create_timer(.2,self.poll_lifecycle)
@@ -44,6 +47,8 @@ class Mission(Node):
         self.scans=deque(maxlen=5)
         self.scan_max_clear=self.declare_parameter('max_range_is_clear',False).value
         self.goal_radius=self.declare_parameter('goal_clearance_radius',1.1).value
+        self.goal_body=tuple(self.declare_parameter(k,v).value for k,v in
+                             (('front',.9),('rear',.2),('half_width',.3),('margin',.15)))
         self.create_subscription(LaserScan,'/scan',self.scan_cb,SENSOR_QOS)
         self.destination=None;self.local_map=None;self.stage_final=True;self.stage_pending=None;self.stage_permission=False;self.stage_wait_started=None
         self.stage_client=self.create_client(Trigger,'/mrider_sim/continue')
@@ -51,6 +56,7 @@ class Mission(Node):
         self.create_subscription(OccupancyGrid,'/map',lambda m:setattr(self,'local_map',m),QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))
         self.create_timer(.2,self.continue_tick)
         self.saved_goal=None;self.resume_pending=None;self.resume_ready=False
+        self.resume_plan_goal=None;self.resume_plan_started=None;self.resume_plan_next=0.
         self.auto_client=self.create_client(Trigger,'/mrider_sim/auto_arm')
         self.create_timer(.2,self.resume_tick)
         self.goal_extension=self.declare_parameter('goal_extension',0.).value
@@ -59,6 +65,8 @@ class Mission(Node):
         self.pending_plan=None
         self.create_timer(.05,self.poll_plan)
         self.state='IDLE';self.safety='DISARMED';self.follow_handle=None;self.sequence=0
+        self.goal_pending=None
+        self.create_timer(.2,self.retry_goal)
         self.planner=ActionClient(self,ComputePathToPose,'/compute_path_to_pose')
         self.follower=ActionClient(self,FollowPath,'/follow_path')
         self.pub=self.create_publisher(String,'/mrider_sim/mission_state',COMMAND_QOS)
@@ -150,8 +158,16 @@ class Mission(Node):
         q=laser_tf.transform.rotation
         laser_pose=(laser_tf.transform.translation.x,laser_tf.transform.translation.y,2*math.atan2(q.z,q.w))
         grid=add_scan_evidence(np.asarray(m.data).reshape(m.info.height,m.info.width),m.info.resolution,(ox,oy),laser_pose,scan.ranges,scan.angle_min,scan.angle_increment,scan.range_min,scan.range_max,self.scan_max_clear)
+        diagnostics={'stamp':now,'map_stamp':m.header.stamp.sec+m.header.stamp.nanosec*1e-9,
+                     'laser_pose':laser_pose,'resolution':m.info.resolution,'origin':[ox,oy]}
         chosen=select_pose_goal(grid,m.info.resolution,(ox,oy),current,destination,
-                               self.planning_radius,radius=self.goal_radius)
+                               self.planning_radius,radius=self.goal_radius,diagnostics=diagnostics,footprint=self.goal_body)
+        diagnostics['chosen']=chosen
+        self.goal_status.publish(String(data=json.dumps(diagnostics)))
+        if chosen is None and self.debug_goals:
+            debug=copy.deepcopy(m);debug.data=grid.ravel().tolist()
+            self.goal_grid.publish(debug)
+            self.get_logger().warn('Goal selection: '+json.dumps(diagnostics))
         if chosen is None:raise ValueError('no_observed_progress_goal')
         x,y,yaw,self.stage_final=chosen
         local=copy.deepcopy(goal);local.header.stamp=self.get_clock().now().to_msg()
@@ -163,13 +179,25 @@ class Mission(Node):
     def resume_tick(self):
         if not self.auto_resume or self.saved_goal is None:return
         if self.safety=='DISARMED':self.resume_ready=False;return
+        if self.resume_plan_goal is not None:
+            if self.safety!='READY':self.resume_plan_goal=None;return
+            if self.state=='WAITING' and time.monotonic()>=self.resume_plan_next:
+                if time.monotonic()-self.resume_plan_started>15.:
+                    self.resume_plan_goal=None;self.state='FAILED'
+                    self.pub.publish(String(data=self.state));return
+                ok,reason=self.begin(self.resume_plan_goal,continuation=True)
+                self.resume_plan_next=time.monotonic()+.5
+                if not ok:self.get_logger().warn('Recovery waiting: '+reason)
+            return
         if self.resume_pending is not None:
             if not self.resume_pending.done():return
             self.resume_ready=self.resume_pending.result().success
             self.resume_pending=None
         if self.resume_ready and self.safety=='READY' and self.follow_handle is None:
             self.resume_ready=False
-            self.begin(self.destination if self.staged else self.saved_goal,continuation=True)
+            self.resume_plan_goal=copy.deepcopy(self.destination if self.staged else self.saved_goal)
+            self.resume_plan_started=time.monotonic();self.resume_plan_next=self.resume_plan_started
+            self.state='WAITING'
         elif self.state in ('STOPPED','FAILED') and self.safety=='STOPPED' and self.auto_client.service_is_ready():
             self.resume_pending=self.auto_client.call_async(Trigger.Request())
 
@@ -186,7 +214,9 @@ class Mission(Node):
         self.safety=json.loads(msg.data)['state']
         if self.safety=='DISARMED':
             self.saved_goal=None;self.destination=None;self.stage_permission=False;self.resume_ready=False
-        if self.safety in ('STOPPED','DISARMED') and self.state in ('PLANNING','FOLLOWING'):
+            self.goal_pending=None
+        if self.safety in ('STOPPED','DISARMED'):self.resume_plan_goal=None
+        if self.safety in ('STOPPED','DISARMED') and self.state in ('PLANNING','FOLLOWING','WAITING'):
             self.sequence+=1;self.state='STOPPED'
             if self.follow_handle:self.follow_handle.cancel_goal_async()
 
@@ -197,10 +227,29 @@ class Mission(Node):
 
     def goal_cb(self,msg):
         ok,reason=self.begin(msg)
-        if not ok:self.get_logger().warn(reason)
+        if ok:self.goal_pending=None
+        elif self.staged and self.safety=='READY' and reason in (
+                'map_not_ready','map_stale','goal_transform_stale','scan_transform_not_ready',
+                'no_observed_progress_goal'):
+            self.goal_pending=(copy.deepcopy(msg),time.monotonic())
+            self.state='WAITING';self.pub.publish(String(data=self.state))
+            self.get_logger().warn('Goal retained while observing: '+reason)
+        else:self.get_logger().warn(reason)
+
+    def retry_goal(self):
+        if self.goal_pending is None:return
+        if self.safety!='READY':self.goal_pending=None;return
+        goal,started=self.goal_pending
+        if time.monotonic()-started>5.:
+            self.goal_pending=None;self.state='FAILED'
+            self.pub.publish(String(data=self.state))
+            self.get_logger().error('Deferred goal expired');return
+        ok,reason=self.begin(goal)
+        if ok:self.goal_pending=None
 
     def begin(self,goal,continuation=False):
         if self.state in ('PLANNING','FOLLOWING') or (self.state=='WAYPOINT' and not continuation) or self.follow_handle is not None:return False,'mission_busy'
+        if self.resume_plan_goal is not None and not continuation:return False,'mission_busy'
         if self.safety!='READY':return False,'manual_arm_required'
         try:
             pose_values(goal.pose)
@@ -237,22 +286,30 @@ class Mission(Node):
         future,seq,received=self.pending_plan
         if seq!=self.sequence:
             self.pending_plan=None;return
-        # A planner reply can precede queued TF callbacks after goal selection.
-        # Yield the executor, retaining PLANNING/zero output. Never extend the
-        # 0.35 s freshness limit or wait indefinitely for missing localization.
-        try:
-            tf=self.tf_buffer.lookup_transform('map','base_link',Time())
-            age=self.get_clock().now().nanoseconds*1e-9-(tf.header.stamp.sec+tf.header.stamp.nanosec*1e-9)
-            ready=-.05<=age<=.35
-        except TransformException:ready=False
-        if not ready and time.monotonic()-received<1.:return
-        self.pending_plan=None
-        self.execute_plan(future,seq)
+        # Make the freshness decision AFTER reference-path preparation.
+        # A preliminary check followed by copying and a second check can
+        # cross the age boundary and bypass the intended bounded wait.
+        completed=self.execute_plan(future,seq,tf_deadline=received+1.)
+        if completed is not False:self.pending_plan=None
 
-    def execute_plan(self,future,seq):
+    def execute_plan(self,future,seq,tf_deadline=None):
         if seq!=self.sequence:return
+        if self.resume_plan_goal is not None and time.monotonic()-self.resume_plan_started>15.:
+            # A late successful result must not outlive the recovery window.
+            self.resume_plan_goal=None;self.state='FAILED'
+            self.pub.publish(String(data=self.state));return
         result=future.result()
         if result.status!=GoalStatus.STATUS_SUCCEEDED or len(result.result.path.poses)<2:
+            if (result.status==GoalStatus.STATUS_ABORTED and self.resume_plan_goal is not None
+                    and self.safety=='READY' and time.monotonic()-self.resume_plan_started<=15.):
+                # An obstacle may leave the straight rearm envelope before
+                # leaving the full curved route. No path yet is a bounded
+                # zero-output wait, only in this authorized recovery context.
+                self.state='WAITING';self.resume_plan_next=time.monotonic()+.5
+                self.pub.publish(String(data=self.state))
+                self.get_logger().warn('Obstacle recovery: no path yet; remaining stopped')
+                return
+            self.resume_plan_goal=None
             self.state='FAILED';return
         reference=copy.deepcopy(result.result.path)
         if self.goal_extension>0:
@@ -264,9 +321,15 @@ class Mission(Node):
                 reference.poses.append(extra)
         try:
             if reference.header.frame_id!='map':raise ValueError('path_frame')
-            tf=self.tf_buffer.lookup_transform('map','base_link',Time())
-            age=self.get_clock().now().nanoseconds*1e-9-(tf.header.stamp.sec+tf.header.stamp.nanosec*1e-9)
-            if not -.05<=age<=.35:raise ValueError('path_start_transform_stale')
+            try:
+                tf=self.tf_buffer.lookup_transform('map','base_link',Time())
+                age=self.get_clock().now().nanoseconds*1e-9-(tf.header.stamp.sec+tf.header.stamp.nanosec*1e-9)
+                if not -.05<=age<=.35:raise ValueError('path_start_transform_stale')
+            except (TransformException,ValueError):
+                # Yield for queued TF while PLANNING keeps output at zero.
+                # Input age remains 0.35 s; the wait never exceeds 1 s.
+                if tf_deadline is not None and time.monotonic()<tf_deadline:return False
+                raise
             if self.map_resolution and (self.local_map is None or not math.isclose(
                     self.local_map.info.resolution,self.map_resolution,abs_tol=1e-8)):
                 raise ValueError('map_resolution_changed')
@@ -280,6 +343,7 @@ class Mission(Node):
             self.get_logger().error('Path rejected before FollowPath: '+str(error))
             self.pub.publish(String(data=self.state));return
         self.path_status.publish(String(data=json.dumps({'accepted':True,**metrics})))
+        self.resume_plan_goal=None
         self.path_pub.publish(result.result.path)
         req=FollowPath.Goal();req.path=reference;req.controller_id='FollowPath';req.goal_checker_id='goal_checker'
         self.state='FOLLOWING'

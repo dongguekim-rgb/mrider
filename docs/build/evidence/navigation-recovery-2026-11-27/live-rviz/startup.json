@@ -1,0 +1,41 @@
+{
+  "date_kst": "2026-11-27",
+  "phase": "driving_started",
+  "runtime_commit": "ff8cd9f",
+  "container": "ros2_humble",
+  "project": "/root/mrider-team",
+  "domain": 192,
+  "launch": "sensor_only_demo.launch.py scenario:=large_office goal_x:=24.0 auto_resume:=true vehicle:=1 rviz:=false diagnostics:=true",
+  "rviz_window": "0x04c00013",
+  "rviz_config": "/tmp/mrider-large-live.rviz",
+  "rviz_rendering": "software",
+  "rviz_automatic_restarts": 0,
+  "observed_state": "FOLLOWING / TRACKING",
+  "command_speed_mps": 0.3499999940395355,
+  "estimated_xy_m": [
+    7.656753427276711,
+    0.01239242861361491
+  ],
+  "route_goals": [
+    [
+      24,
+      0,
+      0
+    ],
+    [
+      24,
+      16,
+      1.5707963267948966
+    ],
+    [
+      40,
+      16,
+      0
+    ]
+  ],
+  "scope": "Visual display and driving start confirmed; route completion was not yet checked in this snapshot",
+  "launch_log": "/tmp/mrider-live-large-20261127.log",
+  "rviz_log": "/tmp/mrider-live-rviz-20261127.log",
+  "route_log": "/tmp/mrider-live-route-20261127/runner.log",
+  "route_report": "/tmp/mrider-live-route-20261127/large_office_turns.json"
+}

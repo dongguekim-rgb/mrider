@@ -339,6 +339,15 @@ E04~E11의 개발 원본: [개발 실행 압축본](build/evidence/path-curvatur
 - **남은 검증:** 반복 부하·다른 시작점/보행자 타이밍의 성공률, 60×40 m 전체 탐색·방 진입, 시간 기반 동적 충돌 예측, 실제 카메라/A2M4-R2 및 Gazebo·Teensy 통합. 정지 차량 쪽으로 물체가 계속 접근하는 경우를 현재 기능으로 일반적으로 해결했다고 주장하지 않는다.
 - **증거:** [전체 실행](build/evidence/navigation-recovery-2026-11-27/regression-08/), [설정 검사 재검증](build/evidence/navigation-recovery-2026-11-27/fix-20/), [항목별 최종 집계](build/evidence/navigation-recovery-2026-11-27/final-summary.json).
 
+### E31. 사용자 화면에서 큰 맵 실행·주행 시작 확인 (2026-11-27)
+
+- **환경:** Docker의 같은 검증 소스 `ff8cd9f`, domain 192, vehicle 1, 합성 카메라·LiDAR 시뮬레이션. 기존 GUI 전용 프로세스는 주 화면이 없이 남아 있어 재시작하지 않고, 표시용 RViz를 한 번 실행했다. supervisor의 자동 재시작 횟수는 0이다.
+- **표시 확인:** RViz 주 화면에서 관측 지도·scan·차량·계획 경로·카메라 분할 영상이 실제로 표시되는 것을 캡처했다. 시작 로그에 indexed-map shader 경고가 있었지만 이번 화면은 표시됐다. 일반적인 RViz 첫 실행 문제를 완전히 해결했다는 판정은 아니다.
+- **주행 시작:** `FOLLOWING / TRACKING`, 명령 속도 0.35 m/s, 추정 위치 `(7.657,0.012)` m를 확인했다. 고정된 세 목표 `(24,0,0°) → (24,16,90°) → (40,16,0°)`를 보내는 검증 루틴을 실행했으며, 실패하면 `/mrider_sim/disarm`을 호출한다. 주행 알고리즘의 GT 입력은 없다.
+- **첫 목표:** 24 m 목표에 평가 오차 **0.106559 m**로 도착했고 다음 회전 구간으로 진행했다.
+- **이 기록의 범위:** GUI 표시·주행 시작 확인이다. 이 시점에는 세 목표 완주 판정을 추가하지 않았으며 앞의 212개 검사 집계에 합산하지 않는다. 시뮬레이션과 RViz는 사용자가 볼 수 있도록 실행 상태로 둔다.
+- **증거·로그:** [주행 화면](build/evidence/navigation-recovery-2026-11-27/live-rviz/driving.png), [시작 상태와 Docker 내 로그·최종 보고서 경로](build/evidence/navigation-recovery-2026-11-27/live-rviz/startup.json).
+
 ## 진단 당시 가설과 재검증 기준
 
 ### 2026-11-26 코드·로그 재검토에 따른 원인 판단

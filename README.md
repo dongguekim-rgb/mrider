@@ -11,6 +11,7 @@
 | 카메라 인지·SLAM·센서 기반 주행 | [인지](docs/classical-perception.md), [센서 Navigation](docs/sensor-only-navigation.md) |
 | 좌우 우회·횡단 정지·재개 | [복합 시나리오](docs/sensor-turns-simulation.md) |
 | 60×40 m 실내 맵·장거리 검증 | [맵 설계](docs/large-office-simulation.md), [단계별 주행](docs/large-office-navigation.md) |
+| 현재 성공/실패·시행착오 이력 | [실험 기록](docs/experiment-log.md) — 중요한 실패·수정·재검증 때마다 갱신 |
 | 실차 준비·검증 | [실환경 설명서](docs/real-world-test-guide.md), [차량 실측값](docs/build/vehicle1-measurements-2026-11-23.md) |
 | 팀 역할·인터페이스 규칙 | [.github/README.md](.github/README.md) |
 

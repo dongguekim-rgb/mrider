@@ -32,18 +32,20 @@ flowchart TB
     end
     subgraph NAV[임무와 Navigation]
         GOAL["운영자 목표 PoseStamped"]
-        LOCAL["관측 범위 내 단계별 목표
+        LOCAL["관측 범위·차량 회전 반경 내 단계별 목표
 대형 맵에서 사용"]
         PLAN["Nav2 Smac Hybrid · 전진 Dubins"]
+        CHECK["출발 전 경로 곡률·초기 추종 검사"]
         PATH["Path"]
         RPP["Regulated Pure Pursuit"]
         GOAL --> LOCAL
         MAP --> LOCAL
         SCAN --> LOCAL
-        LOCAL --> PLAN --> PATH --> RPP
+        LOCAL --> PLAN --> CHECK --> PATH --> RPP
         MAP --> PLAN
         SCAN --> PLAN
         ODOM --> RPP
+        ODOM --> CHECK
     end
     GATE["최종 안전 게이트
 입력·시각·권한 · 곡선 차체 여유 · 정지 latch"]
@@ -58,6 +60,11 @@ flowchart TB
 Nav2 BT Navigator를 실행하는 구성은 아니다. 지도와 scan은 Nav2 costmap에도 들어간다.
 소형 센서 시험에서는 최종 목표를 직접 계획하며, 대형 맵에서는 관측된 연결 공간 안의 목표를 단계적으로 선택한다.
 좌회전 조향각은 양수이고 후진·제자리 회전은 허용하지 않는다.
+센서용 costmap은 SLAM과 같은 0.05 m 해상도로 초기화한다. 시작 후 지도의 해상도가 바뀌면 경로를 거부한다.
+기본 평활화가 회전 제약을 바꾸지 않도록 Dubins 경로를 보존하고,
+`mission.py`에서 실제 경로의 곡률과 현재 추정 자세에서의 초기 Pure Pursuit 곡률을 확인한 뒤에만 `FollowPath`를 보낸다.
+현재 검사는 물리 조향 한계에 5% 반경 여유를 두며, 실행 중 추정·추종 오차는 기존 안전 게이트가 계속 검사한다.
+지도 해상도·좌표·자세가 잘못되거나 경로가 지나치게 꺾이면 차량이 출발하기 전에 실패를 보고한다.
 
 ## 토픽과 TF 계약
 
@@ -72,6 +79,7 @@ Nav2 BT Navigator를 실행하는 구성은 아니다. 지도와 scan은 Nav2 co
 | `/map` | `nav_msgs/msg/OccupancyGrid` | SLAM → Nav2·지역 목표 선택·RViz |
 | `/goal_pose`, `/mrider_sim/local_goal` | `geometry_msgs/msg/PoseStamped`, `map` | 운영자 → mission / mission → 관측·검증 |
 | `/mrider_sim/planned_path` | `nav_msgs/msg/Path` | mission → 시각화·검증 |
+| `/mrider_sim/path_validation` | JSON `String`, 승인 여부·곡률·실패 사유 | mission → 검증·진단 |
 | `/mrider_sim/candidate_cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 → 안전 게이트 |
 | `/mrider_sim/command` | `ackermann_msgs/msg/AckermannDriveStamped` | 안전 게이트 단일 발행자 → 모의 차량 |
 | `/evaluation/ground_truth`, `/mrider_sim/collision`, `/mrider_sim/clearance` | 평가용 정답 지표 | world → 검사 노드만 |
@@ -96,7 +104,8 @@ Nav2 BT Navigator를 실행하는 구성은 아니다. 지도와 scan은 Nav2 co
 | `mrider_navigation_sim/sensor_core.py` | 키프레임 ICP, 잔차·퇴화·이동량 검사 |
 | `mrider_navigation_sim/sensor_nodes.py` | scan → odometry/TF, 영상·보정·시각 계약, 분할 노드 |
 | `mrider_navigation_sim/segmentation.py`, `camera_contract.py` | 지면 투영·Watershed 후보 분할, 카메라 상태 검증 |
-| `mrider_navigation_sim/local_goal.py` | 관측 공간 팽창·연결 성분·지역 목표 선택 |
+| `mrider_navigation_sim/local_goal.py` | 관측 공간 팽창·연결 성분·전진 원호의 끝 위치/방향·최종 접근 목표 선택 |
+| `mrider_navigation_sim/path_feasibility.py` | 해상도 일치, 경로 곡률·출발 위치·초기 추종 가능 여부 검사 |
 | `mrider_navigation_sim/mission.py` | action·목표·정지·조건부 재개·단계 전환 |
 | `mrider_navigation_sim/safety.py`, `gate_node.py` | ROS 독립 안전 규칙 / ROS 입출력·허가 서비스 |
 | `mrider_navigation_sim/world.py`, `synthetic_camera.py` | 합성 scan·영상·차량 운동, 분리된 평가 정답 |

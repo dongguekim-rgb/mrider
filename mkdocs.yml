@@ -98,6 +98,7 @@ nav:
       - 좌우 우회·횡단: sensor-turns-simulation.md
       - 대형 실내 맵: large-office-simulation.md
       - 대형 맵 단계별 주행: large-office-navigation.md
+      - 시행착오·현재 검증 상태: experiment-log.md
   - 기준 시뮬레이션·결과:
       - Pure Pursuit: simulation-test-guide.md
       - Navigation: navigation-simulation-guide.md

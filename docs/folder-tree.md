@@ -13,6 +13,7 @@ mrider-team/
 │   └── test/                          # core/boundary + ROS2 launch tests
 ├── ros2_ws/src/mrider_navigation_sim/
 │   ├── mrider_navigation_sim/           # 센서 추정/분할/SLAM 연결/지역 목표/안전/세계
+│   │   └── path_feasibility.py          # 지도 해상도·생성 경로·초기 추종 곡률 검사
 │   ├── launch/                         # sensor_only, sensor_turns, large_office 및 기준 시험
 │   ├── config/                         # Nav2/SLAM/카메라/차량/정지 규칙
 │   ├── scripts/                        # 노드와 run_scenario
@@ -25,6 +26,7 @@ mrider-team/
 
 파일별 책임은 [architecture](architecture.md), 명령은 [새 PC 설명서](new-pc-setup.md),
 검증 증거와 각 시험의 실행 안내는 [문서 안내](index.md)에서 찾는다.
+팀 실험의 현재 성공/실패와 중요한 수정 이력은 [시행착오 기록](experiment-log.md)에 누적한다.
 `build/install/log`와 `build-docker/install-docker/log-docker`는 Git 추적 대상이 아니다.
 
 레거시 `ros1_ws/`(ROS1 Catkin)와 `training/`(ViNT·depth 학습)은 이 fork에 없다.

@@ -1,0 +1,152 @@
+{
+  "date_kst": "2026-11-26",
+  "code_commit": "f274f9a05f5cceb7bc5d40c16e8d82f10e287149",
+  "container": "ros2_humble",
+  "workspace": "/root/mrider-team",
+  "vehicle": 1,
+  "domain": 192,
+  "scenario": "large_office",
+  "map_size_m": [
+    60,
+    40
+  ],
+  "simulation": "custom planar camera/LiDAR world, actual slam_toolbox and Nav2",
+  "ground_truth": "evaluation only; ROS graph verified no controller subscriber",
+  "result": "FAIL",
+  "error": "nonrecoverable_stop: untrackable_curvature",
+  "failed_goal_index": 1,
+  "completed_operator_goals": 1,
+  "unattempted_operator_goals": 1,
+  "legs": [
+    {
+      "index": 0,
+      "goal": [
+        24,
+        0,
+        0
+      ],
+      "elapsed_s": 74.46466724574566,
+      "goal_error_m": 0.14595550267836885,
+      "yaw_error_rad": 0.044179247087389066,
+      "local_goals": [
+        {
+          "t": 1.56278114952147,
+          "x": 5.9713360027498865,
+          "y": 0.020727855003824125,
+          "yaw": -0.001149716133927947
+        },
+        {
+          "t": 19.635872680693865,
+          "x": 11.858847079849193,
+          "y": 0.008587639637017475,
+          "yaw": -0.0007073165342182533
+        },
+        {
+          "t": 38.05186653882265,
+          "x": 17.795913381269315,
+          "y": 0.02282742060214682,
+          "yaw": -0.0036794002070673123
+        },
+        {
+          "t": 56.88660806789994,
+          "x": 22.995913458755354,
+          "y": 0.0224335173737229,
+          "yaw": -0.02233849854850328
+        },
+        {
+          "t": 72.64926358871162,
+          "x": 24.0,
+          "y": 0.0,
+          "yaw": 0.0
+        }
+      ],
+      "obstacle_resumes": [],
+      "left_steering_rad": 0.17813481390476227,
+      "right_steering_rad": -0.13318592309951782,
+      "evaluation_goal_pose": [
+        23.86809978889249,
+        -0.06249274415393853,
+        0.04417924708738907
+      ],
+      "result": "PASS"
+    }
+  ],
+  "elapsed_s": 76.85738349705935,
+  "travel_m": 24.15055408667297,
+  "collision": false,
+  "min_clearance_m": 0.7935800202761594,
+  "map_last": {
+    "t": 75.39282570406795,
+    "width": 834,
+    "height": 361,
+    "resolution": 0.05000000074505806,
+    "known_cells": 170206,
+    "known_area_m2": 425.5150126813353
+  },
+  "failed_odom_pose_warnings": 0,
+  "trial_estimator_samples": 729,
+  "trial_invalid_estimator_samples": 0,
+  "post_trial_status": {
+    "safety_state": {
+      "state": "DISARMED",
+      "reason": "operator_disarm",
+      "speed": 0.0,
+      "camera": {
+        "stamp": 1795682732.9371965,
+        "valid": true,
+        "clear": true,
+        "reason": "clear",
+        "floor_fraction": 0.9972222222222222,
+        "obstacle_fraction": 0.0,
+        "unknown_fraction": 0.002777777777777778,
+        "scan_image_offset_s": 0.0,
+        "processing_ms": 17.090829089283943,
+        "source_age_s": 0.03434467315673828
+      },
+      "camera_receive_age_s": 0.0026165321469306946
+    },
+    "estimator_status": {
+      "valid": false,
+      "reason": "scan_gap_manual_restart_required"
+    },
+    "mission_state": "STOPPED"
+  },
+  "post_trial_note": "scan_gap_manual_restart_required observed while already disarmed after the driving trial; cause not established",
+  "graph": {
+    "publishers": {
+      "/map": [
+        "slam_toolbox"
+      ],
+      "/mrider_sim/odometry": [
+        "laser_odometry"
+      ],
+      "/mrider_sim/command": [
+        "mrider_safety_gate"
+      ]
+    },
+    "truth_subscribers": [
+      "navigation_checks"
+    ]
+  },
+  "unchanged_previously_verified_runtime_files": 61,
+  "rviz": {
+    "reused_existing_window": true,
+    "window_id": "0x4c00013",
+    "starts": 0,
+    "restarts": 0,
+    "observed": "Map, scan, vehicle/trail and camera segmentation visible during drive"
+  },
+  "obstacle_auto_resume": {
+    "enabled": true,
+    "tested": false,
+    "reason": "No recoverable obstacle stop occurred before the curvature failure"
+  },
+  "runtime_code_changed": false,
+  "scope": "One live trial, first destination PASS, second FAIL, third not sent; not an automated regression rerun",
+  "remaining": [
+    "90-degree turn curvature/path tracking",
+    "post-stop scan gap cause and recovery",
+    "dynamic crossing stop/resume in this map",
+    "full building traversal and room entry"
+  ]
+}

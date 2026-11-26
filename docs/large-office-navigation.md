@@ -1,5 +1,9 @@
 # 큰 실내 맵의 관측 기반 단계별 주행
 
+> **최신 실험 — 2026-11-26:** 기존 RViz 창을 유지한 큰 맵 주행에서 24 m 목표는
+> **74.5초, 오차 0.146 m**로 도착했다. 다음 북쪽 목표의 **90도 회전은 `untrackable_curvature`로 실패**했다.
+> [실행 결과·원본 로그·재현 명령](#live-large-office-2026-11-26)을 참고한다. 건물 전체 완주 결과가 아니다.
+
 > **추가 수정:** SLAM scan의 `laser` frame을 보존하도록 헤더 공유 오류를 수정했다.
 > [수정 후 검증](sensor-only-navigation.md#slam-tf-fix)에서 24 m 도착 오차 0.120646 m,
 > 해당 odometry 경고 0회를 확인했다. 하단 115개 시험 기록은 헤더 수정 전 결과다.
@@ -87,6 +91,7 @@ TF/scan 0.35초 제한을 늘리지 않았다. 목표 선택용 지도는 2초�
 `PLANNING → FOLLOWING → WAYPOINT → PLANNING ... → GOAL`
 
 각 중간 목표에서 정지한 뒤 `/mrider_sim/continue`로 다음 구간만 허가한다.
+이 서비스는 mission 노드가 호출하므로 사용자가 중간 목표마다 arm/start를 반복할 필요는 없다.
 이 서비스는 안전 게이트가 깨끗한 목표 완료 상태이고, 차량 정지·센서 신선도·전방 여유가 확인될 때만 성공한다.
 센서 고장이나 운전자 disarm 상태를 수동 arm 호출로 덮어쓰지 않는다.
 운전자 disarm은 남은 최종 목표도 취소한다. 지역 목표는 `/mrider_sim/local_goal`로 확인한다.
@@ -196,9 +201,104 @@ colcon --log-base log-docker test --build-base build-docker --install-base insta
 마지막 문제에서 최종 목표 주변 반경만 제외하는 방식도 옆 방향 후보를 선택해 실패했다.
 현재 방식은 현재 위치에서의 이동 거리를 줄인다. 실패 JSON과 로그도 같은 증거 폴더에 유지한다.
 
+<a id="live-large-office-2026-11-26"></a>
+
+## 큰 맵 직접 주행 — 2026-11-26
+
+Docker `ros2_humble`, `/root/mrider-team`, vehicle 1, ROS domain 192에서 직접 실행했다.
+커스텀 평면 센서 시뮬레이터와 실제 slam_toolbox/Nav2를 사용했다. Gazebo 물리 twin 시험은 별도다.
+코드는 `f274f9a`이며, 이전 SLAM 수정본의 소스 61개 SHA256이 모두 일치했다.
+런타임 코드·차량 치수·안전 한계는 이 실험에서 변경하지 않았다.
+이미 열려 있던 RViz 창을 계속 사용했으며 재시작하지 않았다.
+
+운전자 목표를 `(24,0,0°)` → `(24,16,90°)` → `(40,16,0°)` 순서로 요청하도록 준비했다.
+이 좌표는 목적지 지정이며 정답 경로·위치를 주행기에 공급하는 방식이 아니다.
+두 번째 목표에서 정지하여 세 번째 목표는 요청하지 않았다.
+
+| 항목 | 이번 실행의 측정값·판정 |
+|---|---|
+| 남쪽 복도 `(24,0)` | **PASS**, 74.464667 s, 도착 오차 **0.145956 m** |
+| 중간 목표 | 약 x=5.97, 11.86, 17.80, 23.00, 24.00 m의 **5개**를 관측 기반으로 선택 |
+| 평가용 실제 이동 거리 | 24.150554 m |
+| 북쪽 `(24,16)` 목표 | **FAIL**, 첫 지역 목표 `(24.00,5.97)` 계획 후 `untrackable_curvature` 정지 |
+| 동쪽 `(40,16)` 목표·오른쪽 90도 회전 | 앞 구간 실패로 미실행 |
+| 전체 시험 | **FAIL**, 76.857383 s 후 disarm. 한 실행에서 첫 목표 성공·두 번째 실패 |
+| 충돌·최소 이격 | 충돌 없음, 최소 0.793580 m |
+| SLAM `Failed to compute odom pose` | 전체 launch 로그에서 0회 |
+| 주행 기록 중 odometry 진단 | 729개 모두 `valid=true` |
+| 마지막 관측 지도 | 알려진 셀 170,206개, 약 **425.52 m²**. 건물 전체 탐색률이나 지도 정확도 지표는 아님 |
+| 동적 장애물 정지·자동 재개 | 옵션은 켰으나 이 구간에서 해당 정지가 발생하지 않아 **미검증** |
+
+첫 구간에서 조향은 −0.133186~+0.178135 rad였다. 이 값은 곡선 보정의 양방향 조향을 의미하며,
+교차로 좌·우 90도 회전을 완료했다는 뜻이 아니다.
+
+![큰 맵 실제 궤적과 센서 지도](build/evidence/large-office-live-2026-11-26/result.png)
+
+왼쪽 환경 기하·실제 궤적은 사후 평가용이다. 오른쪽은 SLAM `/map`과 LiDAR odometry에 map TF를 적용한 추정 궤적이다.
+주행 중 ROS graph에서 `/map` 발행자는 `slam_toolbox`, `/mrider_sim/odometry` 발행자는 `laser_odometry`,
+최종 명령 발행자는 `mrider_safety_gate` 한 개씩이었다.
+`/evaluation/ground_truth` 구독자는 검사 노드 `navigation_checks`뿐이었다.
+
+### 발견한 실패와 보완 지점
+
+1. **교차로 진입의 곡률 불일치.** 안전 게이트는 입력 `Twist`를 조향각으로 환산했을 때
+   vehicle 1 한계 `atan(0.533 / 2.10)`을 넘으면 정지한다.
+   이번에 이 분기가 작동했다. 계획 최소 반경 3.5 m, RPP lookahead 2 m 설정만으로 모든
+   급격한 방향 전환을 추종할 수 있음이 보장되지는 않았다.
+   당시 후보 `Twist`와 계획 경로 전체는 저장하지 않았으므로, 목표 선택·경로 형상·추종 시작점 중
+   어느 부분이 직접 원인인지는 추가 기록으로 분리해야 한다. 안전 한계를 늘리거나 조향을 강제로
+   잘라 실행하는 방식으로 통과시키지 않았다.
+2. **정지 후 대기의 scan 간격 오류.** 위 실패로 disarm한 뒤 주행 시험이 끝난 상태에서
+   `scan_gap_manual_restart_required`가 추가 관측됐다. 이후 Nav2에는 scan observation buffer 지연 경고가 발생했다.
+   이는 주행 중 729개 정상 진단과 구분한 [시험 후 상태](build/evidence/large-office-live-2026-11-26/post-trial-status.json)다.
+   최초 간격 초과 원인은 이번 자료만으로 확정할 수 없다. 차량은 계속 DISARMED, 속도 0이었고
+   실험 backend를 정상 종료했다. 기존 안전 계약을 유지하면서 지연 원인·명시적 복구 절차를 검증해야 한다.
+
+다음 통과 조건은 같은 출발·목표에서 90도 좌회전과 우회전을 연속 수행하고,
+도착 오차 <0.5 m·충돌 없음·추종 가능한 곡률·센서 지연 시 정지를 모두 확인하는 것이다.
+이동 장애물이 실제 경로를 가로지르는 위상에서 정지·재개 시험도 별도로 필요하다.
+
+### 같은 실험 재현
+
+앞 절의 Docker build/source를 완료하고 같은 domain의 다른 demo를 종료한 상태에서 실행한다.
+이번에는 기존 RViz를 재사용했기 때문에 `rviz:=false`였다. 새 화면이 필요할 때는 한 번만 `rviz:=true`로 실행한다.
+
+```bash
+cd /root/mrider-team
+source ros2_ws/setup_env.sh
+source ros2_ws/install-docker/setup.bash
+export ROS_DOMAIN_ID=192
+ros2 launch mrider_navigation_sim sensor_only_demo.launch.py \
+  scenario:=large_office goal_x:=24.0 auto_resume:=true vehicle:=1 rviz:=false
+```
+
+다른 터미널에서 같은 source/domain 설정 후 다음 검사기를 실행한다.
+**새로 시작한 시뮬레이터 전용**이며, 이미 목표에 도착한 world를 초기화하는 스크립트가 아니다.
+검사기가 arm/start와 후속 목적지를 보내므로 별도로 arm/start를 중복 호출하지 않는다.
+
+```bash
+python3 docs/build/evidence/large-office-live-2026-11-26/drive_trial.py \
+  --output /tmp/mrider-large-live-new
+```
+
+기본 목표 목록은 위 세 목적지다. 이번 코드에서는 두 번째 목적지에서 실패하고 종료 코드 1을 반환했다.
+24 m 구간만 재현하려면 새 world에서 `--goals '[[24,0,0]]'`을 추가한다.
+결과의 `requests`, `legs`, `final_safety`와 launch 로그를 함께 확인한다.
+
+- [집계·소스 검증](build/evidence/large-office-live-2026-11-26/summary.json),
+  [주행 원본 JSON](build/evidence/large-office-live-2026-11-26/drive.json),
+  [검사 로그](build/evidence/large-office-live-2026-11-26/drive.log),
+  [launch 로그](build/evidence/large-office-live-2026-11-26/launch.log).
+- [주행 중 실제 RViz 화면](build/evidence/large-office-live-2026-11-26/rviz-in-drive.png),
+  [정지 후 화면](build/evidence/large-office-live-2026-11-26/rviz-stopped.png),
+  [최종 SLAM 지도](build/evidence/large-office-live-2026-11-26/map.json).
+- 런타임 수정 없이 수행한 직접 주행 시험이며 기존 단위·launch regression 시험의 재실행으로 합산하지 않는다.
+  문서 strict build와 내부 anchor 검사 결과는 [문서 검증 로그](build/evidence/large-office-live-2026-11-26/docs-check.log)에 남긴다.
+
 ## 남은 검증
 
-- 60×40 m 전체 순환, 방 진입, 90도 교차로 회전, 막다른 길 탐색, 다른 출발점·배치의 반복 통계.
+- 이번에 실패한 90도 교차로 회전의 곡률·추종 보완, 정지 후 scan 간격 오류의 원인 분리와 복구.
+- 60×40 m 전체 순환, 방 진입, 막다른 길 탐색, 다른 출발점·배치의 반복 통계.
 - 실제 RPLiDAR A2M4-R2·카메라, 일반 장착 TF·동기·반사체·유리·저상 물체.
 - 공식 Gazebo Harmonic 물리 twin, Teensy DBW·E-stop·RC·실차 제동·조향.
-- RViz/OpenGL 첫 실행 안정성. 이번 검증은 headless이며 GUI를 재시작하지 않았다.
+- RViz/OpenGL 첫 실행 안정성. 11월 26일에는 기존 창으로 큰 맵을 표시했으며 새 GUI 시작 시험은 하지 않았다.

@@ -1,0 +1,92 @@
+{
+  "reference_stamp": 1795719365.1180596,
+  "failure_stamp": 1795719366.8202102,
+  "reference_age_at_failure_s": 1.702150583267212,
+  "reference_points": 207,
+  "current_points": 217,
+  "initial_from_estimated_odometry": [
+    -0.003061270374516004,
+    -0.007952103945118758,
+    2.4022435814341492e-05
+  ],
+  "exact_pair_replay": {
+    "accepted": false,
+    "reason": "insufficient_static_matches",
+    "input_points": 217,
+    "supported_points": 147,
+    "support_fraction": 0.6774193548387096
+  },
+  "fresh_previous_scan_control": {
+    "accepted": true,
+    "translation": [
+      -0.0001311170876742488,
+      4.127520016820345e-05
+    ],
+    "angle": 1.5720734327349804e-05,
+    "input_points": 217,
+    "supported_points": 195,
+    "support_fraction": 0.8986175115207373,
+    "rmse": 0.001975281876406794,
+    "translation_m": 0.00013746029546418814,
+    "rotation_rad": 1.5720734327349804e-05
+  },
+  "exclude_under_2m_diagnostic_only": {
+    "accepted": true,
+    "translation": [
+      -0.0013366360447515685,
+      -0.0026840612449298066
+    ],
+    "angle": -7.037318372515485e-05,
+    "input_points": 194,
+    "supported_points": 147,
+    "support_fraction": 0.7577319587628866,
+    "rmse": 0.003449231149786831,
+    "translation_m": 0.00299846305340974,
+    "rotation_rad": -7.037318372515485e-05
+  },
+  "near_current_count": 23,
+  "near_reference_count": 39,
+  "unsupported_near_count": 23,
+  "unsupported_far_count": 47,
+  "scan_interval_s": {
+    "min": 0.09406614303588867,
+    "max": 0.14009571075439453,
+    "mean": 0.10628746013448696
+  },
+  "evaluation_only_last_200_truth_samples_span": [
+    0.0,
+    0.0,
+    0.0
+  ]
+}
+{
+  "scope": "Offline evaluation only. Truth pose and known synthetic boxes explain observations; they are NOT registration inputs or a production dynamic-object classifier.",
+  "evaluation_pose": [
+    24.76323531120274,
+    13.304284617098919,
+    1.8494019747556383
+  ],
+  "labels": [
+    "static_background",
+    "pedestrian_1",
+    "pedestrian_2"
+  ],
+  "pair_dt_s": 1.702150583267212,
+  "fitted_pedestrian_displacement_m": [
+    -0.8486776763643871,
+    1.0184926125822997
+  ],
+  "expected_absolute_displacement_from_world_speed_m": [
+    0.851075291633606,
+    1.0212903499603272
+  ],
+  "unmatched_points": 70,
+  "unmatched_attribution": {
+    "static_background -> pedestrian_2": 13,
+    "pedestrian_2 -> static_background": 8,
+    "pedestrian_1 -> static_background": 26,
+    "pedestrian_1 -> pedestrian_1": 10,
+    "static_background -> pedestrian_1": 13
+  }
+}
+fit residuals 0.0014731879100605535 0.0015285337019649461

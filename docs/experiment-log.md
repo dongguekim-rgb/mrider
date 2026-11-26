@@ -12,6 +12,8 @@
 도착 오차 0.106559 m, 실패까지 131.269초, 그때까지 충돌 없음·최소 평가 여유 0.035021 m다.
 입력 scan은 계속 들어왔으며 대응점 비율이 70% 기준 아래 약 67%로 내려갔다. 임계값을 낮추거나 강제 재출발하지 않았다.
 [추가 실행 보고서](build/evidence/navigation-recovery-2026-11-27/live-rviz/result.json)와 E31을 참고한다.
+후속 [오프라인 원인 분석](#live-icp-cause)에서 당시 정합 실패를 동일한 147/217점으로 재현했다.
+두 이동 보행자와 그 뒤 새로 드러난 배경이 단일 기준 scan과 달라진 것이 직접 원인이다. 주행 코드는 아직 수정하지 않았다.
 
 **직전 헤드리스 회귀에서 선택한 검사 212개 항목의 최종 결과는 모두 PASS였다.**
 전체 회귀 `navigation-recovery/regression-08`은 **211/212 PASS**, 주행/종료는 모두 통과했고 설정 검사 로더 1건이 실패했다.
@@ -356,6 +358,76 @@ E04~E11의 개발 원본: [개발 실행 압축본](build/evidence/path-curvatur
 - **추가 조사:** 이 GUI 실행은 화면 확인 후 출발했으므로 launch부터 계속 움직이는 보행자의 위상이 헤드리스 시험과 달라질 수 있다. 근접 전경의 가림 등 대응점 감소의 환경 원인은 저장된 scan으로 분리 재현해야 한다. 이번 결과만으로 RViz 렌더링이 원인이라고 판단하지 않는다. 기존 70% 지지·0.35초 신선도 조건은 유지한다.
 - **집계·현재 상태:** GUI 표시와 첫 목표 성공, 세 목표 주행 실패를 구분한다. 앞의 212개 헤드리스 검사에 합산하거나 그 통과 결과를 이번 성공으로 대신하지 않는다. 시뮬레이션과 RViz는 확인용으로 열어 두고 차량은 disarm 상태다.
 - **증거·로그:** [주행 화면](build/evidence/navigation-recovery-2026-11-27/live-rviz/driving.png), [결과·최초 거부 진단](build/evidence/navigation-recovery-2026-11-27/live-rviz/result.json), [원본 trace](build/evidence/navigation-recovery-2026-11-27/live-rviz/large_office_turns.trace.json.gz), [시작 상태·Docker 로그 경로](build/evidence/navigation-recovery-2026-11-27/live-rviz/startup.json).
+
+<a id="live-icp-cause"></a>
+
+### E32. 단일 기준 scan의 동적 가림 취약성 — 원인 분리 재현 (2026-11-27)
+
+**분석 범위:** E31의 저장된 원본 scan·추정 odometry·상태를 재생했다. 실행 중인 차량·RViz를 재시작하거나 주행 코드를 변경하지 않았다.
+정합 재현의 입력은 scan과 추정 odometry뿐이다. 이후 물체별 원인 분류에서만 시뮬레이터의 평가용 실제 자세와 알려진 물체 기하를 사용했다.
+이 사후 분류가 실차에서 실행되는 동적 물체 분류기라는 뜻은 아니다.
+
+| 실패까지의 순서 | 실제 확인 |
+|---|---|
+| 먼저 장애물 정지 | `SLOW/obstacle_slowdown` 뒤 `STOPPED/camera_obstacle`. 첫 ICP 실패보다 약 6초 먼저 정지했다. 마지막 실제 자세 200표본의 x/y/yaw 변화는 모두 0 |
+| 기준 scan 고정 | 마지막 기준 시각 `1795719365.1180596`, 첫 실패는 `1795719366.8202102`: **1.702151초** 차이 |
+| 대응점 감소 | 직전 155/217점(**71.429%**) → 147/217점(**67.742%**). 최소 70% 지지 조건을 만족하지 못해 `insufficient_static_matches` |
+| 원본 입력은 계속 수신 | 저장된 마지막 100개 scan 간격 **0.094066~0.140096초**, 평균 0.106287초. 카메라도 valid/clear. 정합 실패가 원본 센서 통신 중단보다 먼저였다는 근거 |
+| 위치 추정 상실과 정지 유지 | 유효 정합이 없으므로 odom·TF·SLAM용 scan을 갱신하지 않음. 마지막 유효 위치 추정에서 0.35초가 지나면 `scan_gap_manual_restart_required`, 안전 게이트에서는 `sensor_timeout`. 원본 scan 통신 중단과 구분해야 함 |
+
+**정확한 분리 재현:** 기록된 기준 scan과 당시 마지막 추정 자세로 초기값을 복원했다. ROS·RViz 없이 기존 `register_scan()`을 호출해 **147/217점, 같은 거부 사유**를 그대로 재현했다.
+같은 현재 scan을 **직전 0.100초 전 scan**과 비교한 대조에서는 **195/217점(89.862%)**, 절삭 RMSE **0.001975 m**로 통과했다.
+거리·최소 점 수·지지 비율·잔차·이동량 한계는 바꾸지 않았다. 이 한 쌍의 대조 결과는 원인 분리이며, 직전 scan만 쓰도록 바꾸면 장거리 주행까지 해결된다는 검증이 아니다.
+
+**70개 불일치점의 출처:** 정지한 차량의 평가용 자세와 두 가상 보행자의 사각형 모델을 원본 scan에 맞췄다.
+기준/현재 scan의 모델 잔차는 각각 **0.001473 / 0.001529 m**였고, 두 보행자의 추정 이동량은 **0.848678 / 1.018493 m**였다.
+이는 모델의 0.5 / 0.6 m/s 속도와 1.702초 간격에서 예상되는 0.851075 / 1.021290 m에 0.003 m 이내로 일치한다.
+
+| 현재 불일치점 | 개수 | 기준 scan과 달라진 이유 |
+|---|---:|---|
+| 첫 보행자 표면 | 23 | 가까운 보행자가 이동해 이전 점들과 맞지 않음 |
+| 두 번째 보행자 표면 | 13 | 다른 보행자가 현재 광선 앞을 가림 |
+| 새로 드러난 정적 배경 | 34 | 보행자 뒤에 가려졌던 벽이 보임: 첫 보행자 뒤 26점, 두 번째 뒤 8점 |
+
+따라서 단순히 현재의 움직이는 물체 점만 제외하는 문제도 아니다. **정적 벽이라도 기준 scan에서는 가려져 존재하지 않았던 점**이 있다.
+현재 추정기는 한 개 기준 scan의 최근접 대응점을 전체 입력 점 수로 평가하며, 이 가시성 변화와 동적 표면을 따로 다루지 않는다.
+기준 scan의 기본 최대 나이는 2초지만 이번에는 1.70초에 먼저 실패했다. 기준 갱신도 유효 정합 뒤에만 가능하므로, 거부가 이어지면 새 기준으로 바꿀 기회가 없고 위치 복구 경로도 없다.
+잘못된 위치로 계속 달리지 않도록 정지한 것은 의도된 안전 동작이고, 해결할 결함은 이 상황을 견디지 못한 위치 추정과 복구 범위다.
+
+**왜 기존 큰 맵 시험은 통과했는가:** `regression-07/08`의 큰 맵 주행에는 `STOPPED` 사건이 한 번도 없었다.
+최소 평가 여유는 각각 0.287873 / 0.512848 m였고, 이번 실행은 0.035021 m까지 좁아졌다.
+첫 launch 로그에서 `TRACKING` 상태의 카메라 시각까지는 성공 실행 약 **5.73 / 6.04초**, 이번에는 **233.27초**였다.
+첫 평가 메시지를 받기까지의 약 2초/232초와 실제 주행 시작을 구분한 수치이며, 정확한 보행자 내부 시계를 기록한 값은 아니다.
+`World.tick()`은 arm 여부와 무관하게 보행자 시간을 진행하므로 화면 확인 동안의 대기가 만나는 보행자 위치를 바꾼다.
+큰 맵 시험은 세 목표 도착과 충돌 없음 등을 검사했지만 **보행자 앞 정지 후 위치 유지·재개를 반드시 겪도록 요구하지 않았고 출발 지연도 다양하게 검사하지 않았다.** 작은 맵 재개 시험의 통과가 이 조건까지 검증한 것은 아니었다.
+출발 지연만 바꾼 전체 주행 대조 실험은 아직 하지 않았으므로, GUI 부하를 포함한 모든 실행 차이의 영향까지 분리했다고 주장하지 않는다.
+
+**수정 방향과 통과 조건:** 동적 반사점과 가림 변화에 강한 여러 기준 scan/지역 정적 지도 정합, 신뢰도를 검사하는 대체 기준 선택, 정지 상태에서의 센서 기반 위치 재획득을 설계해야 한다.
+위치 추정에서 제외한 동적 점도 충돌 감지에는 유지해야 한다. 지지 비율·freshness를 낮추거나 정답/명령 적분으로 위치를 채우는 방식으로 통과시키지 않는다.
+저장된 실패 입력, 장거리 누적 오차, 정지 중 두 보행자 통과, 여러 출발 지연·보행자 타이밍, GUI 유무를 각각 검사해야 한다.
+이번 작업은 **원인 분석까지**이며 주행 수정·새 완주 검증은 아직 수행하지 않았다. 기존 212개 집계에 추가하지 않는다.
+
+증거: [정확한 재현·대조](build/evidence/navigation-recovery-2026-11-27/live-rviz/analysis/registration.json),
+[물체별 사후 분류](build/evidence/navigation-recovery-2026-11-27/live-rviz/analysis/attribution.json),
+[실행 조건 비교·입력 해시](build/evidence/navigation-recovery-2026-11-27/live-rviz/analysis/comparison.json).
+
+![기준 scan 관측 변화, 대응점 비율과 오프라인 대조](build/evidence/navigation-recovery-2026-11-27/live-rviz/analysis/diagnosis.png)
+
+재현은 Docker 안에서 다음과 같이 실행한다. 이 스크립트들은 ROS 토픽을 발행하거나 차량을 조작하지 않는다.
+
+```bash
+cd /root/mrider-team
+source ros2_ws/setup_env.sh
+source ros2_ws/install-docker/setup.bash
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+analysis_root=docs/build/evidence/navigation-recovery-2026-11-27/live-rviz
+python3 "$analysis_root/analysis/diagnose_registration.py" \
+  "$analysis_root/large_office_turns.trace.json.gz" "$analysis_root/large_office_turns.json.gz" \
+  /tmp/mrider-registration-replay.json
+python3 "$analysis_root/analysis/attribute_returns.py" \
+  "$analysis_root/large_office_turns.trace.json.gz" "$analysis_root/large_office_turns.json.gz" \
+  /tmp/mrider-registration-replay.json /tmp/mrider-return-attribution.json
+```
 
 ## 진단 당시 가설과 재검증 기준
 

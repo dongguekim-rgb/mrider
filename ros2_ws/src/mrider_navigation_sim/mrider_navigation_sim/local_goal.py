@@ -43,6 +43,63 @@ def select_goal(data,resolution,origin,current,destination,max_step=6.,radius=1.
     return float(x[cell]),float(y[cell]),False
 
 
+def select_pose_goal(data, resolution, origin, current, destination,
+                     turning_radius, max_step=6., radius=1.1):
+    """Choose a reachable forward arc end pose for every intermediate goal.
+
+    The old XY-only goal could be directly beside the car, with no room for
+    its bounded-radius turn. Candidate arcs use the planner radius and only
+    observed, inflated free space. Nav2 still plans/checks the final path.
+    """
+    if (not all(math.isfinite(v) for v in (*current, *destination, turning_radius))
+            or len(current) != 3 or len(destination) != 3 or turning_radius <= 0):
+        raise ValueError('invalid_pose_goal')
+    # Preserve room to align with the FINAL orientation, instead of inserting
+    # a short, grid-quantized approach with a different terminal heading.
+    # Only an observed connected final goal gets this extra 2 m horizon.
+    final = select_goal(data, resolution, origin, current[:2], destination[:2], max_step+2., radius)
+    if final is not None and final[2]:
+        return *destination, True
+    selected = select_goal(data, resolution, origin, current[:2], destination[:2], max_step, radius)
+    if selected is None:
+        return None
+    grid = np.asarray(data)
+    free = (grid >= 0) & (grid <= 20)
+    clearance = distance_transform_edt(np.pad(free, 1))[1:-1, 1:-1]*resolution
+    safe = clearance > radius+resolution/math.sqrt(2)
+    best = None
+    original_error = math.dist(current[:2], destination[:2])
+    # Keep the subgoal inside the planner's reachable set, not exactly on its
+    # minimum-radius boundary. Smac quantizes XY and heading; a boundary pose
+    # can otherwise require a full Dubins loop after rounding.
+    subgoal_radius = 1.05*turning_radius
+    for curvature in np.linspace(-1/subgoal_radius, 1/subgoal_radius, 41):
+        for length in np.arange(2., max_step+.001, .25):
+            travel = np.linspace(0., length, int(math.ceil(length/(resolution/2)))+1)
+            angle = current[2]+curvature*travel
+            if abs(curvature) < 1e-9:
+                x = current[0]+travel*math.cos(current[2]); y = current[1]+travel*math.sin(current[2])
+            else:
+                x = current[0]+(np.sin(angle)-math.sin(current[2]))/curvature
+                y = current[1]-(np.cos(angle)-math.cos(current[2]))/curvature
+            rows = np.floor((y-origin[1])/resolution).astype(int)
+            cols = np.floor((x-origin[0])/resolution).astype(int)
+            if (np.any(rows < 0) or np.any(rows >= grid.shape[0]) or np.any(cols < 0)
+                    or np.any(cols >= grid.shape[1]) or not np.all(safe[rows, cols])):
+                continue
+            error = math.hypot(x[-1]-destination[0], y[-1]-destination[1])
+            # If the final pose is still unobserved/blocked, retain a full
+            # turning-radius approach instead of stopping beside it.
+            if original_error-error < 1. or error < turning_radius:
+                continue
+            goal_bearing = math.atan2(destination[1]-y[-1], destination[0]-x[-1])
+            mismatch = abs(math.atan2(math.sin(goal_bearing-angle[-1]), math.cos(goal_bearing-angle[-1])))
+            score = error+.25*mismatch
+            if best is None or score < best[0]:
+                best = (score, float(x[-1]), float(y[-1]), float(angle[-1]), False)
+    return best[1:] if best else None
+
+
 
 def add_scan_evidence(data,resolution,origin,laser_pose,ranges,amin,increment,rmin,rmax,max_range_is_clear=False):
     """Fill unknown cells only within adjacent valid beams, never erase occupancy.

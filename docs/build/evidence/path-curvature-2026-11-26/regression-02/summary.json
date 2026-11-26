@@ -1,0 +1,83 @@
+{
+  "date_kst": "2026-11-26",
+  "result": "FAIL",
+  "target": "ros2_humble:/root/mrider-team, ROS2 Humble, headless 2D sensor simulator",
+  "tests": 91,
+  "failures": 3,
+  "errors": 0,
+  "skipped": 0,
+  "suites": [
+    {
+      "suite": "safety",
+      "tests": 43,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "local_goal",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "path_feasibility",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "path_messages",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "vehicle_overlay",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_sensor_only_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_large_office_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_large_office_turns_launch.py",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_sensor_turns_launch.py",
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_navigation_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "note": "Individual XML cases only; CTest wrapper counts are not added. Exact source snapshot included.",
+  "passed": 88
+}

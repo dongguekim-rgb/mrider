@@ -15,7 +15,9 @@ planner_server:
       motion_model_for_search: DUBIN
       angle_quantization_bins: 72
       minimum_turning_radius: 3.0
-      smooth_path: true
+      # Preserve Dubins primitives. Humble's simple smoother can increase
+      # interior curvature; the mission audits the final geometry as well.
+      smooth_path: false
       cost_penalty: 3.0
       analytic_expansion_ratio: 3.5
       analytic_expansion_max_length: 8.0
@@ -72,7 +74,8 @@ local_costmap:
       robot_base_frame: base_link
       footprint: '[[-0.2, -0.3], [0.9, -0.3], [0.9, 0.3], [-0.2, 0.3]]'
       footprint_padding: 0.1
-      resolution: 0.1
+      # Must match slam_sensor_only.yaml before Smac caches metric primitives.
+      resolution: 0.05
       transform_tolerance: 0.3
       rolling_window: true
       track_unknown_space: true
@@ -116,7 +119,9 @@ global_costmap:
       robot_base_frame: base_link
       footprint: '[[-0.2, -0.3], [0.9, -0.3], [0.9, 0.3], [-0.2, 0.3]]'
       footprint_padding: 0.1
-      resolution: 0.1
+      # StaticLayer later adopts /map resolution. A different initial value
+      # silently rescales Smac's cached turning radius (0.10 -> 0.05 halves it).
+      resolution: 0.05
       transform_tolerance: 0.3
       rolling_window: false
       track_unknown_space: true

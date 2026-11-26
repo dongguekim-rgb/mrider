@@ -2,7 +2,9 @@
 
 > 2026-11-25 변경: 회색 바닥 비율 검사를 [보정·LiDAR 기하·Watershed 후보 영역 분할](classical-perception.md)로 교체했다. 하단 11/23 기록은 당시 검증 이력이다. 현행 전체 구성은 [아키텍처](architecture.md), 장거리 변경·검증은 [대형 맵 주행](large-office-navigation.md)을 따른다.
 
-> **최신 수정:** 반복되는 SLAM odometry 경고의 원인이었던 scan 헤더 공유 버그를 수정했다.
+> **현재 실험 상태:** 조향 제약·목표 처리 변경 후의 성공/실패와 미해결 문제는 [시행착오 기록](experiment-log.md)에 누적한다.
+
+> **이전 SLAM 수정:** 반복되는 SLAM odometry 경고의 원인이었던 scan 헤더 공유 버그를 수정했다.
 > [TF 수정·재현 명령·이번 검증](#slam-tf-fix): 11개 회귀 검사 PASS, 네 SLAM 실행에서 해당 경고 0회.
 
 ## 확정 요구사항

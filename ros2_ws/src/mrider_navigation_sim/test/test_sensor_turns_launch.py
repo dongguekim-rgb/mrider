@@ -14,7 +14,7 @@ from ament_index_python.packages import get_package_share_directory
 import rclpy
 from sensor_msgs.msg import Image
 from std_msgs.msg import String
-from nav_msgs.msg import Odometry, OccupancyGrid
+from nav_msgs.msg import Odometry, OccupancyGrid, Path as NavPath
 from mrider_autonomy.nodes import SENSOR_QOS
 from mrider_navigation_sim.checks import Checks
 from rclpy.qos import QoSProfile, DurabilityPolicy
@@ -31,7 +31,9 @@ def generate_test_description():
 
 class SensorOnly(unittest.TestCase):
     def test_sensor_only(self):
-        rclpy.init();node=Checks();truth=[];maps=[];camera=[];images={}
+        rclpy.init();node=Checks();truth=[];maps=[];camera=[];images={};paths=[]
+        node.create_subscription(NavPath,'/mrider_sim/planned_path',lambda m:paths.append([
+            [p.pose.position.x,p.pose.position.y,2*math.atan2(p.pose.orientation.z,p.pose.orientation.w)] for p in m.poses]),10)
         node.create_subscription(String,'/mrider_sim/camera_status',lambda m:camera.append(json.loads(m.data)),10)
         for topic in ['/camera/image_raw','/perception/overlay','/perception/labels']:
             node.create_subscription(Image,topic,lambda m,t=topic:images.__setitem__(t,m),SENSOR_QOS)
@@ -94,6 +96,10 @@ class SensorOnly(unittest.TestCase):
                 report['odometry_position_error_m']=math.hypot(gt.x-est.x,gt.y-est.y)
             report['camera_diagnostics']=camera
             report['trajectory']=node.trace
+            report['planned_paths']=paths
+            report['commands']=[[m.drive.speed,m.drive.steering_angle] for m in node.commands]
+            report['evaluation_truth_trace']=[[m.pose.pose.position.x,m.pose.pose.position.y,
+                2*math.atan2(m.pose.pose.orientation.z,m.pose.pose.orientation.w)] for m in truth]
             report['safety_history']=node.states
             report['mission_history']=node.mission_events
             report['collision']=node.collision
@@ -109,7 +115,7 @@ class SensorOnly(unittest.TestCase):
                 array=array.reshape(msg.height,msg.width,channels) if channels==3 else array
                 if channels==3:array=cv2.cvtColor(array,cv2.COLOR_RGB2BGR)
                 cv2.imwrite(str(out/(topic.rsplit('/',1)[-1]+'.png')),array)
-            print('SENSOR_ONLY_RESULT '+json.dumps({k:v for k,v in report.items() if k not in ('trajectory','camera_diagnostics','safety_history','mission_history')}),flush=True)
+            print('SENSOR_ONLY_RESULT '+json.dumps({k:v for k,v in report.items() if k not in ('trajectory','camera_diagnostics','safety_history','mission_history','planned_paths','commands','evaluation_truth_trace')}),flush=True)
             node.destroy_node();rclpy.shutdown()
 
 @launch_testing.post_shutdown_test()

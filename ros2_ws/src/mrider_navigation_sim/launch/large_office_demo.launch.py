@@ -13,7 +13,10 @@ def generate_launch_description():
         DeclareLaunchArgument('rviz',default_value='false'),
         DeclareLaunchArgument('rviz_rendering',default_value='software',choices=['software','auto']),
         DeclareLaunchArgument('vehicle',default_value='1',choices=['0','1','2','3']),
+        DeclareLaunchArgument('auto_resume',default_value='false'),
+        DeclareLaunchArgument('actor_time_offset_s',default_value='0.0'),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(source),launch_arguments={
-            'scenario':'large_office','goal_x':'24.0','auto_resume':'false',
+            'scenario':'large_office','goal_x':'24.0','auto_resume':LaunchConfiguration('auto_resume'),
+            'actor_time_offset_s':LaunchConfiguration('actor_time_offset_s'),
             'rviz_rendering':LaunchConfiguration('rviz_rendering'),'vehicle':LaunchConfiguration('vehicle'),'rviz':LaunchConfiguration('rviz')}.items()),
     ])

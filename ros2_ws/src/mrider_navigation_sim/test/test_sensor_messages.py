@@ -1,6 +1,7 @@
 """ROS message contracts at the LiDAR odometry / SLAM boundary."""
 import copy
 import math
+import json
 from unittest.mock import patch
 
 import numpy as np
@@ -71,3 +72,26 @@ def test_invalid_source_frame_is_not_forwarded_to_slam(estimator):
         estimator.scan(scan)
     odometry.assert_not_called()
     slam.assert_not_called()
+
+
+def test_recent_references_do_not_bypass_source_gap_latch(estimator):
+    scan=sample(estimator)
+    def at(stamp):
+        scan.header.stamp.sec=int(stamp)
+        scan.header.stamp.nanosec=round((stamp-int(stamp))*1e9)
+        with patch('mrider_navigation_sim.sensor_nodes.seconds',return_value=stamp):
+            estimator.scan(scan)
+    for stamp in (10.,10.1,10.2):at(stamp)
+    assert len(estimator.estimator.recent)==3
+    before=estimator.pose.copy()
+    with patch.object(estimator.pub,'publish') as odometry, \
+            patch.object(estimator.slam_pub,'publish') as slam, \
+            patch.object(estimator.tf,'sendTransform') as transform, \
+            patch.object(estimator.diagnostics,'publish') as status:
+        at(10.6)
+        at(10.7)
+    odometry.assert_not_called();slam.assert_not_called();transform.assert_not_called()
+    assert estimator.stamp==10.2
+    np.testing.assert_array_equal(estimator.pose,before)
+    assert all(json.loads(call.args[0].data)['reason']=='scan_gap_manual_restart_required'
+               for call in status.call_args_list)

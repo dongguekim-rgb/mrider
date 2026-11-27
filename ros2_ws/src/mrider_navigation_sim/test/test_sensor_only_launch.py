@@ -16,6 +16,7 @@ from std_msgs.msg import String
 from nav_msgs.msg import Odometry, OccupancyGrid
 from mrider_autonomy.nodes import SENSOR_QOS
 from mrider_navigation_sim.checks import Checks
+from mrider_navigation_sim.trace_navigation import NavigationTrace
 from rclpy.qos import QoSProfile, DurabilityPolicy
 
 @pytest.mark.launch_test
@@ -31,6 +32,7 @@ def generate_test_description():
 class SensorOnly(unittest.TestCase):
     def test_sensor_only(self):
         rclpy.init();node=Checks();truth=[];maps=[];camera=[];images={}
+        trace=NavigationTrace(node,costmaps=True)
         node.create_subscription(String,'/mrider_sim/camera_status',lambda m:camera.append(json.loads(m.data)),10)
         for topic in ['/camera/image_raw','/perception/overlay','/perception/labels']:
             node.create_subscription(Image,topic,lambda m,t=topic:images.__setitem__(t,m),SENSOR_QOS)
@@ -72,6 +74,7 @@ class SensorOnly(unittest.TestCase):
             report['trajectory']=node.trace
             report['final_safety']=node.states[-1][1] if node.states else None
             out=Path(os.environ.get('MRIDER_SIM_REPORT_DIR','/tmp'));out.mkdir(parents=True,exist_ok=True)
+            trace.save(out,'sensor_only')
             (out/'sensor_only.json').write_text(json.dumps(report))
             import cv2
             import numpy as np

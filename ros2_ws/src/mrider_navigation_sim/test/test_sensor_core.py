@@ -45,13 +45,13 @@ def test_keyframe_long_corridor():
     world = obstacles('large_office')
     rng = np.random.default_rng(17)
     estimator = KeyframeOdometry()
-    for x in np.linspace(0., 24., 481):
+    for index,x in enumerate(np.linspace(0., 24., 481)):
         ranges = ray_distances(x, 0., angles, world, 15.)
         valid = ranges < 14.95
         ranges += rng.normal(0., .002, len(ranges))
         points = np.column_stack((ranges[valid] * np.cos(angles[valid]),
                                   ranges[valid] * np.sin(angles[valid])))
-        pose, _ = estimator.update(points)
+        pose, _ = estimator.update(points,1.+index*.1)
     assert np.linalg.norm(pose[:2] - [24., 0.]) < .1, pose
     assert abs(pose[2]) < .01, pose
     before = estimator.pose.copy()
@@ -86,7 +86,7 @@ def test_stationary_scan_with_close_crossing_actor():
         valid=ranges<14.95
         ranges+=rng.normal(0.,.002,len(ranges))
         points=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
-        pose,rmse=estimator.update(points)
+        pose,rmse=estimator.update(points,t)
         assert np.linalg.norm(pose[:2])<.03 and abs(pose[2])<.01
         assert rmse<=.08
 
@@ -120,7 +120,7 @@ def test_open_intersection_sampling_does_not_break_odometry(x):
         ranges=ray_distances(x,y,angles+math.pi/2,world,15.)
         ranges+=rng.normal(0.,.002,len(ranges));valid=ranges<14.95
         points=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
-        pose,rmse=estimator.update(points)
+        pose,rmse=estimator.update(points,1.+(y-10.)/.35)
         assert np.linalg.norm(pose[:2]-[y-10.,0.])<.1 and abs(pose[2])<.01
         assert rmse<=.08
 

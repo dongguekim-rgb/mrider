@@ -1,0 +1,406 @@
+{
+  "fixture_sha256": "2cd79a390004ead4cc80c31dec12a5e8d438b1288cfd474e56df4438b9562a9a",
+  "original_first_rejected_stamp": 1795719366.8202102,
+  "scan_count": 18,
+  "accepted_count": 18,
+  "max_relative_translation_m": 0.0005389502466866666,
+  "max_relative_yaw_rad": 2.9671498150823954e-05,
+  "recovery_count": 1,
+  "results": [
+    {
+      "stamp": 1795719365.1180596,
+      "pose": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rmse": 0.0,
+      "diagnostics": {
+        "registration_mode": "initial",
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719365.2380724,
+      "pose": [
+        0.000266253778962755,
+        5.9733974885575625e-06,
+        1.1866927734466341e-05
+      ],
+      "rmse": 0.0018699083447614314,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.12001276016235352,
+        "input_points": 207,
+        "supported_points": 186,
+        "support_fraction": 0.8985507246376812,
+        "rmse": 0.0018699083447614314,
+        "translation_m": 0.0002663207770518551,
+        "rotation_rad": 1.1866927734466341e-05,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719365.3642507,
+      "pose": [
+        0.0002047813641063332,
+        -3.736576846888189e-05,
+        -1.3303633027443957e-06
+      ],
+      "rmse": 0.002140573303061821,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.24619102478027344,
+        "input_points": 207,
+        "supported_points": 186,
+        "support_fraction": 0.8985507246376812,
+        "rmse": 0.002140573303061821,
+        "translation_m": 0.00020816245516067664,
+        "rotation_rad": -1.3303633027443957e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719365.4779637,
+      "pose": [
+        0.00011428504185272686,
+        -9.757478026549527e-05,
+        1.1355714416719116e-05
+      ],
+      "rmse": 0.0021852642690848014,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.35990405082702637,
+        "input_points": 208,
+        "supported_points": 187,
+        "support_fraction": 0.8990384615384616,
+        "rmse": 0.0021852642690848014,
+        "translation_m": 0.00015027278041993903,
+        "rotation_rad": 1.1355714416719116e-05,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719365.60685,
+      "pose": [
+        9.204328567303091e-05,
+        -0.00024460865735935976,
+        1.754193661903856e-05
+      ],
+      "rmse": 0.0023272364670032597,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.48879027366638184,
+        "input_points": 209,
+        "supported_points": 188,
+        "support_fraction": 0.8995215311004785,
+        "rmse": 0.0023272364670032597,
+        "translation_m": 0.000261352944679481,
+        "rotation_rad": 1.754193661903856e-05,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719365.7201755,
+      "pose": [
+        -0.00013174209122856307,
+        -0.00035230129140155183,
+        3.493293569586013e-06
+      ],
+      "rmse": 0.002511133051689521,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.6021158695220947,
+        "input_points": 210,
+        "supported_points": 189,
+        "support_fraction": 0.9,
+        "rmse": 0.002511133051689521,
+        "translation_m": 0.00037612787522925786,
+        "rotation_rad": 3.493293569586013e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719365.817994,
+      "pose": [
+        0.00013093590439950694,
+        -0.0003436147015058117,
+        9.5066666695104e-06
+      ],
+      "rmse": 0.0023232382968259497,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.6999344825744629,
+        "input_points": 211,
+        "supported_points": 187,
+        "support_fraction": 0.8862559241706162,
+        "rmse": 0.0023232382968259497,
+        "translation_m": 0.00036771629573877323,
+        "rotation_rad": 9.5066666695104e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719365.9380355,
+      "pose": [
+        0.00017895153563556254,
+        -0.0004514050357088699,
+        1.3299670062868295e-05
+      ],
+      "rmse": 0.002493689274731981,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.8199758529663086,
+        "input_points": 212,
+        "supported_points": 181,
+        "support_fraction": 0.8537735849056604,
+        "rmse": 0.002493689274731981,
+        "translation_m": 0.0004855822879488626,
+        "rotation_rad": 1.3299670062868295e-05,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.058015,
+      "pose": [
+        -0.00010834485662880236,
+        -0.0005279476872245044,
+        2.869278216941378e-06
+      ],
+      "rmse": 0.002477133414867754,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 0.939955472946167,
+        "input_points": 213,
+        "supported_points": 177,
+        "support_fraction": 0.8309859154929577,
+        "rmse": 0.002477133414867754,
+        "translation_m": 0.0005389502466866666,
+        "rotation_rad": 2.869278216941378e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.1835604,
+      "pose": [
+        -4.4030372774830816e-05,
+        -0.00028070978963290444,
+        -1.23377406881036e-05
+      ],
+      "rmse": 0.0022748629899006774,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 1.0655007362365723,
+        "input_points": 214,
+        "supported_points": 173,
+        "support_fraction": 0.8084112149532711,
+        "rmse": 0.0022748629899006774,
+        "translation_m": 0.0002841419710680561,
+        "rotation_rad": -1.23377406881036e-05,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.3181045,
+      "pose": [
+        0.00018385916949414767,
+        -0.00044542239616409074,
+        1.8125860370272548e-05
+      ],
+      "rmse": 0.0021636829952314672,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 1.200044870376587,
+        "input_points": 215,
+        "supported_points": 169,
+        "support_fraction": 0.786046511627907,
+        "rmse": 0.0021636829952314672,
+        "translation_m": 0.0004818768568956574,
+        "rotation_rad": 1.8125860370272548e-05,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.4201658,
+      "pose": [
+        8.952772900941239e-05,
+        -0.00034869618843599864,
+        6.996889426181417e-06
+      ],
+      "rmse": 0.002058934028289552,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 1.3021061420440674,
+        "input_points": 215,
+        "supported_points": 165,
+        "support_fraction": 0.7674418604651163,
+        "rmse": 0.002058934028289552,
+        "translation_m": 0.0003600058973008307,
+        "rotation_rad": 6.996889426181417e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.5201676,
+      "pose": [
+        0.00011839377820358449,
+        -0.0004317813091827723,
+        7.788947091663772e-06
+      ],
+      "rmse": 0.0022092324561410735,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 1.4021079540252686,
+        "input_points": 216,
+        "supported_points": 161,
+        "support_fraction": 0.7453703703703703,
+        "rmse": 0.0022092324561410735,
+        "translation_m": 0.00044771886902040257,
+        "rotation_rad": 7.788947091663772e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.6181448,
+      "pose": [
+        0.00022108377243040855,
+        -0.00024192908795134802,
+        -3.2174422184306607e-06
+      ],
+      "rmse": 0.0018697627974221256,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 1.5000851154327393,
+        "input_points": 216,
+        "supported_points": 158,
+        "support_fraction": 0.7314814814814815,
+        "rmse": 0.0018697627974221256,
+        "translation_m": 0.0003277311673140529,
+        "rotation_rad": -3.2174422184306607e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.7202084,
+      "pose": [
+        0.00011853959899483921,
+        -0.0001395005532988216,
+        7.309815171641566e-06
+      ],
+      "rmse": 0.0019275421494205536,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719365.1180596,
+        "reference_age_s": 1.6021487712860107,
+        "input_points": 217,
+        "supported_points": 154,
+        "support_fraction": 0.7096774193548387,
+        "rmse": 0.0019275421494205536,
+        "translation_m": 0.00018306294245568834,
+        "rotation_rad": 7.309815171641566e-06,
+        "active_reference_stamp": 1795719365.1180596
+      }
+    },
+    {
+      "stamp": 1795719366.8202102,
+      "pose": [
+        -1.2777461105680117e-05,
+        -0.00010150908826890012,
+        2.310934788449416e-05
+      ],
+      "rmse": 0.002065320577668088,
+      "diagnostics": {
+        "registration_mode": "recent_consensus",
+        "matched_reference_stamp": 1795719366.7202084,
+        "reference_age_s": 0.10000181198120117,
+        "primary_failure": "insufficient_static_matches",
+        "primary_quality": {
+          "input_points": 217,
+          "supported_points": 147,
+          "support_fraction": 0.6774193548387096
+        },
+        "primary_reference_age_s": 1.702150583267212,
+        "recent_fits": [
+          {
+            "stamp": 1795719366.7202084,
+            "age_s": 0.10000181198120117,
+            "input_points": 217,
+            "supported_points": 195,
+            "support_fraction": 0.8986175115207373,
+            "rmse": 0.001975274334074285,
+            "translation_m": 0.00013670231047265864,
+            "rotation_rad": 1.5799532712852596e-05
+          },
+          {
+            "stamp": 1795719366.6181448,
+            "age_s": 0.20206546783447266,
+            "input_points": 217,
+            "supported_points": 195,
+            "support_fraction": 0.8986175115207373,
+            "rmse": 0.002065320577668088,
+            "translation_m": 0.0001480513580220609,
+            "rotation_rad": 1.0652270849279298e-05
+          }
+        ],
+        "consensus_position_gap_m": 0.0002943705732084811,
+        "consensus_yaw_gap_rad": 1.5674519253645523e-05,
+        "active_reference_stamp": 1795719366.8202102
+      }
+    },
+    {
+      "stamp": 1795719366.9180524,
+      "pose": [
+        -9.812975957479315e-06,
+        -0.00025794148762190545,
+        2.9671498150823954e-05
+      ],
+      "rmse": 0.0018871378641603803,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719366.8202102,
+        "reference_age_s": 0.09784221649169922,
+        "input_points": 218,
+        "supported_points": 196,
+        "support_fraction": 0.8990825688073395,
+        "rmse": 0.0018871378641603803,
+        "translation_m": 0.00015646048619230362,
+        "rotation_rad": 6.562150266329793e-06,
+        "active_reference_stamp": 1795719366.8202102
+      }
+    },
+    {
+      "stamp": 1795719367.0206354,
+      "pose": [
+        4.542725783749771e-05,
+        -0.0002905911811786166,
+        2.008385986984286e-05
+      ],
+      "rmse": 0.0019632462703890207,
+      "diagnostics": {
+        "registration_mode": "keyframe",
+        "matched_reference_stamp": 1795719366.8202102,
+        "reference_age_s": 0.2004251480102539,
+        "input_points": 218,
+        "supported_points": 196,
+        "support_fraction": 0.8990825688073395,
+        "rmse": 0.0019632462703890207,
+        "translation_m": 0.00019783788101972017,
+        "rotation_rad": -3.0254880146512997e-06,
+        "active_reference_stamp": 1795719366.8202102
+      }
+    }
+  ]
+}

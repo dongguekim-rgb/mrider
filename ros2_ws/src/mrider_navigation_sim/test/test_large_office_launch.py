@@ -1,6 +1,7 @@
 import os
 import json
 import math
+import time
 import unittest
 from pathlib import Path
 import pytest
@@ -26,7 +27,7 @@ def generate_test_description():
     source=os.path.join(get_package_share_directory('mrider_navigation_sim'),'launch','sensor_only_demo.launch.py')
     return launch.LaunchDescription([
         launch.actions.SetEnvironmentVariable('ROS_DOMAIN_ID','214'),
-        IncludeLaunchDescription(PythonLaunchDescriptionSource(source),launch_arguments={'rviz':'false','scenario':'large_office','goal_x':'24.0','vehicle':os.environ.get('MRIDER_TEST_VEHICLE','0'),'floor_rgb':os.environ.get('MRIDER_TEST_FLOOR_RGB','[110,110,110]'),'image_gain':os.environ.get('MRIDER_TEST_IMAGE_GAIN','1.0')}.items()),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(source),launch_arguments={'rviz':'false','scenario':'large_office','goal_x':'24.0','auto_resume':'true','vehicle':os.environ.get('MRIDER_TEST_VEHICLE','0'),'floor_rgb':os.environ.get('MRIDER_TEST_FLOOR_RGB','[110,110,110]'),'image_gain':os.environ.get('MRIDER_TEST_IMAGE_GAIN','1.0')}.items()),
         launch_testing.actions.ReadyToTest(),
     ])
 
@@ -52,7 +53,17 @@ class SensorOnly(unittest.TestCase):
         try:
             node.wait(lambda:truth and maps and node.odom is not None,25.)
             node.nav_ready();node.assert_sensor_sources();node.assert_single_output();node.arm();node.start()
-            node.wait(lambda:node.mission in ('GOAL','FAILED','STOPPED'),180.)
+            # Moving actors now trigger early predictive stops. Permit only
+            # obstacle-specific automatic restarts, never a sensor fault or
+            # an operator arm in the middle of the route.
+            deadline=time.monotonic()+180.
+            while time.monotonic()<deadline:
+                rclpy.spin_once(node,timeout_sec=.02)
+                assert not node.collision
+                assert node.mission!='FAILED',node.states[-1]
+                if node.states[-1][1]['state']=='STOPPED':
+                    assert node.states[-1][1]['reason'] in ('obstacle_stop','camera_obstacle'),node.states[-1]
+                if node.mission=='GOAL':break
             assert node.mission=='GOAL',node.states[-1]
             node.wait(lambda:abs(truth[-1].twist.twist.linear.x)<.01)
             assert not node.collision

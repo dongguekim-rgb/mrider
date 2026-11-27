@@ -37,7 +37,11 @@ def triangle(t,span,speed):
 
 class OfficeActors:
     """Two kinematic pedestrian proxies; no pedestrian intelligence assumed."""
-    def __init__(self):self.elapsed=0.
+    def __init__(self,initial_elapsed=0.):
+        import math
+        if not math.isfinite(initial_elapsed) or initial_elapsed<0:
+            raise ValueError('nonnegative finite actor time offset required')
+        self.elapsed=initial_elapsed
 
     def step(self,dt,vehicle_x):
         import math

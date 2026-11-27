@@ -24,7 +24,7 @@ Ground Truth 지도·위치·속도를 제어 입력으로 쓰지 않는다. 시
 
 [PDF](figures/sensor-only-navigation-pipeline.pdf) · [PNG](figures/sensor-only-navigation-pipeline.png) · [생성 코드](../tools/ros2/render_sensor_architecture.py)
 
-위 SVG/PDF는 11/25 기본 주행·카메라 중단 검증 당시 연결이다. 11/27 추가한 지도 재검증과 영상·scan 수신 버퍼는 아래 흐름 및 [현행 아키텍처](architecture.md)를 따른다. 같은 이름의 입력은 동일 ROS 토픽을 받는 연결 포트다.
+위 SVG/PDF는 11/25 기본 주행·카메라 중단 검증 당시 연결이다. 11/27 추가한 지도·costmap 재검증, 이동 군집 예측, 영상·scan 수신 버퍼와 조건부 경로 재개는 아래 흐름 및 [현행 아키텍처](architecture.md)를 따른다. 같은 이름의 입력은 동일 ROS 토픽을 받는 연결 포트다.
 
 
 ```mermaid
@@ -38,12 +38,15 @@ flowchart LR
   SCAN --> LIVE
   LIVE -->|/navigation/observed_map| NAV["Nav2 계획·추종"]
   ODOM --> NAV
+  ODOM --> MOTION["관측 군집의 위치·속도 추정"]
+  SCAN --> MOTION
   SCAN --> NAV
   RGB["카메라 RGB 영상"] --> FLOOR["보정·LiDAR 기하·Watershed 후보 분할"]
   FLOOR --> GATE["최종 안전 게이트"]
   SCAN --> GATE
   ODOM --> GATE
   NAV --> GATE
+  MOTION --> GATE
   GATE --> CAR["모의 차량"]
 ```
 
@@ -51,6 +54,8 @@ flowchart LR
 - `sensor_nodes.py`: `/scan`만으로 odometry 생성. 첫 유효 scan의 위치를 로컬 원점으로 정의한다. 실제 정답 위치로 초기화하지 않는다.
 - `slam_toolbox`: SLAM 전용 scan 복사본과 추정 odom TF로 지도·위치 보정 생성. 미리 만든 지도 파일 없음.
 - `observed_map.py`: 원본 SLAM 지도는 보존하고 최신 scan 3회에서 빈 공간으로 확인된 셀을 별도 navigation 지도에 갱신한다. 반사점 뒤나 미관측 공간을 임의로 지우지 않는다.
+- `ObservedObstacleLayer`: 같은 세 scan의 자유 공간 근거로 Nav2 장애물 층에 남은 과거 점유만 재검증한다. 현재 scan의 새 장애물 표시와 정적 층·inflation은 계속 적용한다.
+- `moving_obstacles.py`: 추정 odom에서 관측 군집을 추적하고, 일정 속도 예측과 후보 명령의 차체가 겹치면 안전 게이트가 더 일찍 정지한다. 물체의 정답 위치나 행동 스크립트는 읽지 않는다.
 - `CameraRules`: `/camera/image_raw`·CameraInfo·동기화된 scan으로 바닥/벽/장애물 후보·미확인 영역을 분할한다. RGB로 절대 거리를 추론하지 않는다.
 - `SafetyNode(require_camera=true)`: 카메라 불량·중단·통행 불가 판정은 정지 latch. 복구 후 수동 재허가 필요.
 - `world.py(sensor_only=true)`: 제어용 지도와 odom TF 발행 중지. 정답은 `/evaluation/ground_truth`에만 발행.

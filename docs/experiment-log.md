@@ -7,13 +7,44 @@
 
 ## 현재 판정
 
-**최신 추가 GUI 실행은 완주 실패다.** RViz 표시와 첫 24 m 목표는 통과했지만,
+**동일한 수정본에서 선택한 회귀 282/282 PASS, 기존 RViz를 연결한 세 목표 주행도 PASS다.**
+`regression-03` 한 번의 전체 실행에서 실패·오류·skip 0개였다. 29개 묶음은 단위 259개와 실제 ROS 주행·고장·종료 검사 23개로 구성된다.
+별도 GUI 주행은 같은 검사 항목의 반복 검증이며 282개에 합산하지 않는다. 두 실행의 [118개 소스 해시](build/evidence/registration-recovery-2026-11-27/regression-03/source-sha256.json)가 일치한다.
+
+| 실제 실행 | 판정·측정값 |
+|---|---|
+| 기본 8 m / 큰 맵 24 m | PASS, 도착 오차 **0.170260 / 0.101178 m** |
+| 큰 맵 기본 위상: 직진 → 좌회전 → 우회전 | PASS, 목표 오차 **0.018721 / 0.152372 / 0.074608 m** |
+| 큰 맵 보행자 위상 227초: 세 목표 | PASS, 목표 오차 **0.020214 / 0.190595 / 0.034877 m**, 정지·자동 재개 **4회**, 충돌 없음 |
+| 작은 맵 우회·보행자 정지·자동 재개 | PASS, 목표 오차 **0.123548 m**, 재개 **11.840953초**, 최소 여유 **0.348196 m** |
+| 주행 중 LiDAR 중단 | PASS, 정지 판정 **0.279581초**, action 종료 **0.718418초** |
+| 기존 RViz 연결: 세 목표 | PASS, 목표 오차 **0.018992 / 0.155734 / 0.119914 m**, 주행 기록 **228.632440초** |
+| GUI 실행의 동적 장애물·차량 제한 | 정지·자동 재개 **4회**, 충돌 없음, 최소 여유 **0.296186 m**, 최대 후보 조향 **0.233221 rad** < 물리 한계 **0.248561 rad** |
+| 센서 frame/시각·TF·카메라 고장 latch·GT 격리·CTest 정상 종료 | 선택한 검사 모두 PASS |
+
+주행 입력은 카메라·LiDAR와 그 추정 결과뿐이며 **GT는 평가 노드만 구독**한다. 차량 치수와 물리 조향 한계, 입력·TF 0.35초 제한은 유지했다.
+동적 가림에 대한 ICP 최근 관측 합의, 관측 군집의 예측 정지, 오래된 costmap 점유 재검증, 장애물 정지 뒤 기존 경로 재검사를 추가했다. 상세 시행착오는 E33–E38에 남긴다.
+
+**범위와 남은 문제:** 합성 카메라·LiDAR + 실제 SLAM/Nav2의 **2D 센서 시뮬레이션** 결과다. Gazebo 물리 twin·실센서·Teensy 통합·건물 전체 탐색의 통과를 뜻하지 않는다.
+시작 중 0.360초 scan 간격으로 출발하지 못한 실행(E36)이 있었고, GUI 평가 종료·disarm 후 약 96초간 백엔드가 남아 있던 구간에서는 정차 중 정합 손실이 발생했다(E38).
+따라서 부하 조건의 반복 기동과 장시간 정차 관측의 안정성은 아직 통과로 판정하지 않는다. GUI 실행의 백그라운드 정리는 별도 조치가 필요했으며, 이를 CTest의 정상 종료 PASS와 혼동하지 않는다.
+현재 이번 시험의 백엔드는 모두 종료했고 **기존 RViz PID 87150은 그대로 유지**했다.
+
+근거: [최종 집계](build/evidence/registration-recovery-2026-11-27/final-summary.json), [전체 XML 집계](build/evidence/registration-recovery-2026-11-27/regression-03/summary.json),
+[GUI 주행 원본](build/evidence/registration-recovery-2026-11-27/live-rviz/live_large_office_dynamic.json.gz), [실제 화면](build/evidence/registration-recovery-2026-11-27/live-rviz/rviz-final.png),
+[GUI 범위·후처리 기록](build/evidence/registration-recovery-2026-11-27/live-rviz/scope.json), [실행 환경](build/evidence/registration-recovery-2026-11-27/regression-03/environment.json.gz).
+
+![이번 GUI 연결 실행의 세 목표와 정지·재개 위치. GT는 평가에만 사용](build/evidence/registration-recovery-2026-11-27/live-rviz/route.png)
+
+## 수정 전 GUI·회귀 기록 — 2026-11-27
+
+**수정 전 추가 GUI 실행은 완주 실패였다.** RViz 표시와 첫 24 m 목표는 통과했지만,
 좌회전 중 `insufficient_static_matches`로 LiDAR odometry 갱신이 멈추고 `sensor_timeout`으로 정지했다.
 도착 오차 0.106559 m, 실패까지 131.269초, 그때까지 충돌 없음·최소 평가 여유 0.035021 m다.
 입력 scan은 계속 들어왔으며 대응점 비율이 70% 기준 아래 약 67%로 내려갔다. 임계값을 낮추거나 강제 재출발하지 않았다.
 [추가 실행 보고서](build/evidence/navigation-recovery-2026-11-27/live-rviz/result.json)와 E31을 참고한다.
 후속 [오프라인 원인 분석](#live-icp-cause)에서 당시 정합 실패를 동일한 147/217점으로 재현했다.
-두 이동 보행자와 그 뒤 새로 드러난 배경이 단일 기준 scan과 달라진 것이 직접 원인이다. 주행 코드는 아직 수정하지 않았다.
+두 이동 보행자와 그 뒤 새로 드러난 배경이 단일 기준 scan과 달라진 것이 직접 원인이다. 이 원인 분석 시점에는 주행 코드를 아직 수정하지 않았다.
 
 **직전 헤드리스 회귀에서 선택한 검사 212개 항목의 최종 결과는 모두 PASS였다.**
 전체 회귀 `navigation-recovery/regression-08`은 **211/212 PASS**, 주행/종료는 모두 통과했고 설정 검사 로더 1건이 실패했다.
@@ -21,7 +52,7 @@
 두 실행 사이 주행 소스·설정은 동일하다. 최종 집계는 안전 묶음 결과를 교체한 것이며, 한 번에 212개가 통과했다고 주장하지 않는다.
 23개 검사 묶음은 단위 191개와 ROS 주행·고장·종료 21개로 구성된다. 재실행을 포함한 258회를 서로 다른 258개 시험으로 세지 않는다.
 
-| 현재 소스의 실제 실행 | 판정·측정값 |
+| 당시 소스의 실제 실행 | 판정·측정값 |
 |---|---|
 | 기본 8 m 센서 주행 | PASS, 도착 오차 **0.174796 m** |
 | 큰 맵 24 m 센서 주행 | PASS, 도착 오차 **0.118335 m**, 충돌 없음 |
@@ -164,7 +195,7 @@ GT는 평가 노드만 사용한다. 이번 시험은 RViz 없이 수행했고 �
 - **다음 검증:** 동일 시각의 TF가 준비된 신선한 scan을 선택하거나, 목표 처리를 제한된 시간 동안 대기시킨다. 오래된 scan을 허용하거나 다른 시각 TF를 무조건 대신 사용하지 않는다. 그 뒤 같은 목표 미션을 다시 실행한다.
 - **regression-02:** 최근 scan 버퍼에서 나이 0.35초 이하이고 해당 scan 시각의 TF가 준비된 관측을 선택하도록 수정했다. 최신 입력의 누락·잘못된 frame을 과거 입력으로 숨기지 않는 검사까지 통과했다. 이번 큰 맵에서는 TF 외삽 오류 대신 `no_observed_progress_goal`이 발생했다. 다음 목표를 수행하지 못한 문제는 남아 있다.
 
-### E10. 기존 우회·자동 재개 회귀 실패 — 최신 미해결
+### E10. 기존 우회·자동 재개 회귀 실패 — 당시 미해결, 후속 E35
 
 - **관찰:** 작은 `sensor_turns`에서 고정 장애물에 접근하다 정지했고, 자동 재개 조건이 충족되지 않았다. 이번 정지는 성공해야 할 보행자 횡단 대기와 구분해야 한다.
 - **regression-01의 사실:** mission FAILED, safety `obstacle_stop`, 충돌 없음, 최소 이격 약 0.602027 m, 목표까지 9.923040 m 남음. 재개 대기 35초 초과.
@@ -339,7 +370,7 @@ E04~E11의 개발 원본: [개발 실행 압축본](build/evidence/path-curvatur
 
 ### E30. 전체 주행 통과 및 설정 검사 로더 수정 (2026-11-27)
 
-- **regression-08:** 단위·ROS 23개 묶음의 개별 검사 **212개 중 211 PASS, 1 FAIL**. 기본 주행, 24 m, 큰 맵 세 목표, 작은 맵 우회·정지·재개, 입력 중단, 기존 기준 시험과 모든 정상 종료가 통과했다. 도착 순간 측정값은 맨 위 현재 판정에 기록했다.
+- **regression-08:** 단위·ROS 23개 묶음의 개별 검사 **212개 중 211 PASS, 1 FAIL**. 기본 주행, 24 m, 큰 맵 세 목표, 작은 맵 우회·정지·재개, 입력 중단, 기존 기준 시험과 모든 정상 종료가 통과했다. 도착 순간 측정값은 해당 실행 원본 보고서에 기록했다.
 - **남은 실패 원인:** 새 `keyframe_max_age`를 공용 YAML에 추가했는데 `test_config_consistency`는 모든 값을 `Limits`에 넘겨 `unexpected keyword argument`를 냈다. 실제 노드는 자신이 선언한 파라미터만 사용하므로 주행 오류가 아닌 시험 설정 로더 오류다.
 - **수정:** 위치 추정의 `keyframe_max_age`를 별도로 유한한 양수인지 검사하고 나머지는 기존 `Limits`에 전달한다. 알 수 없는 안전 파라미터를 무시하는 필터는 넣지 않았다. 시험 항목·물리 제한·실행 설정은 그대로다.
 - **fix-20:** 안전 검사 **46/46 PASS**. 소스 105개 SHA256 비교에서 두 실행의 차이는 `test/test_safety.py` 하나다. 주행 코드 변경이 없으므로 긴 주행을 다시 반복하지 않고 관련 검사만 재실행했다.
@@ -429,6 +460,73 @@ python3 "$analysis_root/analysis/attribute_returns.py" \
   /tmp/mrider-registration-replay.json /tmp/mrider-return-attribution.json
 ```
 
+<a id="registration-recovery-fix"></a>
+
+### E33. 동적 가림 정합 복구와 실제 주행 재검증 — 2026-11-27
+
+- **수정:** 주 키프레임 실패 시 0.35초 이내 최근 유효 scan 2개와 각각 정합하고, 위치 ≤0.02 m·방향 ≤0.01 rad의 합의가 있을 때만 기준을 갱신한다. 원래 70%·최소 60개 대응점, RMSE 0.08 m, 기하·이동 한계를 유지한다. 오래된 입력·불일치·작은 일치 조각은 복구하지 않는다.
+- **추가로 발견한 문제:** 최근 기준을 추가한 첫 시도는 단위 검사 26개 중 4개 실패했다. 천천히 움직이는 전경이 거리 대응 범위 안에 남아 pose에 편향을 주었다. [첫 결과](build/evidence/registration-recovery-2026-11-27/unit-01/pytest.xml)를 보존한다.
+- **적용하지 않은 시도:** 처음부터 3 cm의 좁은 강건 잔차 범위를 쓰면 실제 복도 전진을 잃었다(26개 중 4개 실패). 넓은 범위에서 점차 줄이는 다음 시도는 40개 중 39개 통과했지만 24 m 오차 0.326 m로 실패했다. 기준을 완화하지 않았다.
+- **최종 정합 변경:** 초기 2회 최소제곱으로 실제 이동량을 잡은 뒤 Tukey 가중치를 적용한다. 단계적으로 범위를 줄여 이동 전경의 영향을 낮춘다. 24 m, 교차로, 정지/이동 중 보행자, 기록 재생, 입력 중단·오래된 기준·불일치 등 관련 **40개 단위 검사 PASS**.
+- **정확한 실패 관측 재생:** E31에서 보존한 laser-frame scan 18개를 모두 수용했다. 정지 구간 상대 위치 변화 최대 **0.000539 m**, 상대 yaw 최대 **0.00002967 rad**, 두 기준 합의 복구 1회다. 입력은 scan뿐이며 GT·명령으로 pose를 보정하지 않았다.
+- **주행 검증 강화:** `actor_time_offset_s`로 보행자 시작 위상만 바꾼다. 227초는 기존 GUI의 약 233초 출발 지연에서 일반 자동 시험의 약 6초를 뺀 값이다. 원래 GUI 실행 전체의 완전한 시간 재생은 아니다. 새 큰 맵 시험은 세 목표·양방향 회전뿐 아니라 장애물 STOPPED 뒤 같은 구간에서 자동 TRACKING 복귀를 필수로 요구한다.
+- **첫 실제 ROS 재시험은 실패:** 같은 227초 보행자 위상에서 위치 추정 거부는 없었지만, 정지한 차량에 계속 접근하던 보행자 모형이 접촉했다. 24 m 오차 0.063011 m, 실패까지 128.983초, 최종 추정/평가 위치 약 `(24.75,13.31)` m, collision=true. [adverse-01 원본](build/evidence/registration-recovery-2026-11-27/adverse-01/summary.json)을 보존한다. 장애물을 없애거나 배치를 바꿔 이 실패를 숨기지 않는다.
+- **추가 수정:** 현재 위치만 보는 제동 규칙으로는 위 접촉을 피하지 못한다. scan 군집을 LiDAR 추정 odom으로 변환하고 5회 이상 관측한 움직임을 직선 속도로 근사한다. 4초 이내 예측된 물체와 후보 주행 곡선의 차체가 겹치면 더 일찍 정지한다. 예측 입력의 frame·원본 시각·유효성도 검사하며, 자동 재허가에는 기존 여유 3초와 예측 충돌 해소가 모두 필요하다. 환경의 보행자 정답 위치나 속도를 읽지 않는다.
+- **예측 정지 적용 후 adverse-02:** 충돌 없음·최소 여유 0.279995 m, 장애물 정지 후 14.524초에 자동 재개, 위치 추정 거부 0회. 그러나 최종 목표 중심만 비어 있고 차체 일부 공간은 아직 보행자에게 가려져 있었다. 가까운 목표를 기다리지 않고 서쪽 중간 목표로 돌아서 24 m 길이의 Dubins 우회가 생겼고 `original_goal_missed`로 실패했다. [결과](build/evidence/registration-recovery-2026-11-27/adverse-02/summary.json).
+- **최종 접근 보완:** 가까운 목표 중심에 도달 가능해도 최종 자세의 차체가 점유/미확인이면 새 우회 목표를 만들지 않고 `final_footprint_blocked`를 반환한다. 기존 복구 흐름이 속도 0으로 최대 15초 재관측·재계획하며, 새 관측으로 차체 공간이 확보된 뒤에만 출발한다. 기다림 한계나 조향 제한은 늘리지 않는다.
+- **adverse-03:** 목표 차체가 비기를 기다렸지만 Nav2 재계획이 실패했다. 접촉 없음·여유 0.285975 m·위치 추정 거부 0회. costmap 발행 직전 0.219초의 세 scan과 대조하여, 경로 주변 **277개 lethal 셀**이 관측 자유 공간과 모순됨을 확인했다([시각을 맞춘 근거](build/evidence/registration-recovery-2026-11-27/adverse-03/stale-costmap-proof.json)).
+- **적용 후 제거한 영역 reset 시도 — adverse-04:** 장애물 전용 재허가 후 주변 obstacle layer를 한 번 갱신하고 새 costmap 2회씩을 확인했다. 15.422초 후 자동 재개했고 접촉 없이 목표 근처까지 갔지만, 새로 남은 local costmap 흔적으로 `Controller patience exceeded`가 발생했다. [실패 결과](build/evidence/registration-recovery-2026-11-27/adverse-04/summary.json). 이 일회성 reset은 최종 구현에서 제거한다.
+- **지속 관측 보완:** `/navigation/free_evidence`에는 신선한 세 scan이 모두 자유 공간이라고 확인한 영역만 0, 나머지는 미확인 -1로 발행한다. 팀 `ObservedObstacleLayer`가 Nav2 obstacle layer의 오래된 lethal 셀만 이 근거로 정정한다. 셀 중심·네 모서리가 모두 확인돼야 하고, 원본 scan 시각 0.35초·해당 시각 TF를 요구한다. 이후 기존 Nav2의 현재 scan marking을 적용하므로 새 장애물이 우선한다. 정적 층·기존 raytrace·센서 신선도·inflation은 유지한다.
+- **adverse-05 통과:** 세 목표 오차 **0.042522 / 0.172186 / 0.162641 m**, 방향 오차 **0.000752 / 0.123306 / 0.125249 rad**, 충돌 없음, 최소 여유 **0.294322 m**, 최대 후보 조향 **0.228256 rad**. 세 구간에서 각각 **4.949 / 9.792 / 11.854초** 정지 후 자동 재개했고, 위치 추정 거부 0회였다. [224.374초 주행 결과](build/evidence/registration-recovery-2026-11-27/adverse-05/summary.json).
+- **검사 보완:** 자유 공간 토픽을 추가한 뒤 기존 observed_map 시험 대역에 publisher가 없어 1건 실패했다. 실제 노드에는 publisher가 있었으며, 시험 대역과 함께 원본 scan 시각·확인된 자유 셀·미확인 셀 검사를 보완했다.
+- **진행 상태:** 후속 전체 회귀·기존 RViz 창의 GUI 주행을 검증한다.
+
+
+### E34. 전체 회귀에서 발견한 정적 물체 오인과 시험 준비 조건 — 2026-11-27
+
+- **기본 8 m 시험 실패:** 고정된 카트의 보이는 면이 바뀌어 bbox 중심만 이동했는데, 이를 북쪽으로 **0.616985 m/s** 움직이는 물체로 예측했다. 실제 저장 scan·LiDAR 추정 pose 100개를 재생하자 동일한 조기 정지가 재현됐다. [원본 진단](build/evidence/registration-recovery-2026-11-27/basic-trace/sensor_only.trace.json.gz).
+- **수정:** 군집 최소·최대 경계의 속도도 각각 적합한다. 두 경계의 차이가 `max(0.10 m/s, 속도의 35%)`를 넘으면 보이는 면의 크기 변화로 처리한다. 원래 scan 장애물 검사는 유지한다. 같은 100 scan에서 예상 충돌 오인 **1회 → 0회**. 실제 이동 물체 속도·미래 충돌·입력 고장 latch 단위 검사도 다시 수행한다.
+- **24 m 시험 계약:** 조기 예측 정지 도입 후 이동 보행자를 더 일찍 감지했으나, 이 시험은 `auto_resume=false`에서 정지를 곧바로 실패로 처리했다. 큰 맵의 세 목표 시험과 동일하게 자동 재개를 명시하고, 장애물 전용 정지·재개 후 기존 180초 안에 같은 목표로 도착하도록 검사한다. 센서 고장·계획 실패는 계속 실패이며, 목표 오차·차량 제한·충돌 기준은 그대로다.
+- **준비 대기 실패:** LiDAR 중단 시험은 주행 전 Nav2 lifecycle `GetState` 응답 대기 5초에서 실패했다. Smac configure와 같은 callback group을 쓰는 요청이다. 원래의 전체 준비 한계 15초 안에서 응답을 기다리도록 검사 도우미를 수정했다. 주행 입력의 0.35초 신선도나 중단 시 정지 한계를 바꾸지 않았다.
+- **첫 전체 회귀 결과:** [regression-01](build/evidence/registration-recovery-2026-11-27/regression-01/summary.json)은 **253/258 PASS, 실패 5건**이다. 기본 주행·준비 대기·24 m 계약 외에 작은 맵 재개와 큰 맵 지연 위상 반복도 실패했다. 기본 위상의 세 목표와 프로세스 정상 종료는 통과했다.
+- **오인 수정 후 fix-06:** 기본 8 m 오차 **0.167204 m**, 24 m 오차 **0.111150 m**, LiDAR 중단 감지 **0.296922초**로 통과했다. 작은 맵도 첫 정지 후 **13.770528초**에 재개했지만 두 번째 장애물 정지를 곧바로 실패 처리했다. 자동 재개 시험은 기존 80초 안에 장애물 전용 정지를 여러 번 허용하되, 수동 재허가 없이 목표 도착·충돌 없음·센서 고장 latch를 모두 요구하도록 보완했다.
+- **큰 맵 반복의 추가 접촉:** 두 목표까지 도착한 뒤 `(37.10,16.68,-0.245)`에서 예측 정지했지만, 16 m 선을 따라 계속 다가오는 모형과 접촉했다. 단순 정지까지 성공한 것을 충돌 회피 성공으로 볼 수 없다. [실패 보고서](build/evidence/registration-recovery-2026-11-27/regression-01/large_office_dynamic.json.gz).
+- **예측 길이 보완:** 0.35 m/s·실측 반경 2.10 m에서 90도 전진 회전은 약 9.4초다. 4초 예측으로는 그 진행선에 진입한 뒤에야 정지했다. 예측을 **12초**로 늘려 회전·제동 여유를 앞에서 확보하고, 시간에 따른 위치 불확실성도 계속 늘린다. 이는 더 이른 정지 조건이며 센서 freshness·실제 조향 제한을 완화한 것이 아니다. 일정 속도 가정 때문에 불필요한 대기가 늘 수 있고 임의의 사람 행동을 보장하지 않는다.
+- **당시 후속 계획:** 고정한 수정본 전체 회귀 `regression-02`와 기존 RViz 창의 GUI 주행. 실제 후속 결과는 E35–E38을 따른다.
+
+
+### E35. 안전한 정지 뒤 계획용 여유에 막힌 기존 경로 재개 — 2026-11-27
+
+- **regression-02:** 전체 **259/260 PASS**, 남은 실패는 작은 맵의 자동 재개다. 큰 맵 두 시작 조건에서는 세 목표와 충돌 없음·정상 종료를 통과했다. [XML 집계](build/evidence/registration-recovery-2026-11-27/regression-02/summary.json).
+- **확인한 원인:** 작은 맵 `(3.888,1.003,0.249)`에서 조기 정지했을 때 실제 차체 여유는 **0.337623 m**였다. 기존 추종·안전 게이트 여유 0.15 m는 확보했지만 새 경로 계획의 0.40 m 여유보다 작아 Smac이 `Starting point in lethal space`로 거부했다. 반복해서 새 계획만 요청해도 해결되지 않았다.
+- **수정:** 허용된 장애물 정지 뒤 안전 게이트의 자동 재허가를 받고, 새 계획이 거부된 경우에만 이전에 승인한 경로의 남은 부분을 검사한다. 목표가 동일하고 현재 위치·방향·곡률이 연결돼야 한다. 신선한 scan/TF와 관측 지도에서 남은 전체 경로 및 초기 Pure Pursuit 곡선의 **전체 차체+기존 0.15 m**가 모두 확인된 자유 공간이어야 이어 간다.
+- **보존한 제한:** 원래 계획 padding 0.40 m, 조향 한계, 0.35초 입력·TF 제한, 지도 2초, 재개 대기 15초를 바꾸지 않는다. 새 장애물·미확인 공간·허가 취소·센서 고장·변경된 목표에는 기존 경로를 재사용하지 않는다. RPP의 현재 local costmap 검사와 최종 안전 게이트도 계속 작동한다.
+- **진행 상태:** 권한·시각·장애물·경로 연결 단위 검사와 실제 작은 맵 재개를 먼저 검증한 뒤 전체 회귀와 GUI 실행으로 판정한다.
+
+- **fix-07 추가 실패:** 이전 경로의 끝에는 RPP lookahead를 안정화하는 가상 연장점이 있다. 이를 실제 주행 끝점처럼 차체 검사하여, 원래 목표 뒤 벽 때문에 재개를 거부했다. 실제 목표에서 정지하는 기존 계약에 맞춰 차체 검사는 원래 목표까지, 곡률 검사는 전체 참조 경로에 적용하도록 수정했다. 원래 목표까지의 장애물·미확인 공간 검사는 그대로다. 관련 단위 검사는 **43/43 PASS**였다.
+- **fix-09 연결 검사 실패:** 실제 가장 가까운 경로점은 정지 위치에서 **0.121591 m**였지만, 그 이전 점을 남기는 코드 때문에 **0.371811 m**로 검사하여 `path_start_disconnected`를 반환했다. RPP와 같이 가장 가까운 점부터 검사하도록 바로잡았다. 0.35 m 연결 한계·초기 추종 곡률·전체 차체 검사는 유지했다.
+- **fix-10 집중 검증:** 저장된 추정 위치·경로·관측 지도 재생과 관련 단위 **44/44 PASS**, 작은 맵 주행·정상 종료 **2/2 PASS**. 장애물 전용 정지 후 **11.557516초**에 자동 재개했고, 목표 도착 오차 **0.113234 m**, 충돌 없음, 최소 평가 여유 **0.345616 m**, 좌우 조향 **−0.094578 / +0.131348 rad**였다. 카메라 중단·복구 후 수동 해제 전 정지 유지도 통과했다. [실행 기록](build/evidence/registration-recovery-2026-11-27/fix-10/sensor_turns.json.gz). 같은 소스의 전체 `regression-03`과 GUI 검증 결과는 E37을 따른다.
+
+### E36. 시작 단계 센서 간격 초과로 인한 기동 실패 — 2026-11-27
+
+- **fix-08:** 작은 맵 재검증은 출발 전에 실패했다. 마지막 유효 scan 시각 `1795748535.6707792`, 다음 scan 시각 `1795748536.0308254`의 차이는 **0.360046초**였다. 0.35초 제한에 따라 LiDAR odometry가 `scan_gap_manual_restart_required`로 잠겼고, 이후 TF가 갱신되지 않아 Nav2 활성화도 완료되지 않았다.
+- **관측과 한계:** 같은 시작 구간 카메라 첫 처리 시간은 223 ms였고 호스트에는 다른 CPU 집약 작업이 실행 중이었다. 처리·스케줄링 지연의 가능성은 있으나, 이 기록만으로 어느 프로세스가 scan 발행을 늦췄는지 확정할 수 없다. 차량은 출발하지 않았으며 충돌도 없었다. 종료 중 controller의 비정상 종료도 별도 실패로 보존한다.
+- **대응:** 입력 제한을 늘리거나 위치를 자동 초기화하지 않았다. [당시 소스·로그·XML](build/evidence/registration-recovery-2026-11-27/fix-08/source-sha256.json)을 보존하고, 정상적인 센서 주기에서 경로 재개 수정 및 전체 회귀를 검증한다. 이 시작 지연의 근본 원인과 활성화 도중 종료 처리는 아직 남은 검증이다.
+
+### E37. 고정 소스 전체 회귀와 기존 RViz 연결 주행 — 2026-11-27
+
+- **빌드·회귀:** colcon build PASS. `regression-03`의 개별 검사 **282/282 PASS**, 오류·skip 0개. 일부 실패 항목을 다른 실행으로 교체한 집계가 아니라 한 번의 29개 묶음 전체 결과다.
+- **같은 코드의 GUI 주행:** 기존 PID 87150/domain 192에서 `(24,0,0) → (24,16,π/2) → (40,16,0)` 완료. 오차 **0.018992 / 0.155734 / 0.119914 m**, 충돌 없음, 정지·자동 재개 4회. 최대 후보 조향 0.233221 rad로 실측 한계 안이었다.
+- **위치 추정 기록:** 기본 위상은 거부 0회, 위상 227초 헤드리스와 GUI는 각각 `scan_registration_failed` 1회를 기록했지만 다음 유효 관측으로 주행 중 갱신을 이어 갔다. 이를 거부 0회라고 보고하지 않는다. 입력 간격이 제한을 넘었을 때 자동 위치 초기화하는 기능은 추가하지 않았다.
+- **표시 확인:** 처음 X11 캡처는 가려진 창의 오래된 화면을 반환했다. RViz 로그에서는 새로운 지도 크기를 계속 수신했고, 동일 창을 앞으로 가져온 뒤 지도·차량 궤적·영상 분할 갱신을 직접 확인했다. Reset이나 재시작 없이 PID를 유지했다.
+- **검증 종료:** 최종 목표 후 evaluator가 disarm 성공을 확인했다. [원본 보고서](build/evidence/registration-recovery-2026-11-27/live-rviz/live_large_office_dynamic.json.gz), [RViz 화면](build/evidence/registration-recovery-2026-11-27/live-rviz/rviz-final.png), [소스·집계](build/evidence/registration-recovery-2026-11-27/final-summary.json).
+
+### E38. GUI 평가 이후 백그라운드 정리 지연과 정차 중 정합 손실 — 2026-11-27
+
+- **후처리 실패:** 임시 셸 실행기의 `SIGINT → wait` 정리가 끝나지 않아, 주행 평가 종료 후에도 백엔드가 남았다. 해당 부모 PID에 SIGTERM을 보내고 실행 로그에서 확인한 자식 PID만 개별 정리했다. 기존 RViz와 다른 작업은 종료하지 않았다. [정리 결과](build/evidence/registration-recovery-2026-11-27/live-rviz/cleanup.json.gz)의 `remaining: []`를 확인했다.
+- **평가 창 이후 관측:** evaluator 완료 시각 `1795750275.0616486` 후 약 **96초**에 `recent_reference_disagreement → recent_reference_unavailable → scan_gap_manual_restart_required`가 발생했다. 차량은 이미 disarm 상태였다. [전체 후속 로그](build/evidence/registration-recovery-2026-11-27/live-rviz/backend-complete.log.gz)도 보존하며, 주행 중 기록의 정합 거부 1회와 구분한다.
+- **판정 한계:** 세 목표·정지·재개 주행 PASS가 장시간 정차 관측이나 임시 백그라운드 실행기의 종료 성공을 증명하지 않는다. 정차 중 동적 가림의 지속 정합과 부하 기동은 남은 검증이다. 사용자용 재현은 아래 foreground launch와 Ctrl+C 또는 launch_testing 종료 관리를 사용한다. 당시 `live-rviz/run.sh`는 실행 이력이며 권장 실행기가 아니다.
+
 ## 진단 당시 가설과 재검증 기준
 
 ### 2026-11-26 코드·로그 재검토에 따른 원인 판단
@@ -468,7 +566,7 @@ export MRIDER_TEST_VEHICLE=1
 export MRIDER_SIM_REPORT_DIR=/tmp/mrider-regression-report
 colcon --log-base log-docker test --build-base build-docker --install-base install-docker \
   --packages-select mrider_navigation_sim --event-handlers console_direct+ \
-  --ctest-args -R '^camera_contract$|^segmentation$|^sensor_core$|^sensor_messages$|^safety$|^local_goal$|^observed_map$|^synchronization$|^path_feasibility$|^path_messages$|^vehicle_overlay$|^large_office$|^indoor_geometry$|test_(sensor_only|sensor_tf|sensor_dropout|large_office|large_office_turns|sensor_turns|navigation|blocked|recovery|faults)_launch.py' \
+  --ctest-args -R '^camera_contract$|^segmentation$|^sensor_core$|^registration_recovery$|^moving_obstacles$|^motion_gate$|^free_evidence$|^sensor_messages$|^safety$|^local_goal$|^observed_map$|^synchronization$|^path_feasibility$|^path_messages$|^path_recovery$|^vehicle_overlay$|^large_office$|^indoor_geometry$|test_(sensor_only|sensor_tf|sensor_dropout|large_office|large_office_turns|large_office_dynamic|sensor_turns|navigation|blocked|recovery|faults)_launch.py' \
   -j1 --output-on-failure
 colcon test-result --test-result-base build-docker/mrider_navigation_sim/test_results --verbose
 ```

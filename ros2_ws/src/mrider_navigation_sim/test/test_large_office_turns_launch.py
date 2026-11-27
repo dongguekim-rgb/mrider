@@ -7,6 +7,7 @@ import math
 import os
 import time
 import unittest
+from collections import Counter
 from pathlib import Path
 
 import launch
@@ -29,20 +30,39 @@ from mrider_navigation_sim.trace_navigation import NavigationTrace
 
 @pytest.mark.launch_test
 def generate_test_description():
-    os.environ['ROS_DOMAIN_ID']='216'
+    return large_office_launch('216',0.)
+
+
+def large_office_launch(domain,actor_offset):
+    os.environ['ROS_DOMAIN_ID']=domain
     source=os.path.join(get_package_share_directory('mrider_navigation_sim'),'launch','sensor_only_demo.launch.py')
     return launch.LaunchDescription([
-        launch.actions.SetEnvironmentVariable('ROS_DOMAIN_ID','216'),
+        launch.actions.SetEnvironmentVariable('ROS_DOMAIN_ID',domain),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(source),launch_arguments={
-            'rviz':'false','scenario':'large_office','goal_x':'24.0','auto_resume':'true','vehicle':'1','diagnostics':'true'}.items()),
+            'rviz':'false','scenario':'large_office','goal_x':'24.0','auto_resume':'true','vehicle':'1','diagnostics':'true',
+            'actor_time_offset_s':str(actor_offset)}.items()),
         launch_testing.actions.ReadyToTest(),
     ])
 
 
 class LargeOfficeTurns(unittest.TestCase):
+    report_name='large_office_turns'
+    actor_offset=0.
+    require_stop_resume=False
+
     def test_reachable_paths_and_both_turns(self):
         rclpy.init();node=Checks();truth=[];validations=[];candidates=[];goals_seen=[];paths=[];maps={}
         trace=NavigationTrace(node,costmaps=True)
+        estimator_counts=Counter();motion_counts=Counter()
+        def estimate(msg):
+            data=json.loads(msg.data)
+            estimator_counts[data.get('registration_mode','unknown') if data['valid'] else 'rejected:'+data['reason']]+=1
+        def motion(msg):
+            data=json.loads(msg.data)
+            motion_counts['frames']+=1
+            motion_counts['moving_frames']+=bool(data['tracks'])
+        node.create_subscription(String,'/mrider_sim/estimator_status',estimate,COMMAND_QOS)
+        node.create_subscription(String,'/mrider_sim/moving_obstacles',motion,COMMAND_QOS)
         node.create_subscription(Odometry,'/evaluation/ground_truth',truth.append,SENSOR_QOS)
         node.create_subscription(String,'/mrider_sim/path_validation',lambda m:validations.append(json.loads(m.data)),COMMAND_QOS)
         node.create_subscription(Twist,'/mrider_sim/candidate_cmd_vel',lambda m:candidates.append((m.linear.x,m.angular.z)),COMMAND_QOS)
@@ -56,12 +76,14 @@ class LargeOfficeTurns(unittest.TestCase):
         share=Path(get_package_share_directory('mrider_navigation_sim'))
         limits,_=measured_parameters('1',str(share/'config/nav2_sensor_only.yaml'))
         goals=[(24.,0.,0.),(24.,16.,math.pi/2),(40.,16.,0.)]
-        report={'case':'large_office_turns','legs':[]};started=time.monotonic()
+        report={'case':self.report_name,'actor_time_offset_s':self.actor_offset,'legs':[],'automatic_resumes':[]}
+        started=time.monotonic()
         try:
             node.wait(lambda:truth and node.odom is not None and node.states,25.)
             node.nav_ready();node.assert_sensor_sources();node.assert_single_output()
             assert {x.node_name for x in node.get_subscriptions_info_by_topic('/evaluation/ground_truth')}=={'navigation_checks'}
             for index,(gx,gy,heading) in enumerate(goals):
+                stopped_at=None;stop_pose=None
                 node.arm()
                 if index==0:node.start()
                 else:
@@ -77,6 +99,12 @@ class LargeOfficeTurns(unittest.TestCase):
                     assert not node.collision
                     if state['state']=='STOPPED':
                         assert state['reason'] in ('obstacle_stop','camera_obstacle'),state
+                        if stopped_at is None:
+                            stopped_at=time.monotonic();stop_pose=list(node.trace[-1][:2])
+                    elif stopped_at is not None and state['state']=='TRACKING' and node.commands[-1].drive.speed>.05:
+                        report['automatic_resumes'].append(dict(leg=index,stopped_s=time.monotonic()-stopped_at,
+                            stop_pose=stop_pose,resume_pose=list(node.trace[-1][:2])))
+                        stopped_at=None
                     if validations:assert all(v['accepted'] for v in validations),validations[-1]
                     if node.mission=='GOAL':break
                 else:raise AssertionError(('goal_timeout',index,node.states[-1]))
@@ -94,11 +122,14 @@ class LargeOfficeTurns(unittest.TestCase):
             assert max(map(abs,angles))<=limits['max_steering']+1e-3
             assert len(validations)>=7 and all(v['accepted'] for v in validations)
             assert not node.collision
+            if self.require_stop_resume:
+                assert report['automatic_resumes'],'No obstacle stop and automatic restart was exercised'
             report.update(result='PASS',max_candidate_steering_rad=max(map(abs,angles)))
         except Exception as error:
             report.update(result='FAIL',error=str(error));raise
         finally:
             report.update(elapsed_s=time.monotonic()-started,validations=validations,
+                estimator_counts=dict(estimator_counts),motion_counts=dict(motion_counts),
                 local_goals=goals_seen,planned_paths=paths,candidate_commands=candidates,
                 safety_history=node.states,mission_history=node.mission_events,trajectory=node.trace,
                 collision=node.collision,min_clearance_m=min(node.clearances) if node.clearances else None,
@@ -106,12 +137,12 @@ class LargeOfficeTurns(unittest.TestCase):
                 evaluation_truth_trace=[[m.pose.pose.position.x,m.pose.pose.position.y,
                     2*math.atan2(m.pose.pose.orientation.z,m.pose.pose.orientation.w)] for m in truth])
             directory=Path(os.environ.get('MRIDER_SIM_REPORT_DIR','/tmp'));directory.mkdir(parents=True,exist_ok=True)
-            trace.save(directory,'large_office_turns')
+            trace.save(directory,self.report_name)
             if 'last' in maps:
                 m=maps['last']
                 (directory/'map.json').write_text(json.dumps(dict(width=m.info.width,height=m.info.height,
                     resolution=m.info.resolution,origin=[m.info.origin.position.x,m.info.origin.position.y],data=list(m.data))))
-            (directory/'large_office_turns.json').write_text(json.dumps(report))
+            (directory/(self.report_name+'.json')).write_text(json.dumps(report))
             print('LARGE_OFFICE_TURNS_RESULT '+json.dumps({k:v for k,v in report.items() if k not in
                 ('evaluation_truth_trace','safety_history','mission_history','trajectory','planned_paths','candidate_commands')}),flush=True)
             node.destroy_node();rclpy.shutdown()

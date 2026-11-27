@@ -1,4 +1,4 @@
-"""Explicit one-goal mission: Smac plan -> RPP follow; no reverse/recovery."""
+"""Forward Smac/RPP mission with bounded, obstacle-only route revalidation."""
 import json
 import math
 import copy
@@ -15,6 +15,7 @@ from rclpy.qos import QoSProfile, DurabilityPolicy
 import numpy as np
 from .local_goal import select_pose_goal,add_scan_evidence
 from .path_feasibility import validate_path
+from .path_recovery import validated_tail
 from sensor_msgs.msg import LaserScan
 from mrider_autonomy.nodes import SENSOR_QOS
 from geometry_msgs.msg import PoseStamped
@@ -56,6 +57,7 @@ class Mission(Node):
         self.create_subscription(OccupancyGrid,'/map',lambda m:setattr(self,'local_map',m),QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))
         self.create_timer(.2,self.continue_tick)
         self.saved_goal=None;self.resume_pending=None;self.resume_ready=False
+        self.reference_path=None;self.reference_goal=None
         self.resume_plan_goal=None;self.resume_plan_started=None;self.resume_plan_next=0.
         self.auto_client=self.create_client(Trigger,'/mrider_sim/auto_arm')
         self.create_timer(.2,self.resume_tick)
@@ -214,6 +216,7 @@ class Mission(Node):
         self.safety=json.loads(msg.data)['state']
         if self.safety=='DISARMED':
             self.saved_goal=None;self.destination=None;self.stage_permission=False;self.resume_ready=False
+            self.reference_path=None;self.reference_goal=None
             self.goal_pending=None
         if self.safety in ('STOPPED','DISARMED'):self.resume_plan_goal=None
         if self.safety in ('STOPPED','DISARMED') and self.state in ('PLANNING','FOLLOWING','WAITING'):
@@ -302,6 +305,7 @@ class Mission(Node):
         if result.status!=GoalStatus.STATUS_SUCCEEDED or len(result.result.path.poses)<2:
             if (result.status==GoalStatus.STATUS_ABORTED and self.resume_plan_goal is not None
                     and self.safety=='READY' and time.monotonic()-self.resume_plan_started<=15.):
+                if self.try_retained_route(seq):return
                 # An obstacle may leave the straight rearm envelope before
                 # leaving the full curved route. No path yet is a bounded
                 # zero-output wait, only in this authorized recovery context.
@@ -343,11 +347,57 @@ class Mission(Node):
             self.get_logger().error('Path rejected before FollowPath: '+str(error))
             self.pub.publish(String(data=self.state));return
         self.path_status.publish(String(data=json.dumps({'accepted':True,**metrics})))
+        self.reference_path=copy.deepcopy(reference)
+        self.reference_goal=copy.deepcopy(self.saved_goal)
         self.resume_plan_goal=None
         self.path_pub.publish(result.result.path)
         req=FollowPath.Goal();req.path=reference;req.controller_id='FollowPath';req.goal_checker_id='goal_checker'
         self.state='FOLLOWING'
         self.follower.send_goal_async(req).add_done_callback(lambda f:self.follow_accepted(f,seq))
+
+    def try_retained_route(self,seq):
+        # Only called after a failed replan inside an authorized obstacle
+        # recovery. Never re-use a route for a changed target or sensor fault.
+        if (seq!=self.sequence or self.safety!='READY' or self.resume_plan_goal is None or
+                self.reference_path is None or self.reference_goal is None or
+                self.saved_goal is None or self.reference_goal.pose!=self.saved_goal.pose):return False
+        if self.reference_path.header.frame_id!='map':return False
+        try:
+            now=self.get_clock().now().nanoseconds*1e-9;m=self.local_map
+            if m is None or m.header.frame_id!='map':return False
+            map_stamp=m.header.stamp.sec+m.header.stamp.nanosec*1e-9
+            if not -.05<=now-map_stamp<=2.:return False
+            if self.map_resolution and not math.isclose(m.info.resolution,self.map_resolution,abs_tol=1e-8):return False
+            ox,oy,yaw=pose_values(m.info.origin)
+            if abs(yaw)>1e-6:return False
+            scan,_=self.scan_with_transform(now)
+            scan_stamp=scan.header.stamp.sec+scan.header.stamp.nanosec*1e-9
+            tf=self.tf_buffer.lookup_transform('map','base_link',Time())
+            stamp=tf.header.stamp.sec+tf.header.stamp.nanosec*1e-9
+            if not -.05<=now-stamp<=.35:return False
+            current=(tf.transform.translation.x,tf.transform.translation.y,
+                     2*math.atan2(tf.transform.rotation.z,tf.transform.rotation.w))
+            start,metrics=validated_tail([pose_values(p.pose) for p in self.reference_path.poses],current,
+                np.asarray(m.data).reshape(m.info.height,m.info.width),m.info.resolution,(ox,oy),
+                self.goal_body,self.wheelbase,self.max_steering,self.path_lookahead,
+                pose_values(self.saved_goal.pose) if self.goal_extension>0 else None)
+            # Recheck after collision computation; old data never gains time.
+            now=self.get_clock().now().nanoseconds*1e-9
+            if (not -.05<=now-stamp<=.35 or not -.05<=now-scan_stamp<=.35 or
+                    not -.05<=now-map_stamp<=2. or time.monotonic()-self.resume_plan_started>15.):return False
+        except (ValueError,TransformException) as error:
+            self.get_logger().warn('Retained route declined: '+str(error))
+            return False
+        reference=copy.deepcopy(self.reference_path);reference.poses=reference.poses[start:]
+        reference.header.stamp=self.get_clock().now().to_msg()
+        self.reference_path=copy.deepcopy(reference);self.resume_plan_goal=None
+        self.path_status.publish(String(data=json.dumps(dict(accepted=True,retained_after_obstacle=True,
+            map_stamp=map_stamp,scan_stamp=scan_stamp,**metrics))))
+        self.path_pub.publish(reference);self.state='FOLLOWING'
+        req=FollowPath.Goal();req.path=reference;req.controller_id='FollowPath';req.goal_checker_id='goal_checker'
+        self.follower.send_goal_async(req).add_done_callback(lambda f:self.follow_accepted(f,seq))
+        self.get_logger().info('Resuming observed, curvature-checked retained route')
+        return True
 
     def follow_accepted(self,future,seq):
         handle=future.result()

@@ -52,8 +52,8 @@ def nodes(context):
         Node(package='mrider_navigation_sim',executable='camera_rules_node',output='screen',additional_env=sensor_env,parameters=[os.path.join(share,'config','perception_simulation.yaml')]),
         Node(package='mrider_navigation_sim',executable='managed_slam_node',name='slam_toolbox',output='screen',parameters=[slam_config]),
         Node(package='mrider_navigation_sim',executable='observed_map_node',output='screen',additional_env=sensor_env,parameters=[{'max_range_is_clear':True}]),
-        Node(package='mrider_navigation_sim',executable='world_node',output='screen',additional_env=sensor_env,parameters=[simulation,limits,{'scenario':LaunchConfiguration('scenario'),'sensor_only':True,'floor_rgb':yaml.safe_load(LaunchConfiguration('floor_rgb').perform(context)),'image_gain':ParameterValue(LaunchConfiguration('image_gain'),value_type=float)}]),
-        Node(package='mrider_navigation_sim',executable='safety_node',output='screen',parameters=[simulation,limits,{'require_camera':True}]),
+        Node(package='mrider_navigation_sim',executable='world_node',output='screen',additional_env=sensor_env,parameters=[simulation,limits,{'scenario':LaunchConfiguration('scenario'),'sensor_only':True,'actor_time_offset_s':ParameterValue(LaunchConfiguration('actor_time_offset_s'),value_type=float),'floor_rgb':yaml.safe_load(LaunchConfiguration('floor_rgb').perform(context)),'image_gain':ParameterValue(LaunchConfiguration('image_gain'),value_type=float)}]),
+        Node(package='mrider_navigation_sim',executable='safety_node',output='screen',additional_env=sensor_env,parameters=[simulation,limits,{'require_camera':True,'require_motion_prediction':True}]),
         Node(package='mrider_navigation_sim',executable='mission_node',output='screen',additional_env=sensor_env,remappings=[('/map','/navigation/observed_map')],parameters=[{
             'wheelbase':body['wheelbase'],'max_steering':body['max_steering'],
             'front':body['front'],'rear':body['rear'],'half_width':body['half_width'],'margin':body['margin'],
@@ -83,6 +83,7 @@ def generate_launch_description():
         DeclareLaunchArgument('auto_resume',default_value='false'),
         DeclareLaunchArgument('floor_rgb',default_value='[110,110,110]'),
         DeclareLaunchArgument('image_gain',default_value='1.0'),
+        DeclareLaunchArgument('actor_time_offset_s',default_value='0.0',description='Large-office pedestrian phase offset in seconds; environment only'),
         DeclareLaunchArgument('vehicle',default_value='0',choices=['0','1','2','3']),
         OpaqueFunction(function=nodes),
     ])

@@ -16,7 +16,7 @@ flowchart TB
         CAL["카메라 내외부 보정 · 센서 TF"]
     end
     subgraph EST[위치 추정과 지도]
-        ICP["키프레임 기반 점-직선 ICP"]
+        ICP["강건 점-직선 ICP<br/>키프레임 + 최근 관측 2개 합의"]
         ODOM["추정 Odometry · odom → base_link"]
         SLAM["slam_toolbox"]
         MAP["관측 지도 · map → odom"]
@@ -47,13 +47,21 @@ flowchart TB
         LIVE --> LOCAL
         SCAN --> LOCAL
         LOCAL --> PLAN --> CHECK --> PATH --> RPP
-        LIVE --> PLAN
-        SCAN --> PLAN
+        COST["Nav2 costmap<br/>현재 반사점 + 관측 근거로 잔류 점유 정정"]
+        LIVE --> COST
+        SCAN --> COST
+        LIVE -->|"3회 교집합 free_evidence"| COST
+        COST --> PLAN
+        COST --> RPP
         ODOM --> RPP
         ODOM --> CHECK
     end
+    MOTION["LiDAR 작은 군집의 연속 관측<br/>추정 odom에서 위치·속도·크기"]
+    SCAN --> MOTION
+    ODOM --> MOTION
     GATE["최종 안전 게이트
-입력·시각·권한 · 곡선 차체 여유 · 정지 latch"]
+입력·시각·권한 · 곡선 차체 여유<br/>12초 움직임 예측 · 정지 latch"]
+    MOTION --> GATE
     RPP -->|"후보 Twist: v, ω"| GATE
     STATUS --> GATE
     SCAN --> GATE
@@ -91,8 +99,10 @@ LiDAR 최대 관측 범위 안의 셀만 계산하고 int8 배열로 메시지�
 | `/mrider_sim/camera_status` | JSON `String` | 영상 분할 → 안전 게이트 |
 | `/mrider_sim/odometry` | `nav_msgs/msg/Odometry`, `odom` → `base_link` | LiDAR 추정기 → Nav2·안전 게이트·검증 |
 | `/mrider_sim/estimator_status` | JSON `String`, scan 시각·마지막 유효 시각·정합 잔차·거부 사유 | LiDAR 추정기 → 진단 |
+| `/mrider_sim/moving_obstacles` | JSON `String`, `odom`, 원본 scan 시각, 군집 중심·반경·속도 | LiDAR 관측 추적 → 예측 안전 검사 |
 | `/mrider_sim/slam_scan` | `sensor_msgs/msg/LaserScan`, `laser`, 원본 scan 시각 | LiDAR 노드의 전용 복사본 → SLAM |
 | `/map` | `nav_msgs/msg/OccupancyGrid` | SLAM → 점유 재검증·선택적 원본 표시 |
+| `/navigation/free_evidence` | `OccupancyGrid`, `map`, 최신 기여 scan 시각 | 반복 scan 확인 → Nav2 장애물 층 정정 |
 | `/navigation/observed_map` | `nav_msgs/msg/OccupancyGrid`, 원본 SLAM 시각 | 관측 재검증 → Nav2·지역 목표 선택·RViz |
 | `/goal_pose`, `/mrider_sim/local_goal` | `geometry_msgs/msg/PoseStamped`, `map` | 운영자 → mission / mission → 관측·검증 |
 | `/mrider_sim/planned_path` | `nav_msgs/msg/Path` | mission → 시각화·검증 |
@@ -115,16 +125,52 @@ ICP는 정합에 사용한 거리 내 대응점으로 최종 품질을 평가한
 키프레임은 0.5 m 이동·0.15 rad 회전 또는 원본 scan 시각 기준 `keyframe_max_age`(기본 2초) 경과 후,
 유효 정합에 성공한 경우만 새 관측으로 갱신한다. 정지 중 지나간 전경을 무기한 기준으로 보관하지 않으며,
 좌표 원점·추정 pose와 네 scan의 속도 차분 방식을 유지한다.
-현재 한 개 기준 scan을 사용하는 추정기는 이동 물체와 가림 변화에 취약하다. [E32 분석](experiment-log.md#live-icp-cause)에서는 차량이 정지했어도 두 보행자가 이동하며 기준 관측과 달라져 위치 추정이 끊겼다. 여러 기준/정적 지도 정합과 위치 재획득은 아직 구현되지 않았다.
+정합 초기 2회는 기존 최소제곱으로 이동량을 잡고, 이후 Tukey 가중치로 큰 점-직선 잔차의 영향을 줄인다.
+처음부터 좁은 잔차 범위를 쓰면 복도의 실제 전진을 놓칠 수 있어, 잔차 범위를 단계적으로 줄인다.
+위 최종 대응점 비율·개수·RMSE·기하 검사는 그대로 적용한다.
+
+[E32 분석](experiment-log.md#live-icp-cause)에서 확인한 동적 가림 변화에 대응하여,
+유효한 최근 scan 3개와 각각의 추정 pose를 별도로 보관한다. 주 키프레임 정합이 실패하면
+0.35초 이내의 최근 유효 scan 2개에 현재 scan을 각각 정합한다. 두 정합 모두 기존 품질 기준을 통과하고,
+odom에서 얻은 위치 차이 ≤0.02 m·방향 차이 ≤0.01 rad일 때만 새 기준으로 갱신한다.
+각 최근 기준과의 이동은 ≤0.25 m·회전은 ≤0.2 rad이고, 마지막 추정 pose와의 변화도 같은 제한을 검사한다.
+scan이 부족하거나 오래됐거나 결과가 불일치하면 pose·기준·유효 시각을 갱신하지 않는다.
+`estimator_status.registration_mode`, `primary_failure`, `recent_fits`, `consensus_*`로 이 경로를 구분한다.
+두 기준의 pose는 같은 odometry 계열이므로 독립적인 절대 위치 센서가 아니다.
+긴 입력 중단 후 전역 재위치 추정이나 정적 submap 정합은 구현하지 않았으며,
+ROS 입력 간격 0.35초를 넘으면 기존 `scan_gap_manual_restart_required` 정지를 유지한다.
 
 안전 게이트는 scan·odom·영상의 누락/지연/잘못된 frame·비정상 값을 검사한다.
 후보 Twist에는 header가 없어 수신 시각과 수치로 검사한다.
 센서 고장은 정지 latch를 유지하고 운영자 재허가가 필요하다.
+센서 launch는 작은 LiDAR 군집의 이동 예측도 요구한다(`require_motion_prediction=true`).
+추정 odom에서 5회 이상·0.35초 이상 관측한 군집의 위치를 직선 속도로 근사하고,
+속도 0.15~1.5 m/s·최대 적합 잔차 0.08 m를 만족하는 관측만 이동 후보로 사용한다.
+군집 연결 거리 0.45 m, 점 3~80개, 축별 최대 크기 1.2 m 조건을 사용하며, 보이지 않는 면에 대한 반경 여유 0.25 m를 더한다.
+고정 물체의 보이는 면이 늘어나도 중심은 이동할 수 있다. 군집 최소·최대 경계의 속도 차이가 `max(0.10 m/s, 추정 속도의 35%)`를 넘으면 크기 변화로 보고 이동 예측에 사용하지 않는다. 현재 scan의 장애물 검사는 계속 적용한다.
+후보 명령의 곡선 차체와 물체의 일정 속도 예측이 12초 이내 겹치면 `obstacle_stop`으로 더 일찍 정지한다.
+0.35 m/s·실측 최소 반경에서 90도 전진 회전이 약 9.4초 걸리는 점을 반영한 시뮬레이션 설정이다. 긴 일정 속도 가정은 보수적인 대기를 늘릴 수 있다. 실제 센서·보행자 환경에 대한 검증값으로 사용하지 않는다.
+0.1초 예측 표본의 틈은 상대 속도 여유로, 시간에 따른 불확실성은 0.05 m/s의 추가 여유로 포함한다.
+현재 장애물 검사·제동 거리·카메라 정지는 계속 적용한다. 예측 토픽이 누락·지연·잘못된 frame/시각이면 수동 복구가 필요한 고장으로 정지한다.
+이는 객체 인식이나 사람의 행동 예측이 아니며, 가림·급가속·군집 합침·얇은 물체·대형 이동 물체의 안전을 보장하지 않는다.
+앞으로 계속 다가오는 물체와 접촉할 수 있다는 사실을 정지 자체의 성공으로 처리하지 않는다.
 장애물 제거 후 자동 재개는 `auto_resume:=true`에서만 허용된 장애물 정지 원인과 연속 여유 확인을 거친다.
+자동 재허가에는 마지막 이동 후보 명령으로 계산한 예측 충돌도 없어야 한다. 새 예측 입력 고장은 자동 재허가가 해제하지 않는다.
 LiDAR 장애물 때문에 감속하던 중 controller가 zero Twist를 보내면 장애물 정지로 latch하고, 뒤따르는 abort가 그 원인을 지우지 않게 한다. 장애물 증거가 없거나 새 센서 고장이 발생한 경우에는 일반 실패를 자동 복구로 바꾸지 않는다.
 대형 맵의 `WAYPOINT` 완료 후 `/mrider_sim/continue`는 정상 구간 완료만 이어 주며 고장·운전자 disarm을 해제하지 않는다.
 장애물 전용 자동 재허가 후에도 Nav2가 아직 경로를 찾지 못하면, 속도 0을 유지하며 0.5초 간격·최대 15초 재계획한다.
 유효 경로 확보 후에만 추종하며, 일반 계획 실패·새 센서 고장·허가 취소·곡률 오류는 이 재시도의 대상이 아니다.
+이 재허가 안에서 새 경로가 거부되면 이전 승인 경로의 남은 부분도 검사한다. 목표가 같아야 하며 현재 위치·방향·경로 곡률, 최신 지도·scan·TF, 남은 경로와 초기 추종 곡선의 차체 전체를 다시 검증한다. 조건을 모두 만족해야 기존 RPP 추종을 재개한다. 계획 padding을 줄이거나 오래된 장애물 관측을 무시하지 않는다.
+`path_validation.retained_after_obstacle`로 구분한다. 조향·센서 신선도·재개 15초 제한은 계속 적용한다.
+Nav2의 obstacle layer에도 과거 동적 물체의 점유가 따로 남을 수 있어 `ObservedObstacleLayer`로 확장했다.
+`/navigation/free_evidence`는 최신 세 scan의 자유 공간 교집합만 0, 그 밖은 -1인 `OccupancyGrid`다.
+SLAM 정답 지도가 아니며, 기존 `/map`과 `/navigation/observed_map`의 시각은 바꾸지 않는다.
+근거 지도 시각은 가장 최근 기여 scan의 원본 시각이다. 나머지 두 scan은 기존 0.6초 이력 범위를 따른다.
+플러그인은 0.35초 이내 근거와 그 시각의 좌표 변환을 확인하고, 오래된 lethal 셀의 중심·네 모서리가 모두 자유 공간일 때만 정정한다.
+이후 기존 Nav2의 **현재 scan marking**을 적용하므로 새 반사점이 우선한다. 정적 층·inflation·raytrace·원래 센서 freshness 검사도 유지한다.
+근거가 없거나 오래됐거나 TF가 없으면 추가 clearing을 하지 않는다. 노드 재시작이나 일괄적인 주행 공간 삭제는 사용하지 않는다.
+`/mrider_sim/costmap_evidence_status`에서 frame·근거 시각·정정한 셀 수를 확인한다.
+이는 [Humble ObstacleLayer 확장 인터페이스](https://github.com/ros-navigation/navigation2/blob/humble/nav2_costmap_2d/include/nav2_costmap_2d/obstacle_layer.hpp)를 사용하는 팀 플러그인이다.
 최초 목표가 일시적인 관측 부족으로 거부되면 `WAITING`에서 최대 5초 보류한다. 허가 취소·만료 시 자동 출발하지 않는다.
 영상·scan은 수신 순서가 달라도 최대 0.12초 기다려 가장 가까운 시각끼리 짝짓는다.
 허용 시각 차이 0.12초와 입력 나이 0.35초는 그대로 검사하며, 끝내 짝을 찾지 못하면 유효하지 않은 입력으로 보고한다.
@@ -142,8 +188,10 @@ costmap 갱신을 기다리는 동안에도 취소·종료를 확인하고 0 명
 
 | 파일 | 책임 |
 |---|---|
-| `mrider_navigation_sim/sensor_core.py` | 키프레임 ICP, 잔차·퇴화·이동량 검사 |
+| `mrider_navigation_sim/sensor_core.py` | 강건 키프레임 ICP, 최근 두 기준의 합의 복구, 잔차·퇴화·이동량 검사 |
 | `mrider_navigation_sim/sensor_nodes.py` | scan → odometry/TF, 영상·보정·시각 계약, 분할 노드 |
+| `mrider_navigation_sim/moving_obstacles.py` | LiDAR 군집 연속 관측·속도 적합, 예측 입력 계약, 곡선 차체와 미래 교차 검사 |
+| `src/observed_obstacle_layer.cpp`, `src/free_evidence.hpp` | Nav2 장애물 층의 과거 셀을 신선한 반복 scan 근거로 정정; 현재 반사점 우선 |
 | `mrider_navigation_sim/synchronization.py` | 영상·scan 시각별 버퍼와 제한된 수신 대기 |
 | `mrider_navigation_sim/observed_map.py` | 최신 scan 3회 교집합으로 원본과 별도의 navigation 지도 갱신 |
 | `src/managed_slam_node.cpp` | 설치된 Humble SLAM 라이브러리 실행, 종료 전에 지도·TF worker join |
@@ -151,6 +199,7 @@ costmap 갱신을 기다리는 동안에도 취소·종료를 확인하고 0 명
 | `licenses/Apache-2.0.txt` | Nav2에서 파생한 제어 흐름 코드의 라이선스; 원저작자 고지는 소스에 보존 |
 | `mrider_navigation_sim/segmentation.py`, `camera_contract.py` | 지면 투영·Watershed 후보 분할, 카메라 상태 검증 |
 | `mrider_navigation_sim/local_goal.py` | 관측 공간 팽창·연결 성분·원호 전체의 방향별 차체 충돌·끝 위치/방향·최종 접근 목표 선택 |
+| `mrider_navigation_sim/path_recovery.py` | 승인 경로의 남은 부분과 초기 추종 곡선을 최신 관측에서 재검증 |
 | `mrider_navigation_sim/path_feasibility.py` | 해상도 일치, 경로 곡률·출발 위치·초기 추종 가능 여부 검사 |
 | `mrider_navigation_sim/mission.py` | action·목표·정지·조건부 재개·단계 전환 |
 | `mrider_navigation_sim/safety.py`, `gate_node.py` | ROS 독립 안전 규칙 / ROS 입출력·허가 서비스 |

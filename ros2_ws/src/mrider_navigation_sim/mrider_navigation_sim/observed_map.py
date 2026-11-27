@@ -40,6 +40,7 @@ class ObservedMap(Node):
         self.tf_buffer=Buffer();self.listener=TransformListener(self.tf_buffer,self)
         qos=QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.publisher=self.create_publisher(OccupancyGrid,'/navigation/observed_map',qos)
+        self.free_publisher=self.create_publisher(OccupancyGrid,'/navigation/free_evidence',1)
         self.status=self.create_publisher(String,'/mrider_sim/map_validation',COMMAND_QOS)
         self.create_subscription(OccupancyGrid,'/map',lambda m:setattr(self,'raw',m),qos)
         self.create_subscription(LaserScan,'/scan',self.scan_cb,SENSOR_QOS)
@@ -87,7 +88,9 @@ class ObservedMap(Node):
                 try:tf=self.tf_buffer.lookup_transform('map','laser',stamp)
                 except TransformException:continue
                 if not masks and scan_age>.35:return
-                if not masks:self.metrics['newest_confirmed_age']=scan_age
+                if not masks:
+                    self.metrics['newest_confirmed_age']=scan_age
+                    newest_stamp=copy.deepcopy(scan.header.stamp)
                 p=tf.transform.translation;q=tf.transform.rotation
                 laser_pose=(p.x,p.y,2*math.atan2(q.z,q.w))
                 key=(stamp.nanoseconds,ox,oy,m.info.resolution,*grid.shape,*laser_pose)
@@ -116,4 +119,12 @@ class ObservedMap(Node):
                 self.metrics['oldest_confirmed_age']+elapsed>.6 or age+elapsed>2.):return
         # Keep SLAM's source timestamp, so stale mapping cannot look healthy.
         self.publisher.publish(result)
+        # This is three-scan free evidence, not a replacement SLAM map. Its
+        # timestamp belongs to the newest contributing scan, with the same
+        # <=0.35 s freshness and <=0.6 s history checked above.
+        evidence=OccupancyGrid();evidence.header=copy.deepcopy(result.header)
+        evidence.header.stamp=newest_stamp;evidence.info=result.info
+        free=np.logical_and.reduce(masks)
+        evidence.data=array('b',np.where(free,0,-1).astype(np.int8).ravel().tobytes())
+        self.free_publisher.publish(evidence)
         self.metrics['published']=True

@@ -41,7 +41,7 @@ class World(Node):
         if self.scenario=='sensor_turns':self.pedestrians=Pedestrians(trigger_x=3.,crossing_x=6.2,room_x=10.,hold_y=.8,hold_duration=8.)
         if self.scenario=='large_office':
             from .large_office import OfficeActors
-            self.pedestrians=OfficeActors()
+            self.pedestrians=OfficeActors(self.declare_parameter('actor_time_offset_s',0.).value)
         self.actor_boxes=[]
         self.faults={k:False for k in ['scan_dropout','odom_dropout','scan_bad_frame','scan_future','scan_nan','odom_bad_frame','dynamic_obstacle']}
         for key in self.faults:

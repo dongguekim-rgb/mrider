@@ -1,12 +1,10 @@
 # 큰 실내 맵의 관측 기반 단계별 주행
 
-> **최신 추가 GUI 실행:** 첫 24 m 도착 오차 0.106559 m 후 좌회전 중 LiDAR 정합 대응점 부족으로 안전 정지하여 완주 FAIL. [E31·원본 증거](experiment-log.md)를 참고한다.
->
-> **직전 헤드리스 결과:** `regression-08`의 큰 맵 직진·90도 좌회전·90도 우회전 및 정상 종료 PASS.
-> 세 목표 오차 **0.071677 / 0.149088 / 0.168477 m**, 충돌 없음, 최소 여유 **0.512848 m**,
-> 최대 후보 조향 **0.217242 rad**로 vehicle 1의 물리 한계 안이다.
-> 24 m 별도 주행도 오차 **0.118335 m**로 통과했다. [원본·전체 집계·남은 검증](experiment-log.md#current-validation)을 확인한다.
-> 합성 센서를 사용하는 2D 시험 결과이며, 실제 차량이나 건물 전체 탐색의 검증 결과가 아니다.
+> **2026-11-27 수정 후:** 동일 소스 `regression-03`의 큰 맵 두 보행자 위상과 기존 RViz 연결 실행 모두 세 목표 PASS.
+> GUI 목표 오차 **0.018992 / 0.155734 / 0.119914 m**, 정지·자동 재개 **4회**, 충돌 없음,
+> 최소 여유 **0.296186 m**, 최대 후보 조향 **0.233221 rad**.
+> 선택한 회귀 **282/282 PASS**와 별도의 GUI 반복 실행을 구분한다. [전체 결과·미해결 범위](experiment-log.md#current-validation)를 따른다.
+> 2D 합성 센서 시험이며, 부하 기동·장시간 정차 관측·Gazebo 물리 twin·실차는 별도 검증 대상이다.
 
 > **수정 전 직접 실험 — 2026-11-26:** 기존 RViz 창을 유지한 큰 맵 주행에서 24 m 목표는
 > **74.5초, 오차 0.146 m**로 도착했다. 다음 북쪽 목표의 **90도 회전은 `untrackable_curvature`로 실패**했다.
@@ -48,6 +46,9 @@ LiDAR odometry는 연속 두 scan의 편향이 누적되지 않도록 **scan-to-
 최종 품질 검사에도 정합에서 채택한 거리 내 대응점만 쓰며, 최소 60개·전체 70% 이상 지지점과
 채택된 대응점 내부에서 상위 20%를 절삭한 RMSE 0.08 m 이하를 요구한다. 근접 보행자로 가려진 점을 평가에 다시 포함해 정상 정합을 거부하던 오류를 수정했다.
 정적 표면의 충분한 지지가 필요하며, 실제 정합 손실 뒤에는 자동으로 위치를 만들어 재출발하지 않는다.
+동적 가림 변화로 주 기준이 거부되면 최근 유효한 두 scan과의 정합을 각각 검사하고 합의가 있을 때만 기준을 갱신한다.
+초기 이동 추정 뒤 강건 잔차 가중치를 적용하며, 기존 70% 대응점·0.35초 입력 제한을 낮추지 않는다.
+[현재 계약과 한계](architecture.md), [실패 scan 재생·주행 재검증](experiment-log.md#registration-recovery-fix)을 참고한다.
 속도는 최근 네 scan의 추정 위치 차분(10 Hz에서 약 0.3초 구간)으로 계산한다. 정지 중 정합 잡음이
 재개 대기 시간을 반복 초기화하는 문제를 줄이며, 원본 pose·timestamp와 정지 판정 한계는 유지한다.
 
@@ -70,6 +71,8 @@ loop closure를 꺼 본 분리 시험도 실패했으므로 최종 설정은 원
 ```mermaid
 flowchart LR
   S[LiDAR scan] --> O[LiDAR odometry]
+  O --> T[관측 군집의 이동 추정]
+  S --> T
   O --> SL[slam_toolbox]
   S --> F[무반사점을 제외한 SLAM 전용 scan]
   F --> SL
@@ -85,6 +88,7 @@ flowchart LR
   C[카메라 후보 판정] --> SG[안전 게이트]
   S --> SG
   R --> SG
+  T --> SG
   SG --> V[모의 차량]
 ```
 
@@ -102,6 +106,7 @@ flowchart LR
 - 최종 목표가 아직 미확인/막힘 상태이면 중간 원호 끝에서 계획 회전 반경 이상의 최종 접근 거리를 남긴다. 최초 요청의 일시적인 관측 부족은 최대 5초 보류하고 다시 검사한다. 관측을 갱신해도 유효한 후보가 없으면 실패 정지한다.
 - 먼 목표 자체가 미확인이어도, 실제 관측된 연결 공간 안에서 최소 1 m 이상 진전하는 지역 목표를 고른다.
 - 최종 목표가 가까워지고 관측 범위 안에 들어오면 원래 목표를 사용한다. 도달 가능 후보가 없으면 실패하며, 미확인 구역을 임의로 자유 공간으로 바꾸지 않는다.
+- 가까운 목표 중심은 연결돼 있어도 **최종 자세의 차체 공간**이 점유/미확인이면 `final_footprint_blocked`로 기다린다. 막힌 목표 옆에 잘못된 방향의 중간 목표를 만들어 긴 우회로 바꾸지 않는다. 장애물 재개 흐름의 기존 15초 대기 안에서 다시 검사한다.
 - 연결성만으로 회전 가능성을 판단하지 않는다. Nav2가 전진 Dubins 경로를 계산하고, mission이 실제 경로의 곡률·출발 자세를 검사한 뒤에만 추종을 요청한다. 주행 중 조향 제한도 안전 게이트가 계속 검사한다.
 - 이 정책은 목표 방향으로 진행하는 방식이다. 목표에서 멀어져야 하는 막다른 길 탈출·frontier 탐색·완전한 탐색기는 아직 없다.
 
@@ -124,7 +129,7 @@ TF/scan 0.35초 제한을 늘리지 않았다. 목표 선택용 지도는 2초�
 
 ## 실행
 
-기존 demo와 같은 domain에서 중복 실행하지 않는다. 기존 GUI를 자동으로 닫거나 재시작하는 명령은 없다.
+기존 demo와 같은 domain에서 중복 실행하지 않는다. 아래 `rviz:=false`는 기존 RViz 창을 유지하는 경우다. 창이 없으면 `rviz:=true`로 실행한다. 기존 GUI를 자동으로 닫거나 재시작하는 명령은 없다.
 
 ```bash
 docker exec -it ros2_humble bash
@@ -139,6 +144,20 @@ export ROS_DOMAIN_ID=192
 ros2 launch mrider_navigation_sim large_office_demo.launch.py vehicle:=1 rviz:=false
 ```
 
+장애물 정지 후 자동 재개를 검증할 때는 `auto_resume:=true`를 명시한다.
+보행자 시작 위상은 `actor_time_offset_s`로 바꿀 수 있다. 227초는 실패했던 지연 출발과 비슷한 만남을 재현하는 시험값이며,
+속도·경로·센서·차량 치수를 바꾸지 않는다. 아래 명령은 **위 demo를 종료한 뒤 하나만** 실행한다.
+
+```bash
+ros2 launch mrider_navigation_sim large_office_demo.launch.py \
+  vehicle:=1 rviz:=false auto_resume:=true actor_time_offset_s:=227.0
+```
+
+LiDAR 군집의 관측 속도로 12초 이내 경로 교차를 예상하면 일찍 정지한다.
+자동 재개에는 카메라·현재 scan·예측 충돌 해소와 기존 여유 3초가 모두 필요하다.
+`ros2 topic echo /mrider_sim/moving_obstacles`와 `ros2 topic echo /mrider_sim/safety_state`에서 근거를 확인한다.
+예측을 모르는 물체의 통과를 보장하는 기능으로 해석하지 않는다.
+
 다른 터미널에서 같은 환경과 domain을 설정한 후:
 
 ```bash
@@ -152,22 +171,44 @@ ros2 topic echo /mrider_sim/mission_state
 ros2 service call /mrider_sim/disarm std_srvs/srv/Trigger '{}'
 ```
 
+## 기존 RViz에서 같은 세 목표 검사
+
+위의 위상 227초·`auto_resume:=true` launch를 **foreground**에서 실행한 뒤, 두 번째 컨테이너 터미널에서:
+
+```bash
+cd /root/mrider-team
+source ros2_ws/setup_env.sh
+source ros2_ws/install-docker/setup.bash
+export ROS_DOMAIN_ID=192
+export MRIDER_SIM_REPORT_DIR=/tmp/mrider-live-check
+python3 docs/build/evidence/registration-recovery-2026-11-27/run_live_validation.py /root/mrider-team
+```
+
+이 검사는 목표 `(24,0,0) → (24,16,π/2) → (40,16,0)`을 보내고 실제 정지·자동 재개, 목표 오차,
+충돌·조향 제한·GT 구독 격리를 확인한다. 별도 arm/start를 동시에 호출하지 않는다.
+완료 후 `FINAL_DISARM ... success=True`와 보고서의 `result: PASS`를 확인하고,
+첫 터미널에서 Ctrl+C로 해당 launch를 종료한다. 기존 RViz 창은 유지할 수 있다.
+`live-rviz/run.sh`는 당시 임시 백그라운드 실행 이력으로 종료 정리가 지연됐으므로 사용하지 않는다.
+실제 결과와 후속 정차 관측의 한계는 [E37·E38](experiment-log.md)에 기록했다.
+
 ## 자동 검증
 
-GUI 없이 24 m 시험은 domain 214, 세 목표 회전 시험은 domain 216에서 독립 실행한다. 검증용 truth는 검사 노드만 구독한다.
+GUI 없이 24 m 시험은 domain 214, 세 목표 회전 시험은 domain 216, 보행자 정지·재개 필수 시험은 domain 219에서 독립 실행한다. 검증용 truth는 검사 노드만 구독한다.
 
 ```bash
 export MRIDER_TEST_VEHICLE=1
 export MRIDER_SIM_REPORT_DIR=/root/mrider-team/docs/build/evidence/large-office-manual
 colcon --log-base log-docker test --build-base build-docker --install-base install-docker \
   --packages-select mrider_navigation_sim --event-handlers console_direct+ \
-  --ctest-args -R 'test_large_office(_turns)?_launch|^local_goal$|^observed_map$|^large_office$|^segmentation$|^safety$' -j1 --output-on-failure
+  --ctest-args -R 'test_large_office(_turns|_dynamic)?_launch|^registration_recovery$|^moving_obstacles$|^motion_gate$|^free_evidence$|^local_goal$|^observed_map$|^path_recovery$|^path_messages$|^large_office$|^segmentation$|^safety$' -j1 --output-on-failure
 ```
 
 검사 항목: 무반사 SLAM 복사본·원본 보존, 입력 계약별 자유 공간 인정/거부, 점유 셀 보존, 미확인/장벽을 가로질러 목표 선택하지 않기,
 차체 여유·최대 단계 거리, 단계별 목표 전환, GT 구독 격리, 목표 오차 0.5 m 미만,
 충돌 없음, 카메라 중단 후 정지 latch. Python 단독 시험에는 scipy도 필요하다.
 세 목표 시험은 `(24,0,0°) → (24,16,90°) → (40,16,0°)` 순서로 요청하여 실제 좌·우회전과 각 목표의 위치 오차 `<0.5 m`·방향 오차 `<0.3 rad`, 생성 경로 및 후보 명령의 조향 한계까지 검사한다.
+`test_large_office_dynamic_launch.py`는 같은 목표에 227초 보행자 위상을 적용하며,
+장애물 때문에 STOPPED에 들어갔다가 운영자 재허가 없이 같은 구간의 TRACKING으로 복귀한 기록이 없으면 실패한다.
 
 <a id="validation-2026-11-25"></a>
 

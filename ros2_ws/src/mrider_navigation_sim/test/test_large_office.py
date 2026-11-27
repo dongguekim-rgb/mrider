@@ -1,6 +1,7 @@
 import math
 from collections import deque
 import numpy as np
+import pytest
 from mrider_navigation_sim.large_office import BOUNDS,STATIONS,rooms,walls_and_furniture,OfficeActors
 from mrider_navigation_sim.geometry import ray_distance,ray_distances,clearance
 
@@ -51,6 +52,17 @@ def test_actors_move_without_vehicle_motion():
     actors=OfficeActors();before=actors.step(0.,0.)
     after=actors.step(5.,0.)
     assert all(a!=b for a,b in zip(before,after))
+
+
+def test_actor_phase_offset_reproduces_elapsed_time_without_changing_speed():
+    delayed=OfficeActors();shifted=OfficeActors(227.)
+    assert delayed.step(227.,0.)==shifted.step(0.,0.)
+    assert delayed.step(.1,0.)==shifted.step(.1,0.)
+
+
+@pytest.mark.parametrize('offset',[-1.,math.inf,math.nan])
+def test_invalid_actor_phase_is_rejected(offset):
+    with pytest.raises(ValueError,match='actor time offset'):OfficeActors(offset)
 
 
 def test_shared_camera_renderer_matches_existing_fixture():

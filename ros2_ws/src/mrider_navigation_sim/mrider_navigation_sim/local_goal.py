@@ -86,7 +86,14 @@ def select_pose_goal(data, resolution, origin, current, destination,
             d['reason']='start_footprint_blocked';return None
     final = select_goal(data, resolution, origin, current[:2], destination[:2], max_step+2., connectivity_radius,d['final_check'])
     final_clear=(footprint is None or footprint_free(clearance,resolution,origin,[destination],footprint)[0])
-    if final is not None and final[2] and final_clear:
+    if final is not None and final[2]:
+        # A clear goal centre is not a clear final car pose. During recovery
+        # a crossing actor may occupy its front/side. Turning away to another
+        # subgoal here can force a full Dubins loop in the last few metres.
+        # Preserve the final approach and let the bounded recovery wait for
+        # fresh observations instead of replacing it with that detour.
+        if not final_clear:
+            d['reason']='final_footprint_blocked';return None
         d['reason']='final'
         return *destination, True
     selected = select_goal(data, resolution, origin, current[:2], destination[:2], max_step, connectivity_radius,d['spatial_check'])

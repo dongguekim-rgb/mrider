@@ -86,16 +86,22 @@ def test_confirmation_history_preserves_current_input_freshness(latest,raw_stamp
     def lookup(parent,child,stamp):
         if stamp.nanoseconds>round(tf_until*1e9):raise TransformException('not yet available')
         tf=TransformStamped();tf.transform.rotation.w=1.;return tf
-    sent=[]
+    sent=[];free_sent=[]
     ticks=iter((10.,10.+processing))
     node=SimpleNamespace(raw=raw,scans=scans,metrics={},cache={},max_clear=False,
         get_clock=lambda:SimpleNamespace(now=lambda:Time(seconds=next(ticks))),
-        tf_buffer=SimpleNamespace(lookup_transform=lookup),publisher=SimpleNamespace(publish=sent.append))
+        tf_buffer=SimpleNamespace(lookup_transform=lookup),publisher=SimpleNamespace(publish=sent.append),
+        free_publisher=SimpleNamespace(publish=free_sent.append))
     ObservedMap.update_map(node)
     assert bool(sent)==publishes
+    assert bool(free_sent)==publishes
     if publishes:
         assert sent[0].data[5050]==0 and sent[0].header.stamp==raw.header.stamp
         assert raw.data[5050]==-1
+        assert free_sent[0].header.frame_id=='map'
+        assert free_sent[0].header.stamp==scans[-1].header.stamp
+        assert free_sent[0].data[5050]==0 and free_sent[0].data[0]==-1
+        assert set(free_sent[0].data)=={-1,0}
 
 
 @pytest.mark.parametrize('yaw',[-3.1,0.,1.8,3.1])

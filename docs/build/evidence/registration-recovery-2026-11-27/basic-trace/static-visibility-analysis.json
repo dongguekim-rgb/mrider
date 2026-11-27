@@ -1,0 +1,13 @@
+{
+  "scan_count": 100,
+  "original_cart_velocity_mps": [
+    0.020994594416506827,
+    0.6169846716616832
+  ],
+  "predicted_collision_s": 0.2,
+  "old_false_stops": 1,
+  "new_false_stops": 0,
+  "old_moving_frames": 27,
+  "new_moving_frames": 1,
+  "scope": "Identical recorded laser scans and estimated odometry; static indoor environment. A remaining remote hypothesis does not intersect the candidate curve."
+}

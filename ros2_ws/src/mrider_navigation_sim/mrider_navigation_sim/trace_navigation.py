@@ -27,6 +27,8 @@ class NavigationTrace:
         self.subscribe(String,'/mrider_sim/goal_validation',lambda m:json.loads(m.data),100)
         self.subscribe(String,'/mrider_sim/map_validation',lambda m:json.loads(m.data),100)
         self.subscribe(String,'/mrider_sim/estimator_status',lambda m:json.loads(m.data),200)
+        self.subscribe(String,'/mrider_sim/moving_obstacles',lambda m:json.loads(m.data),200)
+        self.subscribe(String,'/mrider_sim/costmap_evidence_status',lambda m:json.loads(m.data),100)
         self.subscribe(LaserScan,'/scan',lambda m:dict(**header(m),angle_min=m.angle_min,
             angle_increment=m.angle_increment,range_min=m.range_min,range_max=m.range_max,
             ranges=list(m.ranges)),100,SENSOR_QOS)
@@ -37,6 +39,7 @@ class NavigationTrace:
         self.subscribe(Odometry,'/mrider_sim/odometry',lambda m:dict(**header(m),pose=pose(m.pose.pose)),100,SENSOR_QOS)
         if costmaps:
             latched=QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL)
+            self.subscribe(OccupancyGrid,'/navigation/observed_map',self.grid,3,latched)
             for topic in ('/local_costmap/costmap_raw','/global_costmap/costmap_raw'):
                 self.subscribe(Costmap,topic,lambda m:dict(**header(m),resolution=m.metadata.resolution,
                     width=m.metadata.size_x,height=m.metadata.size_y,origin=pose(m.metadata.origin),data=list(m.data)),6,latched)

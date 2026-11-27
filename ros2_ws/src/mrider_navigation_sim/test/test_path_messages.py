@@ -31,6 +31,7 @@ def exercise(radius,frame='map',map_resolution=.05,stale=False):
         requests.append(req)
         return SimpleNamespace(add_done_callback=lambda cb:None)
     node=SimpleNamespace(sequence=1,goal_extension=0.,state='PLANNING',map_resolution=.05,resume_plan_goal=None,
+        saved_goal=None,reference_path=None,reference_goal=None,
         local_map=SimpleNamespace(info=SimpleNamespace(resolution=map_resolution)),
         wheelbase=.533,max_steering=math.atan(.533/2.1),path_lookahead=2.,
         tf_buffer=SimpleNamespace(lookup_transform=lambda *args:tf),get_clock=lambda:clock,
@@ -39,6 +40,7 @@ def exercise(radius,frame='map',map_resolution=.05,stale=False):
         follower=SimpleNamespace(send_goal_async=send),follow_accepted=lambda *args:None)
     node.poll_plan=lambda:Mission.poll_plan(node)
     node.execute_plan=lambda future,seq,**kwargs:Mission.execute_plan(node,future,seq,**kwargs)
+    node.try_retained_route=lambda seq:Mission.try_retained_route(node,seq)
     node.test_tf=tf
     future=SimpleNamespace(result=lambda:SimpleNamespace(status=4,result=SimpleNamespace(path=path)))
     Mission.planned(node,future,1)
@@ -58,6 +60,60 @@ def test_valid_plan_reaches_follow_action():
     node,requests=exercise(3.)
     assert len(requests)==1 and node.state=='FOLLOWING'
     assert json.loads(node.path_status.messages[-1].data)['accepted']
+
+
+def retained_node():
+    import copy
+    from nav_msgs.msg import OccupancyGrid
+    from rclpy.time import Time
+    path=Path();path.header.frame_id='map'
+    for i in range(140):
+        p=PoseStamped();p.pose.position.x=i*.05;p.pose.orientation.w=1.;path.poses.append(p)
+    goal=PoseStamped();goal.pose.position.x=6.;goal.pose.orientation.w=1.
+    grid=OccupancyGrid();grid.header.frame_id='map';grid.header.stamp=Time(seconds=10.).to_msg()
+    grid.info.resolution=.05;grid.info.width=200;grid.info.height=100
+    grid.info.origin.position.x=-1.;grid.info.origin.position.y=-2.5;grid.info.origin.orientation.w=1.
+    grid.data=[0]*20000
+    tf=TransformStamped();tf.header.stamp=Time(seconds=10.).to_msg()
+    tf.transform.translation.x=3.;tf.transform.rotation.w=1.
+    scan=LaserScan();scan.header.stamp=Time(seconds=10.).to_msg();scan.header.frame_id='laser'
+    requests=[]
+    node=SimpleNamespace(sequence=1,safety='READY',state='PLANNING',resume_plan_goal=goal,
+        reference_path=path,reference_goal=copy.deepcopy(goal),saved_goal=goal,local_map=grid,
+        map_resolution=.05,goal_extension=1.,goal_body=(.76,.23,.28,.15),wheelbase=.533,max_steering=math.atan(.533/2.1),
+        path_lookahead=2.,resume_plan_started=time.monotonic(),
+        get_clock=lambda:SimpleNamespace(now=lambda:Time(seconds=10.1)),
+        scan_with_transform=lambda now:(scan,tf),tf_buffer=SimpleNamespace(lookup_transform=lambda *a:tf),
+        path_status=Publisher(),path_pub=Publisher(),get_logger=lambda:SimpleNamespace(info=lambda m:None,warn=lambda m:None),
+        follower=SimpleNamespace(send_goal_async=lambda req:(requests.append(req) or SimpleNamespace(add_done_callback=lambda cb:None))),
+        follow_accepted=lambda *a:None,test_tf=tf,test_scan=scan)
+    return node,requests
+
+
+def test_retained_route_rechecks_current_observations_before_follow():
+    node,requests=retained_node()
+    assert Mission.try_retained_route(node,1)
+    assert len(requests)==1 and node.state=='FOLLOWING' and node.resume_plan_goal is None
+    assert requests[0].path.poses[0].pose.position.x>2.9
+    assert json.loads(node.path_status.messages[-1].data)['retained_after_obstacle']
+
+
+@pytest.mark.parametrize('fault',['disarm','sensor_stop','no_permission','expired','changed_goal',
+    'old_map','old_tf','old_scan','wrong_path_frame','new_obstacle'])
+def test_retained_route_never_bypasses_permission_freshness_or_new_obstacles(fault):
+    node,requests=retained_node()
+    if fault=='disarm':node.safety='DISARMED'
+    elif fault=='sensor_stop':node.safety='STOPPED'
+    elif fault=='no_permission':node.resume_plan_goal=None
+    elif fault=='expired':node.resume_plan_started=time.monotonic()-16.
+    elif fault=='changed_goal':node.saved_goal.pose.position.y=1.
+    elif fault=='old_map':node.local_map.header.stamp.sec=7
+    elif fault=='old_tf':node.test_tf.header.stamp.sec=9
+    elif fault=='old_scan':node.test_scan.header.stamp.sec=9
+    elif fault=='wrong_path_frame':node.reference_path.header.frame_id='odom'
+    elif fault=='new_obstacle':node.local_map.data[50*200+120]=100
+    assert not Mission.try_retained_route(node,1)
+    assert not requests and not node.path_status.messages and node.state=='PLANNING'
 
 
 def test_waits_for_fresh_tf_without_driving():

@@ -1,0 +1,239 @@
+{
+  "date_kst": "2026-11-27",
+  "environment": "ros2_humble:/root/mrider-team",
+  "vehicle": 1,
+  "scope": "Selected navigation unit/ROS driving/fault/shutdown tests; not whole upstream workspace CI",
+  "suites": [
+    {
+      "name": "camera_contract",
+      "tests": 11,
+      "passed": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "segmentation",
+      "tests": 18,
+      "passed": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "sensor_core",
+      "tests": 15,
+      "passed": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "registration_recovery",
+      "tests": 9,
+      "passed": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "moving_obstacles",
+      "tests": 19,
+      "passed": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "motion_gate",
+      "tests": 5,
+      "passed": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "free_evidence",
+      "tests": 5,
+      "passed": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "sensor_messages",
+      "tests": 3,
+      "passed": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "safety",
+      "tests": 46,
+      "passed": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "local_goal",
+      "tests": 15,
+      "passed": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "observed_map",
+      "tests": 22,
+      "passed": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "synchronization",
+      "tests": 5,
+      "passed": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "path_feasibility",
+      "tests": 17,
+      "passed": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "path_messages",
+      "tests": 22,
+      "passed": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "vehicle_overlay",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "large_office",
+      "tests": 13,
+      "passed": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "indoor_geometry",
+      "tests": 8,
+      "passed": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_sensor_only_launch.py",
+      "tests": 2,
+      "passed": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_sensor_tf_launch.py",
+      "tests": 3,
+      "passed": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_sensor_dropout_launch.py",
+      "tests": 2,
+      "passed": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_large_office_launch.py",
+      "tests": 2,
+      "passed": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_large_office_turns_launch.py",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_large_office_dynamic_launch.py",
+      "tests": 2,
+      "passed": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_sensor_turns_launch.py",
+      "tests": 2,
+      "passed": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_navigation_launch.py",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_blocked_launch.py",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_recovery_launch.py",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_faults_launch.py",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "total": {
+    "tests": 258,
+    "passed": 253,
+    "failures": 5,
+    "errors": 0,
+    "skipped": 0
+  }
+}

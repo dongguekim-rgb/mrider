@@ -56,7 +56,17 @@ class SensorOnly(unittest.TestCase):
             report['automatic_resume']=True
             report['stop_to_resume_s']=time.monotonic()-stopped_at
             assert report['stop_to_resume_s']>=3.,report
-            node.wait(lambda:node.mission in ('GOAL','FAILED','STOPPED'),80.)
+            # A second observed actor may require another stop. Keep the
+            # original deadline and fault checks, and require completion
+            # without any additional manual arm/start call.
+            deadline=time.monotonic()+80.
+            while time.monotonic()<deadline:
+                rclpy.spin_once(node,timeout_sec=.02)
+                assert not node.collision
+                assert node.mission!='FAILED',node.states[-1]
+                if node.states[-1][1]['state']=='STOPPED':
+                    assert node.states[-1][1]['reason'] in ('obstacle_stop','camera_obstacle'),node.states[-1]
+                if node.mission=='GOAL':break
             assert node.mission=='GOAL',node.states[-1]
             node.wait(lambda:abs(truth[-1].twist.twist.linear.x)<.01)
             assert not node.collision

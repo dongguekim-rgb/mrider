@@ -1,0 +1,287 @@
+{
+  "date_kst": "2026-11-27",
+  "environment": "ros2_humble:/root/mrider-team",
+  "vehicle": 1,
+  "source_manifest": "regression-03/source-sha256.json",
+  "regression": {
+    "tests": 282,
+    "passed": 282,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": 29,
+  "reports": {
+    "sensor_only": {
+      "result": "PASS",
+      "goal_reached_error_m": 0.17026031007249326,
+      "camera_dropout_latched": true
+    },
+    "large_office": {
+      "result": "PASS",
+      "goal_reached_error_m": 0.10117769082156469,
+      "collision": false,
+      "camera_dropout_latched": true
+    },
+    "large_office_turns": {
+      "result": "PASS",
+      "legs": [
+        {
+          "goal": [
+            24.0,
+            0.0,
+            0.0
+          ],
+          "goal_error_m": 0.018721022601018985,
+          "yaw": -9.345571369096533e-05,
+          "heading_error_rad": 9.345571369096533e-05
+        },
+        {
+          "goal": [
+            24.0,
+            16.0,
+            1.5707963267948966
+          ],
+          "goal_error_m": 0.15237234977377723,
+          "yaw": 1.696863007865435,
+          "heading_error_rad": 0.12606668107053842
+        },
+        {
+          "goal": [
+            40.0,
+            16.0,
+            0.0
+          ],
+          "goal_error_m": 0.07460766362245626,
+          "yaw": -0.14026837353167312,
+          "heading_error_rad": 0.14026837353167312
+        }
+      ],
+      "automatic_resumes": [],
+      "collision": false,
+      "min_clearance_m": 0.28505567141640126,
+      "max_candidate_steering_rad": 0.22831954612954888,
+      "estimator_counts": {
+        "initial": 1,
+        "keyframe": 1864
+      },
+      "elapsed_s": 195.30204347521067
+    },
+    "large_office_dynamic": {
+      "result": "PASS",
+      "legs": [
+        {
+          "goal": [
+            24.0,
+            0.0,
+            0.0
+          ],
+          "goal_error_m": 0.020214109597951058,
+          "yaw": -5.9835696758547816e-05,
+          "heading_error_rad": 5.983569675854782e-05
+        },
+        {
+          "goal": [
+            24.0,
+            16.0,
+            1.5707963267948966
+          ],
+          "goal_error_m": 0.19059513576242595,
+          "yaw": 1.6962671351615781,
+          "heading_error_rad": 0.12547080836668156
+        },
+        {
+          "goal": [
+            40.0,
+            16.0,
+            0.0
+          ],
+          "goal_error_m": 0.034876715535388195,
+          "yaw": -0.14552450179951673,
+          "heading_error_rad": 0.14552450179951676
+        }
+      ],
+      "automatic_resumes": [
+        {
+          "leg": 1,
+          "stopped_s": 10.436448013409972,
+          "stop_pose": [
+            25.972038884293227,
+            9.344915957258335
+          ],
+          "resume_pose": [
+            25.950438824062815,
+            9.42373936650076
+          ]
+        },
+        {
+          "leg": 1,
+          "stopped_s": 8.13437096402049,
+          "stop_pose": [
+            25.944651595717218,
+            9.444458419742086
+          ],
+          "resume_pose": [
+            25.936933095911055,
+            9.473154112037877
+          ]
+        },
+        {
+          "leg": 2,
+          "stopped_s": 7.549144756048918,
+          "stop_pose": [
+            34.346270157087304,
+            17.792920984330124
+          ],
+          "resume_pose": [
+            34.422229089740696,
+            17.768274426989546
+          ]
+        },
+        {
+          "leg": 2,
+          "stopped_s": 7.8032572492957115,
+          "stop_pose": [
+            34.575360616357415,
+            17.719347184506315
+          ],
+          "resume_pose": [
+            34.655891660506555,
+            17.693847130861485
+          ]
+        }
+      ],
+      "collision": false,
+      "min_clearance_m": 0.32572590059643874,
+      "max_candidate_steering_rad": 0.23658894748923553,
+      "estimator_counts": {
+        "initial": 1,
+        "keyframe": 2184,
+        "rejected:scan_registration_failed": 1
+      },
+      "elapsed_s": 226.65988709032536
+    },
+    "sensor_turns": {
+      "result": "PASS",
+      "goal_reached_error_m": 0.12354794501343797,
+      "collision": false,
+      "min_clearance_m": 0.34819648137840237,
+      "stop_to_resume_s": 11.84095337614417,
+      "steering_min_rad": -0.09408862888813019,
+      "steering_max_rad": 0.13201405107975006,
+      "camera_dropout_latched": true
+    },
+    "sensor_dropout": {
+      "result": "PASS",
+      "stop_detection_s": 0.2795808110386133,
+      "action_terminal_s": 0.7184177450835705
+    },
+    "live_rviz": {
+      "result": "PASS",
+      "legs": [
+        {
+          "goal": [
+            24.0,
+            0.0,
+            0.0
+          ],
+          "goal_error_m": 0.01899166074252661,
+          "yaw": 0.00023878277721092677,
+          "heading_error_rad": 0.0002387827772109268
+        },
+        {
+          "goal": [
+            24.0,
+            16.0,
+            1.5707963267948966
+          ],
+          "goal_error_m": 0.1557343859334146,
+          "yaw": 1.700680504257679,
+          "heading_error_rad": 0.12988417746278236
+        },
+        {
+          "goal": [
+            40.0,
+            16.0,
+            0.0
+          ],
+          "goal_error_m": 0.11991350210675514,
+          "yaw": -0.14611323763021722,
+          "heading_error_rad": 0.14611323763021722
+        }
+      ],
+      "automatic_resumes": [
+        {
+          "leg": 1,
+          "stopped_s": 9.807184811681509,
+          "stop_pose": [
+            26.07775131846219,
+            8.921960390121157
+          ],
+          "resume_pose": [
+            26.055607525893134,
+            9.00573636898763
+          ]
+        },
+        {
+          "leg": 1,
+          "stopped_s": 6.433527152985334,
+          "stop_pose": [
+            25.894617432969667,
+            9.612792235151911
+          ],
+          "resume_pose": [
+            25.872834642402655,
+            9.69557101562591
+          ]
+        },
+        {
+          "leg": 2,
+          "stopped_s": 11.511978644877672,
+          "stop_pose": [
+            33.65756725642737,
+            18.093523618362614
+          ],
+          "resume_pose": [
+            33.711686945601556,
+            18.077420556661004
+          ]
+        },
+        {
+          "leg": 2,
+          "stopped_s": 5.509913932532072,
+          "stop_pose": [
+            33.714527234025525,
+            18.07636664839156
+          ],
+          "resume_pose": [
+            33.7206412818387,
+            18.074139807489953
+          ]
+        }
+      ],
+      "collision": false,
+      "min_clearance_m": 0.29618607161804433,
+      "max_candidate_steering_rad": 0.23322060985403822,
+      "estimator_counts": {
+        "initial": 1,
+        "keyframe": 2136,
+        "rejected:scan_registration_failed": 1
+      },
+      "elapsed_s": 228.6324403770268
+    }
+  },
+  "live_scope": {
+    "driving_verdict": "PASS during the recorded mission; evaluator then disarmed",
+    "gui_verdict": "Existing PID 87150 displayed live map/trail/segmentation after its covered window was raised; no restart",
+    "cleanup": "Background shell launcher did not finish on SIGINT. Its owned parent/children were identified from the log and stopped; remaining=[]; RViz retained.",
+    "post_mission": "Continued unattended observations after evaluation were not part of the driving acceptance window. Additional registration/TF warnings in backend-complete.log.gz remain recorded; prolonged parked observation is not validated."
+  },
+  "remaining_validation": [
+    "Load-dependent startup scan gaps",
+    "Prolonged parked dynamic-scene registration",
+    "Background runner lifecycle (manual cleanup was required)",
+    "Gazebo physics and physical camera/LiDAR/Teensy integration"
+  ],
+  "scope": "Synthetic camera/LiDAR, real SLAM/Nav2, 2D kinematic sensor simulation. Ground truth is evaluation-only. Not Gazebo or physical-vehicle acceptance."
+}

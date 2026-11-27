@@ -16,6 +16,7 @@ from mrider_autonomy.ros_adapter import stamp_seconds
 from .sensor_core import KeyframeOdometry, VelocityWindow, slam_ranges
 from .segmentation import CameraGeometry, segment
 from .synchronization import ImageScanBuffer
+from .moving_obstacles import MotionTracks
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
 
@@ -26,6 +27,8 @@ class LaserOdometry(Node):
         self.last_error=None
         self.estimator=KeyframeOdometry(self.declare_parameter('keyframe_max_age',2.).value)
         self.velocity=VelocityWindow()
+        self.motion=MotionTracks()
+        self.motion_pub=self.create_publisher(String,'/mrider_sim/moving_obstacles',COMMAND_QOS)
         self.max_range_is_clear=self.declare_parameter('max_range_is_clear',False).value
         self.slam_pub=self.create_publisher(LaserScan,'/mrider_sim/slam_scan',SENSOR_QOS)
         self.pub=self.create_publisher(Odometry,'/mrider_sim/odometry',SENSOR_QOS)
@@ -49,6 +52,7 @@ class LaserOdometry(Node):
             self.pose,rmse=self.estimator.update(points,stamp)
             v,w=self.velocity.update(self.pose,stamp)
             self.previous=points;self.stamp=stamp
+            self.motion_pub.publish(String(data=json.dumps(self.motion.update(points,self.pose,stamp))))
             # ROS Python message fields share objects on assignment. Preserve
             # the source laser frame for SLAM's scan-time TF message filter.
             out=Odometry();out.header=copy.deepcopy(msg.header);out.header.frame_id='odom';out.child_frame_id='base_link'

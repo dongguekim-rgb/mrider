@@ -1,0 +1,17 @@
+{
+  "costmap_stamp": 1795744719.9388952,
+  "scan_stamps": [
+    1795744719.719508,
+    1795744719.8196092,
+    1795744719.919454
+  ],
+  "latest_scan_age": 0.01944112777709961,
+  "contradicted_lethal_cells": 549,
+  "contradicted_cells_near_remaining_path": 277,
+  "roi": [
+    23,
+    11,
+    26.5,
+    17
+  ]
+}

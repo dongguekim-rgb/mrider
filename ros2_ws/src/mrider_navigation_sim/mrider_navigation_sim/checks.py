@@ -103,7 +103,7 @@ class Checks(Node):
 
     def assert_sensor_sources(self):
         expected={'/map':'slam_toolbox','/navigation/observed_map':'observed_map',
-                  '/mrider_sim/odometry':'laser_odometry'}
+                  '/mrider_sim/odometry':'laser_odometry','/mrider_sim/moving_obstacles':'laser_odometry'}
         snapshot={}
         def ready():
             snapshot['publishers']={topic:sorted(p.node_name for p in self.get_publishers_info_by_topic(topic)) for topic in expected}
@@ -126,7 +126,12 @@ class Checks(Node):
             assert client.wait_for_service(timeout_sec=15.), name
             end=time.monotonic()+15.
             while time.monotonic()<end:
-                f=client.call_async(GetState.Request());self.wait(f.done)
+                # GetState shares the lifecycle callback group with configure.
+                # Smac's lookup-table construction can occupy it for >5 s.
+                # Use the existing 15 s readiness deadline, not wait()'s 5 s
+                # default. This does not alter any driving input timeout.
+                f=client.call_async(GetState.Request())
+                self.wait(f.done,max(.01,end-time.monotonic()))
                 if f.result().current_state.id==3:break
                 self.spin(.2)
             else:raise AssertionError('Nav2 not active: '+name)

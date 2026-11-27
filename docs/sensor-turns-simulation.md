@@ -1,8 +1,8 @@
 # 센서 기반 좌우 우회·보행자 정지·자동 재개 시험
 
-> **현재 상태:** `regression-08`에서 고정 장애물 우회·보행자 앞 정지·자동 재개·목표 도착·카메라 고장 latch와 정상 종료를 통과했다.
-> 도착 오차 **0.109970 m**, 정지부터 재개 **13.921913 s**, 최소 여유 **0.340385 m**, 충돌 없음.
-> 큰 맵 세 목표 주행과는 별도 시험이다. [원본·전체 집계·남은 검증](experiment-log.md#current-validation)을 확인한다.
+> **현재 상태:** 동일 소스 전체 `regression-03`에서 우회·장애물 정지·자동 재개·목표 도착·카메라 고장 latch·정상 종료 PASS.
+> 목표 도착 오차 **0.123548 m**, 정지부터 재개 **11.840953초**,
+> 최소 여유 **0.348196 m**, 충돌 없음. [원본·전체 집계·남은 검증](experiment-log.md#current-validation)을 확인한다.
 > 아래 날짜별 PASS는 각각 당시 소스로 수행한 실행 이력이다.
 
 > **2026-11-25 SLAM 헤더 수정 후 회귀 검증:** 도착 오차 0.120968 m, 자동 재개 13.194864 s,
@@ -36,11 +36,19 @@ Gazebo가 아닌 기존 2D 센서 시뮬레이터이며, RViz에서 지도·경�
 LiDAR 장애물 감속 중 RPP가 0 명령을 보낸 경우에도 장애물 정지 원인을 유지한다. 0 명령에 조향 정보가 없다는 이유로 직전에 확인한 장애물 정지를 일반 실패로 바꾸지 않는다.
 카메라가 정상·통행 가능이고 scan/odom이 신선하며 차량이 정지한 상태에서,
 LiDAR의 전방 swept footprint 2 m가 **연속 3초간 비어 있어야** 자동으로 허가하고 저장된 목표로 경로를 다시 계획한다.
+관측 군집의 이동 추정도 신선해야 하며, 마지막 이동 후보 명령을 기준으로 계산한 12초 예측 교차가 없어야 한다.
+이 예측은 더 이른 정지를 위한 일정 속도 근사다. 실제 보행자의 갑작스러운 행동을 보장하지 않는다.
 
 이 장애물 전용 재허가를 받은 뒤에도 곡선 경로가 아직 막혀 있으면 속도 0의 `WAITING`에서
 최소 0.5초 간격으로 다시 계획한다. 최대 15초 안에 유효한 경로를 얻은 경우에만 추종한다.
 일반 경로 실패, 새 고장, 허가 취소, 곡률·좌표계 검사 실패는 이 재시도 대상이 아니다.
 15초를 넘으면 실패 정지한다. 시간 초과를 무한 재시작으로 덮어쓰지 않는다.
+
+새 계획이 거부됐지만 이전 승인 경로가 남아 있다면 같은 15초 안에서 그 경로를 재검사한다.
+현재 추정 위치·방향에서 연결되고 물리 곡률 한계를 지키며, 최신 관측 지도에서 남은 경로와
+초기 추종 곡선의 차체 전체+0.15 m가 비어 있을 때만 이어 간다. 원래 목표 뒤 가상 참조점까지
+실제로 주행하는 것은 아니다. 지도·scan·TF 지연, 목표 변경, 센서 고장이나 disarm은 이 재개를 허용하지 않는다.
+`/mrider_sim/path_validation`의 `retained_after_obstacle: true`로 적용 여부를 확인한다.
 
 카메라 미확인·누락·시간 지연, scan/odom 고장, 잘못된 명령, 조향 한계 초과 등은 수동 재허가가 필요하다.
 나중의 장애물 판정이 이 고장을 덮어 자동 재개시키지 않도록 latch를 유지한다.
@@ -97,7 +105,7 @@ export MRIDER_TEST_VEHICLE=1
 export MRIDER_SIM_REPORT_DIR=/root/mrider-team/docs/build/evidence/sensor-turns-manual
 colcon --log-base log-docker test --build-base build-docker --install-base install-docker \
   --packages-select mrider_navigation_sim --event-handlers console_direct+ \
-  --ctest-args -R 'test_sensor_turns_launch|^safety$|^indoor_geometry$' --output-on-failure
+  --ctest-args -R 'test_sensor_turns_launch|^path_recovery$|^path_messages$|^moving_obstacles$|^motion_gate$|^safety$|^indoor_geometry$' -j1 --output-on-failure
 colcon test-result --test-result-base build-docker/mrider_navigation_sim/test_results --verbose
 ```
 

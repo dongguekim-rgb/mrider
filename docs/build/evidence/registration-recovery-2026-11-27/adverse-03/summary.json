@@ -1,0 +1,43 @@
+{
+  "result": "FAIL",
+  "error": "{'state': 'STOPPED', 'reason': 'planning_or_tracking_failed', 'speed': 0.0, 'predicted_collision_s': None, 'camera': {'stamp': 1795744723.639475, 'valid': True, 'clear': True, 'reason': 'clear', 'scan_image_offset_s': 0.0, 'floor_fraction': 0.9847222222222223, 'obstacle_fraction': 0.0020833333333333333, 'unknown_fraction': 0.013194444444444444, 'processing_ms': 14.8550383746624, 'source_age_s': 0.03305459022521973}, 'camera_receive_age_s': 0.059818582609295845}",
+  "elapsed_s": 154.9649869762361,
+  "legs": [
+    {
+      "goal": [
+        24.0,
+        0.0,
+        0.0
+      ],
+      "goal_error_m": 0.07290425764464449,
+      "yaw": 0.0036644411023697278,
+      "heading_error_rad": 0.0036644411023697273
+    }
+  ],
+  "automatic_resumes": [],
+  "min_clearance_m": 0.28597484967515285,
+  "collision": false,
+  "estimator_counts": {
+    "initial": 1,
+    "keyframe": 1527
+  },
+  "final_safety": {
+    "state": "STOPPED",
+    "reason": "planning_or_tracking_failed",
+    "speed": 0.0,
+    "predicted_collision_s": null,
+    "camera": {
+      "stamp": 1795744723.639475,
+      "valid": true,
+      "clear": true,
+      "reason": "clear",
+      "scan_image_offset_s": 0.0,
+      "floor_fraction": 0.9847222222222223,
+      "obstacle_fraction": 0.0020833333333333333,
+      "unknown_fraction": 0.013194444444444444,
+      "processing_ms": 14.8550383746624,
+      "source_age_s": 0.03305459022521973
+    },
+    "camera_receive_age_s": 0.059818582609295845
+  }
+}

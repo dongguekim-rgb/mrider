@@ -24,6 +24,17 @@ def test_near_known_final_goal_preserved():
     assert result==(7,5,True)
 
 
+def test_clear_goal_center_but_blocked_final_body_waits_without_detour():
+    from mrider_navigation_sim.local_goal import select_pose_goal
+    grid=np.zeros((200,200));grid[98:103,171:175]=100
+    info={};args=(grid,.05,(-5.,-5.),(0.,0.,0.),(3.,0.,0.),2.5)
+    result=select_pose_goal(*args,footprint=(.76,.23,.28,.15),diagnostics=info)
+    assert info['final_check']['reason']=='final'
+    assert result is None and info['reason']=='final_footprint_blocked'
+    grid[:]=0
+    assert select_pose_goal(*args,footprint=(.76,.23,.28,.15))==(3.,0.,0.,True)
+
+
 @pytest.mark.parametrize('current,destination,resolution',[
     ((3.,5.),(9.1,5.),.2),
     ((17.9,.02),(24.,0.),.05),

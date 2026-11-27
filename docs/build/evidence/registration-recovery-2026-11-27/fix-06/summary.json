@@ -1,0 +1,12 @@
+{
+  "result": "FAIL",
+  "tests": 33,
+  "passed": 32,
+  "failures": 1,
+  "scope": "25 motion unit cases and four ROS driving/shutdown pairs; 4-second prediction horizon",
+  "basic_goal_error_m": 0.1672044768963615,
+  "large_office_goal_error_m": 0.11114977486942067,
+  "scan_stop_detection_s": 0.2969224061816931,
+  "small_map_first_resume_s": 13.770527699962258,
+  "remaining_failure": "Small-map evaluator treated the second obstacle stop as immediate failure"
+}

@@ -20,19 +20,24 @@
 | 주행 중 LiDAR 중단 | PASS, 정지 판정 **0.279581초**, action 종료 **0.718418초** |
 | 기존 RViz 연결: 세 목표 | PASS, 목표 오차 **0.018992 / 0.155734 / 0.119914 m**, 주행 기록 **228.632440초** |
 | GUI 실행의 동적 장애물·차량 제한 | 정지·자동 재개 **4회**, 충돌 없음, 최소 여유 **0.296186 m**, 최대 후보 조향 **0.233221 rad** < 물리 한계 **0.248561 rad** |
+| 추가 RViz 녹화 실행 — E39 | PASS, 목표 오차 **0.096136 / 0.226672 / 0.079524 m**, 자동 재개 **2회**, 충돌 없음, 백엔드 정상 종료 |
 | 센서 frame/시각·TF·카메라 고장 latch·GT 격리·CTest 정상 종료 | 선택한 검사 모두 PASS |
 
 주행 입력은 카메라·LiDAR와 그 추정 결과뿐이며 **GT는 평가 노드만 구독**한다. 차량 치수와 물리 조향 한계, 입력·TF 0.35초 제한은 유지했다.
-동적 가림에 대한 ICP 최근 관측 합의, 관측 군집의 예측 정지, 오래된 costmap 점유 재검증, 장애물 정지 뒤 기존 경로 재검사를 추가했다. 상세 시행착오는 E33–E38에 남긴다.
+동적 가림에 대한 ICP 최근 관측 합의, 관측 군집의 예측 정지, 오래된 costmap 점유 재검증, 장애물 정지 뒤 기존 경로 재검사를 추가했다. 상세 시행착오는 E33–E39에 남긴다.
 
 **범위와 남은 문제:** 합성 카메라·LiDAR + 실제 SLAM/Nav2의 **2D 센서 시뮬레이션** 결과다. Gazebo 물리 twin·실센서·Teensy 통합·건물 전체 탐색의 통과를 뜻하지 않는다.
 시작 중 0.360초 scan 간격으로 출발하지 못한 실행(E36)이 있었고, GUI 평가 종료·disarm 후 약 96초간 백엔드가 남아 있던 구간에서는 정차 중 정합 손실이 발생했다(E38).
-따라서 부하 조건의 반복 기동과 장시간 정차 관측의 안정성은 아직 통과로 판정하지 않는다. GUI 실행의 백그라운드 정리는 별도 조치가 필요했으며, 이를 CTest의 정상 종료 PASS와 혼동하지 않는다.
+따라서 부하 조건의 반복 기동과 장시간 정차 관측의 안정성은 아직 통과로 판정하지 않는다. 이전 GUI 실행의 백그라운드 정리는 별도 조치가 필요했다.
+추가 녹화 실행(E39)은 실행기의 신호 처리를 보완하여 강제 종료 없이 정상 정리됐으며, 이전 실패와 구분한다.
 현재 이번 시험의 백엔드는 모두 종료했고 **기존 RViz PID 87150은 그대로 유지**했다.
 
 근거: [최종 집계](build/evidence/registration-recovery-2026-11-27/final-summary.json), [전체 XML 집계](build/evidence/registration-recovery-2026-11-27/regression-03/summary.json),
 [GUI 주행 원본](build/evidence/registration-recovery-2026-11-27/live-rviz/live_large_office_dynamic.json.gz), [실제 화면](build/evidence/registration-recovery-2026-11-27/live-rviz/rviz-final.png),
 [GUI 범위·후처리 기록](build/evidence/registration-recovery-2026-11-27/live-rviz/scope.json), [실행 환경](build/evidence/registration-recovery-2026-11-27/regression-03/environment.json.gz).
+
+[**현재 센서 주행 녹화 MP4 — 4분 10.5초**](build/evidence/sensor-navigation-video-2026-11-27/run-01/rviz-navigation.mp4).
+실제 RViz 창을 1600×1050, 8 fps로 캡처했다. 재구성 애니메이션이 아니며, 영상 검증과 이번 실행 수치는 [E39](#recorded-sensor-run)에 기록한다.
 
 ![이번 GUI 연결 실행의 세 목표와 정지·재개 위치. GT는 평가에만 사용](build/evidence/registration-recovery-2026-11-27/live-rviz/route.png)
 
@@ -526,6 +531,27 @@ python3 "$analysis_root/analysis/attribute_returns.py" \
 - **후처리 실패:** 임시 셸 실행기의 `SIGINT → wait` 정리가 끝나지 않아, 주행 평가 종료 후에도 백엔드가 남았다. 해당 부모 PID에 SIGTERM을 보내고 실행 로그에서 확인한 자식 PID만 개별 정리했다. 기존 RViz와 다른 작업은 종료하지 않았다. [정리 결과](build/evidence/registration-recovery-2026-11-27/live-rviz/cleanup.json.gz)의 `remaining: []`를 확인했다.
 - **평가 창 이후 관측:** evaluator 완료 시각 `1795750275.0616486` 후 약 **96초**에 `recent_reference_disagreement → recent_reference_unavailable → scan_gap_manual_restart_required`가 발생했다. 차량은 이미 disarm 상태였다. [전체 후속 로그](build/evidence/registration-recovery-2026-11-27/live-rviz/backend-complete.log.gz)도 보존하며, 주행 중 기록의 정합 거부 1회와 구분한다.
 - **판정 한계:** 세 목표·정지·재개 주행 PASS가 장시간 정차 관측이나 임시 백그라운드 실행기의 종료 성공을 증명하지 않는다. 정차 중 동적 가림의 지속 정합과 부하 기동은 남은 검증이다. 사용자용 재현은 아래 foreground launch와 Ctrl+C 또는 launch_testing 종료 관리를 사용한다. 당시 `live-rviz/run.sh`는 실행 이력이며 권장 실행기가 아니다.
+
+<a id="recorded-sensor-run"></a>
+
+### E39. 센서 주행 재실행·실제 RViz 녹화·정상 종료 — 2026-11-27
+
+- **환경·소스:** Docker `ros2_humble`, vehicle 1, 격리된 시험 domain 192, `large_office`, `actor_time_offset_s=227`, `auto_resume=true`. 주행 소스는 `2134ab7`이며 이전 회귀와 [118개 파일 해시](build/evidence/sensor-navigation-video-2026-11-27/run-01/source-sha256.json)가 일치한다. 차량 치수·입력 신선도·조향 제한은 변경하지 않았다.
+- **실행 명령:** 준비된 Humble 환경에서 `ROS_DOMAIN_ID=192 ros2 launch mrider_navigation_sim sensor_only_demo.launch.py scenario:=large_office vehicle:=1 goal_x:=24.0 auto_resume:=true actor_time_offset_s:=227.0 diagnostics:=true rviz:=false`. 같은 시험 domain의 기존 RViz와 연결하고, 이전과 같은 [평가 코드](build/evidence/registration-recovery-2026-11-27/run_live_validation.py)가 순서대로 목표를 요청한다.
+- **실제 주행:** `(24,0,0) → (24,16,π/2) → (40,16,0)` 모두 도착. 위치 오차 **0.096136 / 0.226672 / 0.079524 m**, 방향 오차 **0.003621 / 0.109766 / 0.151388 rad**. 자동 재개 **2회**, 정지 시간 **5.521 / 6.757초**, 충돌 없음, 최소 평가 여유 **0.417536 m**, 최대 후보 조향 **0.223816 rad**. 평가 주행 시간 **206.869초**, ROS 시나리오 검사 **1/1 PASS**다. 직전 회귀 282개를 이번에 다시 실행하거나 합산한 것이 아니다.
+- **실행 간 차이:** E37의 재개 4회와 이번 2회는 서로 다른 실행에서 관측한 값이다. 움직이는 장애물의 시작 위상 설정은 같지만 녹화 준비와 목표 요청 시각까지 일치시킨 반복 시험은 아니다. 두 결과를 하나로 합치지 않는다.
+- **위치 추정:** 전체 백엔드 로그에는 `scan_registration_failed` **1회**가 있으며 이후 주행을 이어 갔다. depth 1 진단 구독의 집계에는 이 사건이 수신되지 않아, 집계만 보고 정합 거부 0회라고 판단하지 않는다.
+- **영상 검증:** [MP4](build/evidence/sensor-navigation-video-2026-11-27/run-01/rviz-navigation.mp4)는 기존 RViz PID 87150 창의 실제 실시간 녹화다. **250.5초, 1600×1050, 8 fps, 2,004프레임, 12,335,956 bytes**, 무음 H.264. 캡처 스케줄 보정용 프레임 복제 0회, 인코더 종료 0, 전체 디코딩 종료 0. 100/190/245초 화면에서 지도·차량·경로·카메라 분할 갱신을 확인했다. 초기 준비와 종료 구간도 포함한다. [캡처 정보](build/evidence/sensor-navigation-video-2026-11-27/run-01/capture.json), [컨테이너 형식 검사](build/evidence/sensor-navigation-video-2026-11-27/run-01/ffprobe.json), [디코딩 종료 코드](build/evidence/sensor-navigation-video-2026-11-27/run-01/decode-exit-code.txt).
+- **E38 후처리 보완:** [실행기](build/evidence/sensor-navigation-video-2026-11-27/run_session.py)가 자신이 띄운 ROS launch의 신호 처리를 초기화하고 프로세스 그룹을 관리한다. 최종 disarm 확인 뒤 SIGINT로 정상 종료했다. 이번 실행은 백엔드 종료 코드 **0**, 추가 강제 신호 **없음**, 남은 소유 프로세스 **없음**이었다. 기존 RViz를 재시작하지 않았으며 다른 작업은 종료하지 않았다. [정리 근거](build/evidence/sensor-navigation-video-2026-11-27/run-01/cleanup.json.gz).
+- **범위:** 합성 카메라·LiDAR, 실제 SLAM/Nav2를 쓰는 **2D 센서 시뮬레이션**이다. GT는 평가에만 사용한다. Gazebo 물리 twin·실차/Teensy·장시간 정차 정합·부하 반복 기동의 통과를 주장하지 않는다.
+
+근거: [이번 실행 집계·영상 SHA256](build/evidence/sensor-navigation-video-2026-11-27/run-01/summary.json),
+[주행 보고서](build/evidence/sensor-navigation-video-2026-11-27/run-01/live_large_office_dynamic.json.gz),
+[백엔드 로그](build/evidence/sensor-navigation-video-2026-11-27/run-01/backend.log.gz),
+[검사·최종 disarm 로그](build/evidence/sensor-navigation-video-2026-11-27/run-01/validation.log.gz),
+[녹화 코드](build/evidence/sensor-navigation-video-2026-11-27/record_rviz.py).
+
+[![녹화 마지막 구간: 센서 관측 지도와 좌우 회전 주행 궤적](build/evidence/sensor-navigation-video-2026-11-27/run-01/thumbnail.png)](build/evidence/sensor-navigation-video-2026-11-27/run-01/rviz-navigation.mp4)
 
 ## 진단 당시 가설과 재검증 기준
 

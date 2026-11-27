@@ -8,6 +8,11 @@
 GUI 실행의 세 목표 오차는 **0.018992 / 0.155734 / 0.119914 m**입니다.
 [실제 측정값·원본 XML·화면·시행착오](docs/experiment-log.md#current-validation)를 확인하세요.
 
+**현재 센서 주행 녹화:** [RViz 영상 보기 — 4분 10.5초](docs/build/evidence/sensor-navigation-video-2026-11-27/run-01/rviz-navigation.mp4).
+같은 소스를 다시 실행해 직진·좌회전·우회전, 장애물 정지·자동 재개 **2회**, 충돌 없음을 확인했습니다.
+이 녹화 실행의 목표 오차는 **0.096136 / 0.226672 / 0.079524 m**이며, 위 회귀·GUI 실행과 구분합니다.
+[녹화 검증·정상 종료 기록](docs/experiment-log.md#recorded-sensor-run)을 함께 보세요.
+
 동적 가림의 LiDAR 정합, 이동 군집 예측 정지, 오래된 장애물 점유 갱신, 정지 후 경로 재검사를 보완했습니다.
 입력 신선도·차량 조향·충돌 판정 기준은 유지했습니다.
 이는 합성 센서를 사용하는 **2D 시험** 결과입니다. Gazebo 물리 twin·실차/Teensy 통합과

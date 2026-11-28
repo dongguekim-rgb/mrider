@@ -53,6 +53,12 @@ ros2 launch mitt_navigation nav2.launch.py vehicle:=1
 > **이 영상은 화면 녹화가 아니다.** headless로 돌린 twin에서 `/tf`, `/scan`, `/plan`, `/map`,
 > `/cmd_vel`, `/joint_states`, `/camera/image_raw`를 기록한 뒤 그 데이터로 다시 그린 것이다.
 > 오른쪽 위 화면은 시뮬레이터의 카메라 topic 그대로다.
+>
+> 영상의 배경은 slam_toolbox의 지도가 아니라 **그 시점까지 쌓인 LiDAR 반사점**이다. 기록에는 마지막
+> `/map` 하나만 남아 있어서, 그것을 처음부터 깔면 아직 보지 못한 벽이 보이게 된다. 시작 직후부터
+> 기둥 대부분이 보이는 것은 실제로 그렇기 때문이다. depot world는 트인 공간이고 LiDAR는 360도라서
+> 첫 scan에서 이미 대부분이 잡힌다. 위의 그림(`twin_v1_trajectory.png`)은 주행이 끝난 뒤의 최종
+> `/map`이다.
 
 ### 추정값 twin과의 비교
 

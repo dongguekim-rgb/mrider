@@ -114,8 +114,20 @@ def video(d, fp, title, out, fps=10, speed=3.0):
     axt = fig.add_axes([0.64, 0.09, 0.34, 0.27])
     axt.axis('off')
     fig.suptitle(title, color=NAVY, fontweight='bold', fontsize=15, x=0.05, ha='left')
-    draw_map(ax, d)
+    # The recording holds only the FINAL /map, so drawing it under every frame
+    # would show walls the LiDAR had not seen yet. Build the background from
+    # the scans instead: a cell turns navy the first time a beam ends in it.
     view(ax, d)
+    (x0, x1), (y0, y1) = ax.get_xlim(), ax.get_ylim()
+    res = 0.05
+    seen = np.zeros((int((y1 - y0) / res) + 1, int((x1 - x0) / res) + 1), dtype=bool)
+    rgb = np.ones(seen.shape + (3,))
+    bg = ax.imshow(rgb, origin='lower', extent=(x0, x1, y0, y1), zorder=0, interpolation='nearest')
+    ax.set_xlim(x0, x1)
+    ax.set_ylim(y0, y1)
+    ax.set_title('navy = LiDAR returns accumulated so far (/scan), red = current scan',
+                 fontsize=9, color=GREY)
+    next_scan = 0
     for k, (gx, gy) in enumerate(goals(d), 1):
         ax.plot(gx, gy, marker='*', ms=18, color=RED, ls='none', zorder=5)
         ax.annotate(f'goal {k}', (gx, gy), textcoords='offset points', xytext=(10, 8),
@@ -147,6 +159,20 @@ def video(d, fp, title, out, fps=10, speed=3.0):
         trail.set_data(P[:i + 1, 1], P[:i + 1, 2])
         c, s = np.cos(yaw), np.sin(yaw)
         body.set_xy([(x + c * px - s * py, y + s * px + c * py) for px, py in fp])
+        while next_scan < len(scan_t) and scan_t[next_scan] <= t:
+            _, qp, qa0, qda, qr = d['scan'][next_scan]
+            good = np.isfinite(qr) & (qr > 0.05)
+            qang = qp[2] + qa0 + qda * np.arange(len(qr))
+            hx = qp[0] + LASER_X * np.cos(qp[2]) + qr[good] * np.cos(qang[good])
+            hy = qp[1] + LASER_X * np.sin(qp[2]) + qr[good] * np.sin(qang[good])
+            cx = ((hx - x0) / res).astype(int)
+            cy = ((hy - y0) / res).astype(int)
+            inside = (cx >= 0) & (cx < seen.shape[1]) & (cy >= 0) & (cy < seen.shape[0])
+            seen[cy[inside], cx[inside]] = True
+            next_scan += 1
+        rgb[:] = 1.0
+        rgb[seen] = (0.0, 0.125, 0.376)
+        bg.set_data(rgb)
         j = min(int(np.searchsorted(scan_t, t)), len(scan_t) - 1)
         _, sp, a0, da, r = d['scan'][j]
         ok = np.isfinite(r) & (r > 0.05)

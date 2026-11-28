@@ -17,7 +17,7 @@ sudo apt-get install git python3-colcon-common-extensions python3-rosdep python3
   ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-slam-toolbox \
   ros-humble-launch-testing-ament-cmake ros-humble-launch-testing-ros
 source /opt/ros/humble/setup.bash
-git clone --branch sw/team-stack-migration https://github.com/dongguekim-rgb/mrider.git ~/mrider-team
+git clone --branch sw/software-autonomy https://github.com/dongguekim-rgb/mrider.git ~/mrider-team
 git -C ~/mrider-team remote add upstream https://github.com/jrkwon/mrider.git
 if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
   sudo rosdep init

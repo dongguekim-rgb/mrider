@@ -22,7 +22,7 @@ Gazebo 물리 twin·실센서·Teensy 통합은 남은 검증입니다. 저장�
 
 ## 시뮬레이션 실행
 
-팀 작업 폴더는 `mrider-team`, 브랜치는 `sw/team-stack-migration`입니다.
+팀 작업 폴더는 `mrider-team`, 브랜치는 `sw/software-autonomy`입니다.
 새 PC는 [설치·빌드 안내](docs/new-pc-setup.md), 기존 컨테이너의 코드 전달은
 [Docker 동기화 안내](docs/existing-humble-container.md)를 먼저 따르세요.
 호스트와 컨테이너의 팀 폴더는 별도 checkout이며 저장만으로 동기화되지 않습니다.

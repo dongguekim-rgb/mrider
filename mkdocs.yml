@@ -5,7 +5,7 @@ copyright: Bio-Inspired Machine Intelligence Lab (BIMI), University of Michigan-
 
 repo_url: https://github.com/dongguekim-rgb/mrider
 repo_name: dongguekim-rgb/mrider
-edit_uri: edit/sw/team-stack-migration/docs/
+edit_uri: edit/sw/software-autonomy/docs/
 
 theme:
   name: material
@@ -85,7 +85,7 @@ extra:
 
 nav:
   - 공식 프로젝트 소개: index.md
-  - 팀 실행·문서 안내: https://github.com/dongguekim-rgb/mrider/blob/sw/team-stack-migration/README.md
+  - 팀 실행·문서 안내: https://github.com/dongguekim-rgb/mrider/blob/sw/software-autonomy/README.md
   - 설치와 프로젝트:
       - 새 PC 설치·빌드: new-pc-setup.md
       - 기존 Humble Docker: existing-humble-container.md

@@ -94,7 +94,22 @@ Nav2가 횡단 장애물을 감지해 추종을 중단한 뒤 안전 조건에 �
 [주행 및 종료 로그](build/evidence/turns-2026-11-23/launch-test.log) ·
 [주행 시험 XML](build/evidence/turns-2026-11-23/test_test_turns_launch.py.xunit.xml)
 
+<a id="baseline-video"></a>
+
 ## 동영상
 
-[한글 MP4와 원본 기록](build/evidence/turns-video-2026-11-23/README.md).
-영상은 별도 재실행의 시간별 ROS 기록을 시각화한 것으로 RViz 화면 녹화가 아니다.
+[11/23 한글 MP4](build/evidence/turns-video-2026-11-23/indoor-turns-ko.mp4)는 정답 위치 기반 기준 시험의
+시간별 ROS 기록을 시각화한 영상이며 RViz 화면 녹화가 아니다. 방 안의 두 번째 보행자 모형은 그림에서 생략했다.
+별도 재실행의 주행·종료 검사 2개 PASS, 목표 오차 0.175847 m, 최소 여유 0.531914 m, 충돌 없음이다.
+[원본 JSON](build/evidence/turns-video-2026-11-23/indoor_turns.json),
+[XML](build/evidence/turns-video-2026-11-23/test_test_turns_launch.py.xunit.xml)을 함께 보관한다.
+
+재생성에는 ffmpeg, fontconfig, CJK 폰트, Python matplotlib가 필요하다. 기존 영상을 보존하도록 새 경로에 출력한다.
+
+```bash
+python3 tools/ros2/render_turns_video.py \
+  docs/build/evidence/turns-video-2026-11-23/indoor_turns.json \
+  /tmp/mrider-baseline-turns.mp4
+```
+
+현재 센서 주행의 실제 RViz 화면 녹화는 [11/27 기록](experiment-log.md#recorded-sensor-run)을 확인한다.

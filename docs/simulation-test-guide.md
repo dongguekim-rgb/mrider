@@ -1,8 +1,10 @@
-# ROS2 시뮬레이션 시험 설명서
+# ROS2 Pure Pursuit 기준 시험
 
 건물 내부 지도와 움직이는 장애물은 [실내 동적 시뮬레이션 설명서](indoor-simulation-guide.md)를 참고하세요.
 
-이 문서는 기본 Pure Pursuit 데모의 검사 절차다. 방향 A의 지도·scan·Nav2·장애물/고장 시험은 [센서 시뮬레이션 설명서](navigation-simulation-guide.md)를 따른다.
+이 문서는 알려진 경로와 모의 정답 위치를 받는 기본 Pure Pursuit 데모의 검사 절차다.
+현재 카메라·LiDAR 위치 추정 주행은 [센서 시험](sensor-only-navigation.md),
+알려진 지도·정답 위치 조건의 Nav2 장애물/고장 시험은 [Navigation 기준 시험](navigation-simulation-guide.md)을 따른다.
 
 선행: [새 PC 설치·colcon 빌드](new-pc-setup.md). 실제 장치·firmware·학습 모델은 필요하지 않다.
 가상 축거 0.65m, 속도 상한 0.8m/s, 조향 상한 0.3927rad이며 실차 보정값이 아니다.
@@ -70,7 +72,7 @@ ros2 run mrider_autonomy offline_demo
 실토픽 launch_testing은 조향 부호/제한, 잘못된 frame·NaN·timestamp,
 입력 중단·복구, 시계 정지·역행·복구, 직선/곡선 폐루프 감속·목표 정지를 검사한다.
 시험은 공통 토픽 이름을 사용하므로 순차 실행하고 다른 데모를 같은 ROS_DOMAIN_ID에서 실행하지 않는다.
-이번 결과와 오차: [ROS2 검증 기록](ros2-validation.md).
+이전 결과·오차와 증거 범위: [초기 기준 시험 기록](experiment-log.md#legacy-evidence).
 
 ## 4. 실차로 전환하기 전
 

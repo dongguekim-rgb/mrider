@@ -1,6 +1,6 @@
 # 시뮬레이션 시행착오 기록
 
-마지막 갱신: **2026-11-27 KST**. 팀 W·S의 센서 기반 시뮬레이션에서 중요한 실패·수정·재검증을 이 파일에 누적한다.
+마지막 갱신: **2026-11-28 KST** (문서 통합; 최신 주행 검증은 11/27). 팀 W·S의 센서 기반 시뮬레이션에서 중요한 실패·수정·재검증을 이 파일에 누적한다.
 원본 로그·XML·측정값은 `docs/build/evidence/`에 보존한다. 수업·공식 설계 문서를 대신하는 문서가 아니다.
 
 <a id="current-validation"></a>
@@ -116,6 +116,47 @@ GT는 평가 노드만 사용한다. 이번 시험은 RViz 없이 수행했고 �
 직전 [regression-01](build/evidence/path-curvature-2026-11-26/regression-01/summary.json)은 88개 중 86개 통과·2개 실패였다.
 당시 24 m 도착 오차는 0.030437 m, 큰 맵 회전 시험은 TF 시각 부족, 작은 맵은 `obstacle_stop` 후 재개 대기 초과로 실패했다.
 이번에는 TF 시각 부족이 재현되지 않았지만 목표 선택의 다른 거부 원인과 SLAM 종료 실패가 드러났다. 이전 결과도 그대로 보존한다.
+
+<a id="legacy-evidence"></a>
+
+## 초기 기준 시험·이관 증거
+
+2026-11-28에 중복된 과거 검증 문서를 이 절로 통합했다. 새 시험을 실행한 결과가 아니다.
+`build/evidence/legacy-results/`는 이전 팀 저장소의 `docs/results/`를 11/23 이관한 자료다.
+파일 내용과 시험 날짜를 유지했으며 현재 fork에서 새로 수행한 시험으로 세지 않는다.
+초기 Pure Pursuit와 Navigation/실내는 모의 정답 위치·알려진 경로/지도를 사용하는 **기준 시험**이다.
+현재 카메라·LiDAR 위치 추정 경로와 분리해서 해석한다.
+
+| 당시 시험 | 기록된 결과·범위 | 보존 근거 |
+|---|---|---|
+| 11/17 ROS2 이식 | 개별 45개 PASS 보고. 가상 축거 0.65 m·조향 0.3927 rad, 실측 차량 기준이 아님 | 당시 문서는 Git 이력에 보존. 후속 이관 회귀의 [제어 XML](build/evidence/legacy-results/indoor/mrider_autonomy/)과 구분 |
+| 11/17 Navigation | 개별 83개 PASS, wrapper 포함 94개. 정적 우회 목표 오차 0.178059 m, 최소 여유 0.260231 m. 고장 8종은 통합 메서드 1개 | [결과·XML](build/evidence/legacy-results/navigation/), [고장 측정](build/evidence/legacy-results/navigation/faults.json) |
+| 11/17 실내 | 개별 96개 PASS, wrapper 포함 110개. 정적/수동 재허가 동적 목표 오차 0.171504 / 0.170449 m | [빌드·검사 로그](build/evidence/legacy-results/indoor/build-test.log), [정적](build/evidence/legacy-results/indoor/indoor.json)·[동적](build/evidence/legacy-results/indoor/indoor_dynamic.json) |
+| 11/22 자동 재개 | Navigation 54개와 별도 보호 검사 2개 PASS. 자동 횡단 목표 오차 0.172290 m, 최소 여유 0.537358 m, 충돌 없음 | [검사·보호 로그·XML](build/evidence/legacy-results/auto-resume-2026-11-22/) |
+| 11/23 기준 실내 재실행 | 횡단 정지·자동 재개, 목표 오차 0.172528 m, 최소 여유 0.540870 m, 충돌 없음 | [주행 JSON](build/evidence/live-drive-2026-11-23/indoor_auto.json), [로그](build/evidence/live-drive-2026-11-23/drive.log) |
+
+ROS2 이식 당시 보고된 offline 직선/곡선 오차는 0.1195742744 / 0.1188218188 m,
+실토픽 최종 실행 오차는 0.1188984451 / 0.1181357139 m였다. 현재 소스로 다시 측정한 값이 아니다.
+당시 `docs/results/ros2/` 원본 묶음은 현행 fork에 없으므로, 이 수치를 현재 증거가 있는 재검증으로 소개하지 않는다.
+Navigation 고장 시험의 최대 감지 시간 0.3671초·이동 거리 0.2282 m는 모의 계측이며 실차 정지 성능이 아니다.
+
+**초기 실패와 한계도 보존한다.** 11/17 실내 개발에서는 횡단 시작을 차량 x=3.7 m로 둔 경우
+차량이 정지했는데도 옆에서 진입한 물체와 접촉했다. 기준 배치는 x=2.5 m로 바꿔 전방 관측 여유를 확보했으며,
+이 변경을 늦은 측면 진입 해결로 간주하지 않는다. 중앙 카트에 의한 RPP 정지는 벽 쪽 배치와 별도 우회 시험으로 나누었다.
+Nav2 ACTIVE 전 arm, 이전 FAILED 수신, DDS 종료 경쟁과 반복 terminal 상태 문제를 수정·재검증한 이력이 있다.
+Xvfb RViz 지도 첫 표시의 GLSL 경고도 기록됐으며 GUI 전반 해결로 보고하지 않았다.
+후속 센서 주행의 군집 예측·복구 수정 및 남은 문제는 아래 E01–E39를 따른다.
+
+<a id="operation-check-2026-11-23"></a>
+
+**11/23 센서 재확인 실패:** `ros2_humble`, vehicle 1, domain 212의 `test_sensor_only_launch.py`가
+목표 1.957882 m 앞에서 `camera_blocked_or_stale`로 정지했다. raw odometry 오차는 0.103489 m,
+최종 상태는 STOPPED·명령 속도 0이었다. 주행 검사 FAIL, 프로세스 종료 PASS였고 후속 카메라 고장 주입은 미실행이다.
+당시 통합 reason만으로 통행 불가/판정 불가/지연 중 무엇이 원인인지 확정하지 않는다.
+[JSON](build/evidence/operation-check-2026-11-23/sensor_only.json), [로그](build/evidence/operation-check-2026-11-23/launch.log),
+[XML](build/evidence/operation-check-2026-11-23/test_test_sensor_only_launch.py.xunit.xml)을 보존한다.
+11/23의 정답 위치 기반 재구성 영상은 [기준 시험 영상 설명](turns-simulation-guide.md#baseline-video)에,
+11/27 실제 센서 주행 화면 녹화는 [E39](#recorded-sensor-run)에 따로 안내한다.
 
 ## 기록·갱신 규칙
 

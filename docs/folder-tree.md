@@ -33,11 +33,16 @@ mrider-team/
 │       └── fixtures/                    # 실제 실패 시 보존한 합성 scan 재생 자료
 ├── ros2_ws/src/mitt_*/                 # 공식 패키지; vehicle1 측정 overlay 반영
 ├── tools/ros2/                        # 컨테이너와 검증 스크립트
-└── docs/                              # 설치·시뮬레이션·센서·Teensy·검증
+└── docs/                              # 교수님 원본 + 팀 실행·구조·실험 안내
+    ├── architecture.md / folder-tree.md # 현행 입출력·파일 책임
+    ├── *simulation*.md                 # 센서 시험과 초기 GT 기준 시험을 구분
+    ├── experiment-log.md               # 현재 판정·시행착오·과거 결과 통합
+    ├── real-world-test-guide.md         # 실차 선행 조건·M2/M3/M4 검증
+    └── build/evidence/                  # 원본 XML·JSON·로그·영상
 ```
 
 파일별 책임은 [architecture](architecture.md), 명령은 [새 PC 설명서](new-pc-setup.md),
-검증 증거와 각 시험의 실행 안내는 [문서 안내](index.md)에서 찾는다.
+검증 증거와 각 시험의 실행 안내는 [팀 README](../README.md)에서 찾는다.
 팀 실험의 현재 성공/실패와 중요한 수정 이력은 [시행착오 기록](experiment-log.md)에 누적한다.
 `build/install/log`와 `build-docker/install-docker/log-docker`는 Git 추적 대상이 아니다.
 

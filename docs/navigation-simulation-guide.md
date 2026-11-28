@@ -1,4 +1,6 @@
-# 방향 A 센서·장애물 Navigation 시뮬레이션
+# 알려진 지도·정답 위치를 사용하는 Navigation 기준 시험
+
+카메라·LiDAR만으로 위치와 지도를 추정하는 현행 주행은 [센서 전용 설명서](sensor-only-navigation.md)를 따른다.
 
 건물 내부 지도와 움직이는 장애물은 [실내 동적 시뮬레이션 설명서](indoor-simulation-guide.md)를 참고하세요.
 
@@ -33,7 +35,8 @@ flowchart LR
 임무 노드는 Nav2 lifecycle의 ACTIVE를 확인한 뒤 `ComputePathToPose → FollowPath` action을 실행한다.
 후진·제자리 회전·자동 recovery는 사용하지 않는다. 정적 장애물은 경로 계획으로 우회한다.
 갑자기 생긴 장애물은 감속/정지하고 임무를 취소하며, 제거 후 **arm과 start를 다시 요청해야 재계획**한다.
-현재 자동 주기 재계획이나 움직이는 장애물의 속도 예측은 구현하지 않았다.
+이 기준 launch는 자동 재개와 이동 군집 예측을 기본으로 사용하지 않는다.
+센서 전용 launch의 조건부 재개·관측 군집 예측은 [현재 구조](architecture.md)에 따로 설명한다.
 
 `nav2_collision_monitor`를 실행한 것은 아니다. 이번에는 원본 scan·현재 속도·후보 곡률에 근거한 팀의 모의 안전 게이트를 사용한다.
 Nav2 내부 costmap 충돌 검사와 별도로 곡선 주행 footprint를 검사하지만 물리적 안전 인증이나 실차 최종 게이트는 아니다.
@@ -56,7 +59,8 @@ ros2 launch mrider_navigation_sim navigation_sim.launch.py scenario:=static_obst
 
 디스플레이 없는 서버에서는 `rviz:=false`를 추가한다. 이 시뮬레이션은 Python 2D 월드에서 센서와 운동을 계산하며
 Gazebo 센서/물리 엔진을 사용하는 구성은 아니다. 기존 Gazebo 위치 시각화는 [기본 시험](simulation-test-guide.md)에 별도로 남아 있다.
-검증 화면과 알려진 첫 map 렌더링 경고는 [검증 기록](navigation-simulation-validation.md)의 RViz2 항목을 확인한다.
+과거 검증 화면은 [보존 캡처](build/evidence/legacy-results/navigation/rviz-navigation.png),
+첫 map 렌더링 경고와 결과는 [초기 기준 시험 기록](experiment-log.md#legacy-evidence)을 확인한다.
 RViz2 Fixed Frame은 `map`이며 지도, 녹색 계획 경로, scan, 차체/누적 궤적, 장애물 마커를 표시한다.
 
 ## 3. 수동 목표 주행
@@ -154,4 +158,4 @@ NaN/Inf/부분 scan을 엄격히 거절하므로 실제 A2의 no-return 표현�
 SLAM/EKF 정확도(정답 pose 사용), 카메라 영상/인지, 실제 LiDAR 노이즈·재질·사각지대,
 접촉/타이어/노면 물리, Teensy/USB/firmware/RC/E-stop, 실차 제동·조향 지연은 검증하지 않는다.
 이번 시험은 Plan A의 소프트웨어 연결·규칙·장애물 시나리오 근거다.
-실행 결과는 [Navigation 검증 기록](navigation-simulation-validation.md), 실차 전환은 [실환경 시험](real-world-test-guide.md)을 따른다.
+과거 실행 결과는 [초기 기준 시험 기록](experiment-log.md#legacy-evidence), 실차 전환은 [실환경 시험](real-world-test-guide.md)을 따른다.

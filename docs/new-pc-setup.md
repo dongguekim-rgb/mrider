@@ -17,19 +17,21 @@ sudo apt-get install git python3-colcon-common-extensions python3-rosdep python3
   ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-slam-toolbox \
   ros-humble-launch-testing-ament-cmake ros-humble-launch-testing-ros
 source /opt/ros/humble/setup.bash
-git clone https://github.com/dongguekim-rgb/mrider.git ~/mrider-team
+git clone --branch sw/team-stack-migration https://github.com/dongguekim-rgb/mrider.git ~/mrider-team
 git -C ~/mrider-team remote add upstream https://github.com/jrkwon/mrider.git
 if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
   sudo rosdep init
 fi
 rosdep update
 cd ~/mrider-team/ros2_ws
-rosdep install --from-paths src --ignore-src --rosdistro humble -r -y
-colcon build --symlink-install
+rosdep install --from-paths src/mrider_autonomy src/mrider_navigation_sim src/mitt_description \
+  --ignore-src --rosdistro humble -r -y
+colcon build --symlink-install --packages-up-to mrider_navigation_sim --cmake-args -DBUILD_TESTING=ON
 source install/setup.bash
 ros2 pkg prefix mrider_autonomy
-colcon test --executor sequential --ctest-args -j1 --output-on-failure
-colcon test-result --verbose
+colcon test --packages-select mrider_autonomy mrider_navigation_sim --executor sequential --ctest-args -j1 --output-on-failure
+colcon test-result --test-result-base build/mrider_autonomy/test_results --verbose
+colcon test-result --test-result-base build/mrider_navigation_sim/test_results --verbose
 ```
 
 각 터미널에서 `/opt/ros/humble/setup.bash`와 팀 `ros2_ws/install/setup.bash`를 source한다.
@@ -37,7 +39,11 @@ colcon test-result --verbose
 `catkin_make`/`catkin build`는 현행 workspace에 사용하지 않는다. 다른 PC의 build/install 디렉터리를 복사하지 않는다.
 이 문서의 clone은 해당 커밋이 원격에 존재할 때 재현된다. 전달받은 checkout이면 clone을 생략하고 커밋 해시를 기록한다.
 
-실행: [시뮬레이션 시험](simulation-test-guide.md). 센서 SDK와 micro-ROS agent는
+위 명령은 팀 센서 시험과 그 의존 패키지를 빌드한다. 공식 Gazebo twin 전체 설치·빌드는 [원본 절차](run-the-twin.md)를 따른다.
+현재 브랜치·커밋은 `git branch --show-current`, `git rev-parse HEAD`로 기록한다.
+
+실행: [카메라·LiDAR 센서 주행](sensor-only-navigation.md), [대형 맵·좌우회전](large-office-navigation.md).
+초기 제어기의 비교 시험은 [Pure Pursuit 기준 시험](simulation-test-guide.md)이다. 센서 SDK와 micro-ROS agent는
 [A2M4-R2 설명서](rplidar-a2-setup.md), [Teensy 통합](teensy-ros2-integration.md)에 따라 별도 설치한다.
 센서와 agent 없이도 모의 데모·테스트를 실행할 수 있다. GPU·모델 가중치는 필요하지 않다.
 
@@ -77,8 +83,9 @@ for directory in build install log; do
 done
 source /opt/ros/humble/setup.bash
 rosdep update
-rosdep install --from-paths src --ignore-src --rosdistro humble -r -y
-colcon build --symlink-install --cmake-args -DBUILD_TESTING=ON
+rosdep install --from-paths src/mrider_autonomy src/mrider_navigation_sim src/mitt_description \
+  --ignore-src --rosdistro humble -r -y
+colcon build --symlink-install --packages-up-to mrider_navigation_sim --cmake-args -DBUILD_TESTING=ON
 source install/setup.bash
 ros2 pkg prefix mrider_navigation_sim
 ```

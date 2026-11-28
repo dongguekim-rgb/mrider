@@ -1,6 +1,8 @@
-# 건물 내부·이동 장애물 시뮬레이션
+# 알려진 지도·정답 위치를 사용하는 실내 기준 시험
 
-2026-11-22 업데이트: 실내 demo는 [장애물 자동 재개](automatic-obstacle-resume.md)가 기본이다. 아래 수동 재허가 절차는 `auto_resume:=false` 또는 센서·명령 오류로 정지한 경우에 사용한다.
+`indoor_demo`는 알려진 지도와 모의 정답 위치로 계획·제어를 검사한다.
+카메라·LiDAR 위치 추정 주행은 [센서 시험](sensor-only-navigation.md)을 사용한다.
+실내 기준 demo의 기본값은 `auto_resume:=true`다. 최초 arm/start 이후 허용된 장애물 정지만 자동 재개한다.
 
 platinum의 기존 `ros2_humble`에서 실행하는 현재 절차는 [기존 컨테이너 설명서](existing-humble-container.md)를 따른다.
 
@@ -56,11 +58,24 @@ ros2 service call /mrider_sim/start std_srvs/srv/Trigger '{}'
 ```
 
 서비스의 `success: true`를 확인한다. `nav2_not_ready`이면 초기화 완료를 기다린다.
-횡단 후 정지한 차량을 다시 출발시키려면 보행자가 반대편 방으로 들어간 것을 확인하고
-위 arm/start 두 명령을 다시 실행한다. 목표에 도착하면 속도가 0이 된다.
+기본 자동 모드에서는 장애물이 사라지고 아래 조건이 충족되면 다시 출발한다.
+`auto_resume:=false`로 실행했거나 수동 복구가 필요한 고장이라면, 원인 해소·정상 입력 확인 뒤 arm/start를 다시 요청한다.
+목표에 도착하면 속도가 0이 된다.
 안전 상태는 `ros2 topic echo /mrider_sim/safety_state`, 충돌 여부는
 `ros2 topic echo /mrider_sim/collision`으로 관찰한다.
 RViz2의 Goal Pose로 다른 목표도 지정할 수 있지만 모든 방 진입과 좁은 통로의 완주는 검증하지 않았다.
+
+## 장애물 정지 후 자동 재개
+
+최초 arm/start는 필요하다. 안전 게이트가 장애물 정지로 분류했고 수동 복구가 필요한 고장이 없어야 한다.
+scan/odom 시각·수신이 정상이고 모의 속도 0.01 m/s 미만이며, 직진 전방 2 m의 차체·여유 공간이
+**3초 연속 비어 있을 때** 재허가하고 저장 목표로 재계획한다. 새 장애물이 보이면 확인 시간을 초기화한다.
+센서 중단·비정상 값·시각 오류·명령 오류·운영자 disarm을 자동 해제하지 않는다.
+단순 계획 실패를 무조건 재출발로 바꾸지 않는다. 재계획이 막히면 정지 상태에서 제한된 재시도를 수행한다.
+
+수동 재허가 시험은 `ros2 launch mrider_navigation_sim indoor_demo.launch.py auto_resume:=false`로 실행한다.
+직진 여유 검사 때문에 좁은 곡선에서 계속 기다릴 수 있고, 늦은 측면 진입은 정지만으로 피하지 못할 수 있다.
+이 기준 launch에는 카메라·LiDAR 추정 경로의 이동 군집 예측이 연결되지 않는다.
 
 ## 자동 검증
 
@@ -83,13 +98,14 @@ colcon test-result --verbose
 합격 기준:
 
 - 정적 실내: 목표 위치 오차 ≤ 0.23 m, 방향 오차 ≤ 0.25 rad, 충돌 없음.
-- 동적 실내: 횡단 중 정지, 정지 후에도 보행자 이동, 통로가 비어도 자동 재출발 없음,
+- 동적 실내 수동 모드(`auto_resume:=false`): 횡단 중 정지, 정지 후에도 보행자 이동, 통로가 비어도 자동 재출발 없음,
   명시적 arm/start 뒤 목표 오차 ≤ 0.23 m, 전 과정 충돌 없음.
+- 동적 실내 자동 모드(`auto_resume:=true`): 횡단 정지, 조건부 자동 재개, 같은 목표 도착, 충돌 없음.
 - 두 경우 명령 속도 ≤ 0.5 m/s, 조향 크기 ≤ 0.3937 rad, 차량과 물체의 최소 거리 > 0.
 - 기하 시험: 시작/목표 공간, 출입구 광선 통과, 이동 물체의 벽·가구 비충돌, 시간 입력 검증.
 
 결과 JSON의 `trajectory`는 모의 후륜 축 x/y/속도이며, `pedestrian_trajectory`는 횡단 모형 x/y이다.
-실제 실행 결과는 [실내 검증 기록](indoor-simulation-validation.md)에 남긴다.
+과거 실행 결과는 [초기 기준 시험 기록](experiment-log.md#legacy-evidence)에 보존했다.
 
 ## 한계와 변경 위치
 
@@ -98,7 +114,7 @@ colcon test-result --verbose
 ROS2 2D 광선·자전거 모델을 사용하며, RViz 높이는 표시용이다. Gazebo 물리·카메라 영상·
 LiDAR 반사/유리/노이즈·SLAM/EKF·보행자 행동 예측·실물 A2M4-R2·Teensy는 이번 검증 범위가 아니다.
 특히 늦은 측면 진입은 정지만으로 접촉을 피하지 못할 수 있다. 초기 개발 시험에서 확인한
-조건과 한계는 [검증 기록](indoor-simulation-validation.md)에 명시한다.
+조건과 한계는 [초기 기준 시험 기록](experiment-log.md#legacy-evidence)에 명시한다.
 벽·가구는 `mrider_navigation_sim/indoor.py`, 가상 차량 설정은 `config/simulation.yaml`에 있다.
 차량 치수 변경 시 Nav2 footprint와 회전 반경도 함께 맞춰야 한다.
 모의 명령을 차량에 연결하지 않는다.
@@ -106,4 +122,6 @@ LiDAR 반사/유리/노이즈·SLAM/EKF·보행자 행동 예측·실물 A2M4-R2
 
 ## 큰 실내 맵 추가
 
-[60×40 m 다중 방 환경](large-office-simulation.md)은 논문 참고 설계와 오프라인 기하 검증 단계입니다. 기존 작은 맵의 주행 성공과 구분하며, 현재 시작 위치에서 카메라 미확인 판정이 발생합니다.
+[60×40 m 다중 방 환경](large-office-simulation.md)은 센서 위치 추정·SLAM 경로를 사용한다.
+11/27에 세 목표·좌우회전·장애물 정지/재개를 검증했으며 [최신 결과](experiment-log.md#current-validation)와
+[실행 명령](large-office-navigation.md)을 따른다. 초기 카메라 출발 거부 기록은 이후 보완 전의 이력이다.

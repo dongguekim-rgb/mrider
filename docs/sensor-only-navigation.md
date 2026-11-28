@@ -13,8 +13,9 @@
 Ground Truth 지도·위치·속도를 제어 입력으로 쓰지 않는다. 시뮬레이터 내부 물리 상태와
 평가용 정답을 사용하는 것과, 주행 알고리즘에 정답을 공급하는 것을 구분한다.
 
-기존 `indoor_demo`와 `turns_demo`, 동영상, `indoor-navigation-pipeline.svg`는 **알려진 지도·정답 위치 조건의 이전 기준 시험**이다.
+기존 `indoor_demo`와 `turns_demo`, 11/23 재구성 동영상, `indoor-navigation-pipeline.svg`는 **알려진 지도·정답 위치 조건의 이전 기준 시험**이다.
 아래 센서 전용 경로의 성공 근거로 사용하면 안 된다.
+11/27의 [현재 RViz 녹화](experiment-log.md#recorded-sensor-run)는 센서 전용 주행이다.
 
 ## 새로 구현한 경로
 
@@ -200,10 +201,10 @@ SLAM loop closure, 조명 변화·바닥 색상 변화, 실카메라·A2M4-R2의
 
 `ros2 launch mrider_navigation_sim sensor_only_demo.launch.py vehicle:=1`로 실측 overlay를 읽는다. 기본 `vehicle:=0`은 이전 가상 제원 비교용이다. 공식 Nav2의 2.21 m 반경과 센서 실험의 보수적인 3.0 m 반경, 검증 결과는 [반영 기록](build/vehicle1-measurements-2026-11-23.md)에 구분했다.
 
-## 이후 작동 재확인: 실패
+## 2026-11-23 작동 재확인 실패 이력
 
 2026-11-23 사용자 요청으로 같은 vehicle1 기본 목표 주행을 다시 실행했다.
 목표 1.957882 m 전방에서 `camera_blocked_or_stale` 정지로 실패했다.
 이전 PASS만으로 반복 실행 안정성이 검증됐다고 볼 수 없다.
-[이번 실패 근거](build/evidence/operation-check-2026-11-23/README.md)를 참조한다.
-카메라 실제 판정·원본 시각·수신 경과를 구분해 기록하는 진단 보완이 필요하다.
+[당시 실패 근거](experiment-log.md#operation-check-2026-11-23)를 참조한다.
+이후 카메라 실제 판정·원본 시각·수신 경과를 구분하는 진단을 추가했다. 최신 성공/실패 판정은 [실험 기록](experiment-log.md#current-validation)을 따른다.

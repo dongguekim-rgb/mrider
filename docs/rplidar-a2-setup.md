@@ -96,7 +96,7 @@ rviz2
 - 낮은 물체·의자 다리·검은 무광·유리·실내/실외 햇빛 조건의 탐지 누락을 기록.
 - 차체·mast·배선에 가려지는 sector를 실측. 공식 사이트의 후속 장착 수정(상단 LiDAR·전방 boom 카메라)을 참고하되 치수는 복사하지 않음.
 - 구동 차단 상태에서 USB 단절·재연결 시험. scan 중단 시 정지 계층이 fault로 처리하고 운전자 재허가 없이 주행하지 않는지 후속 통합에서 확인.
-- [M4 검증표](perception-safety-dbw-validation.md)의 CameraInfo·TF·overlay 및 bag 재생 검사 수행.
+- [M4 검증표](real-world-test-guide.md#sensor-calibration)의 CameraInfo·TF·overlay 및 bag 재생 검사 수행.
 
 범위·주기·누락률·지연·거리 오차 합격값은 실제 장착과 시험 장소를 기준으로 사전 확정한다.
 미정 기준이나 미측정 항목은 [실환경 양식](real-world-validation-template.md)에 NOT RUN으로 남긴다.

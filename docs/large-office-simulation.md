@@ -1,8 +1,8 @@
 # 큰 실내 맵 — 논문 참고 설계와 검증 범위
 
-**초기 맵 추가 기록 (2026-11-25). 이후 입력 계약·단계별 목표 보완은 [큰 맵 주행 문서](large-office-navigation.md)를 우선 참고한다.**
-초기 버전은 시작 지점을 미확인으로 분류해 출발하지 못했다. 이후 입력 계약·SLAM 입력을 보완한 주행 결과는
-위 후속 문서에 기록한다. 아래 초기 실패 기록을 최신 결과로 해석하지 않는다. RViz 렌더링 문제는 별도다.
+**맵 설계와 실행 안내.** 현재 입력 계약·단계별 목표는 [큰 맵 주행 문서](large-office-navigation.md),
+11/27 세 목표·좌우회전·장애물 정지/재개 결과는 [최신 검증](experiment-log.md#current-validation)을 따른다.
+초기 버전의 카메라 출발 거부와 11/25 오프라인 시험은 하단에 날짜를 구분해 보존한다.
 
 ![큰 실내 맵](figures/large-office.png)
 
@@ -49,11 +49,11 @@ BARN의 소형 차동구동 로봇용 좁은 배치를 그대로 쓰면 Ackerman
 시작 위치 `(0,0,0)`에서 합성 RGB와 360개 scan 광선을 기존 분할기에 넣었다.
 그 결과 무반사/최대 범위 광선 58개, 전방 ROI 바닥 후보 16.11%, 미확인 83.89%,
 `clear=false`, `reason=unknown_region`이었다.
-따라서 현재 규칙에서는 arm이 `camera_not_ready`로 거부될 수 있다.
+따라서 당시 규칙에서는 arm이 `camera_not_ready`로 거부됐다.
 이 결과를 숨기기 위해 미확인 영역을 통행 가능으로 바꾸거나 센서를 무한 거리로 만들지 않았다.
 
-다음 구현은 유효한 자유 공간 관측과 센서 고장/무반사를 구분하는 입력 계약,
-큰 공간의 바닥 후보 판정, 부분 지도 내 단계별 목표 선택이다.
+이후 유효한 자유 공간 관측과 센서 고장/무반사를 구분하는 입력 계약,
+큰 공간의 바닥 후보 판정, 부분 지도 내 단계별 목표 선택을 보완했다.
 전체 맵의 먼 목표를 처음부터 줄 경우 아직 SLAM 지도가 없어 경로 계획도 실패할 수 있다.
 평가용 설계도나 P0~P10을 정답 경로로 주행기에 넣는 방식으로 해결하지 않는다.
 
@@ -70,7 +70,7 @@ PYTHONPATH=ros2_ws/src/mrider_navigation_sim python3 -m pytest -q \
   ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py
 ```
 
-Python 의존성은 numpy, opencv, matplotlib, pytest다.
+Python 의존성은 numpy, scipy, opencv, matplotlib, pytest다.
 Docker에서 빌드하려면:
 
 ```bash
@@ -84,31 +84,32 @@ colcon --log-base log-docker build --build-base build-docker --install-base inst
 source install-docker/setup.bash
 ```
 
-아래는 **사용자가 나중에 환경을 직접 실행할 때의 명령**이다. 이번 작업에서는 실행하지 않았다.
+아래는 현재 큰 맵 실행 명령이다. 기존 주행 demo가 같은 domain에서 실행 중이면 먼저 종료한다.
 
 ```bash
 export ROS_DOMAIN_ID=192
-ros2 launch mrider_navigation_sim large_office_demo.launch.py vehicle:=1 rviz:=false
+ros2 launch mrider_navigation_sim large_office_demo.launch.py vehicle:=1 auto_resume:=true rviz:=false
 ```
 
-기존 demo가 같은 domain에서 실행 중이면 함께 실행하지 않는다.
-RViz 기본값은 false이며 GUI 안정화 완료를 주장하지 않는다. 자동 주행 시작 명령도 보내지 않는다.
+RViz 기본값은 false이며 화면이 필요하면 `rviz:=true`를 지정한다.
+launch만으로 출발하지 않는다. [주행 요청·세 목표 검사](large-office-navigation.md#three-goal-check)를 따른다.
+GUI 반복 기동 안정성은 별도 검증이다.
 
-## 평가 계획
+## 검증 범위 — 2026-11-27 기록 기준
 
 | 단계 | 확인할 값 | 현재 상태 |
 |---|---|---|
 | 기하 | 경계, 8개 방, 0.65 m 팽창 후 평가 위치 연결, 이동체-벽 충돌 | 오프라인 통과 |
-| 인식 | 긴 무반사 구간, 그림자/색 변화, 미확인 오판 | 시작 위치의 보수적 출발 거부 확인 |
-| SLAM | 부분 지도 확대, 장거리 drift, loop closure | 큰 맵에서 미검증 |
-| 계획/제어 | 90도 좌우회전, 긴 경로, 방 진입, Ackermann 곡률 | 큰 맵에서 미검증 |
-| 동적 장애물 | 충돌률, 정지 시간, 재개 조건 | 큰 맵에서 미검증 |
+| 인식 | 긴 무반사 구간, 그림자/색 변화, 미확인 오판 | 합성 입력 계약·정상 주행·고장 검사 통과; 실카메라·조명 변화 성능 미검증 |
+| SLAM | 부분 지도 확대, 장거리 drift, loop closure | 선택 경로에서 지도·추정 위치로 주행 확인; 전체 탐색·loop closure·장시간 정차 안정성 미검증 |
+| 계획/제어 | 90도 좌우회전, 긴 경로, 방 진입, Ackermann 곡률 | 세 목표·좌우회전·곡률 제한 통과; 방 전체 진입 미검증 |
+| 동적 장애물 | 충돌률, 정지 시간, 재개 조건 | 선택 시나리오 정지·자동 재개·충돌 없음; 통계적 충돌률 미산출 |
 | 반복성 | 출발/목표/장애물 위상을 바꾼 성공률과 CPU 지연 | 미검증 |
 
 이전 작은 맵의 목표 도달/83개 시험 통과를 큰 맵의 주행 성공 결과로 옮겨 쓰지 않는다.
 
 
-## 이번 실행 결과 (2026-11-25 KST)
+## 초기 맵 추가 당시 결과 (2026-11-25 KST)
 
 - 호스트 오프라인 시험 **29개 통과**: 큰 맵 8, 기존 실내 기하 8, 분할 13.
 - ROS 2 Humble Docker 패키지 **빌드 성공**, 같은 세 시험 묶음 **29개 통과**, 실패/skip 0.

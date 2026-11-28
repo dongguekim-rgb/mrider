@@ -171,6 +171,8 @@ ros2 topic echo /mrider_sim/mission_state
 ros2 service call /mrider_sim/disarm std_srvs/srv/Trigger '{}'
 ```
 
+<a id="three-goal-check"></a>
+
 ## 기존 RViz에서 같은 세 목표 검사
 
 위의 위상 227초·`auto_resume:=true` launch를 **foreground**에서 실행한 뒤, 두 번째 컨테이너 터미널에서:
@@ -189,7 +191,8 @@ python3 docs/build/evidence/registration-recovery-2026-11-27/run_live_validation
 완료 후 `FINAL_DISARM ... success=True`와 보고서의 `result: PASS`를 확인하고,
 첫 터미널에서 Ctrl+C로 해당 launch를 종료한다. 기존 RViz 창은 유지할 수 있다.
 `live-rviz/run.sh`는 당시 임시 백그라운드 실행 이력으로 종료 정리가 지연됐으므로 사용하지 않는다.
-실제 결과와 후속 정차 관측의 한계는 [E37·E38](experiment-log.md)에 기록했다.
+실제 결과와 후속 정차 관측의 한계는 [실험 기록](experiment-log.md)에,
+같은 소스의 추가 녹화·정상 종료는 [E39](experiment-log.md#recorded-sensor-run)에 기록했다.
 
 ## 자동 검증
 

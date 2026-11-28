@@ -7,7 +7,7 @@
 
 | | |
 |---|---|
-| **우리 차** | vehicle `<n>`   ← 팀리드가 채움 · ROS domain = 10 + n |
+| **우리 차** | **vehicle 1** · ROS domain = 11 (10 + 1) |
 | **팀리드** | 김동규 |
 | **채점** | 이 fork의 **commit 기록**(산출물 + 개인별 기여) |
 | **근거 문서** | [Teams & Tracks](../docs/course/teams.md) · [Grading](../docs/course/grading.md) · [Week 11](../docs/course/weeks/w11.md) · [Week 12](../docs/course/weeks/w12.md) |
@@ -49,7 +49,7 @@ cd ros2_ws && colcon build --symlink-install   # 반드시 다시 build
 | 무엇 | 어디에 | upstream(jrkwon)으로 PR? |
 |---|---|---|
 | **모든 코드**: `firmware/`, `ros2_ws/src/mitt_hardware/`, `ros2_ws/src/mitt_bench/`, test, sim world, charter | **이 fork** | ❌ 보내지 않음. 학기 말에 교수님이 한 팀 것을 골라 가져감(성적과 무관) |
-| **우리 차 측정값**: `ros2_ws/src/mitt_description/config/vehicles/vehicle<n>.yaml` | upstream main | ✅ **이 파일 하나만** 바꾼 PR |
+| **우리 차 측정값**: `ros2_ws/src/mitt_description/config/vehicles/vehicle1.yaml` | upstream main | ✅ **이 파일 하나만** 바꾼 PR |
 | **공통 interface** 변경 | upstream main | ✅ 바꿀 일이 생겼을 때만, 이유와 함께 |
 
 ### 🚫 fork에서 절대 바꾸지 않는 것 (세 팀 공통 interface)
@@ -65,9 +65,9 @@ cd ros2_ws && colcon build --symlink-install   # 반드시 다시 build
 
 ### 🚫 고치지 않는 파일
 
-- `mitt_dimensions.yaml`: 추정값으로 남겨 둡니다. 측정값은 `vehicle<n>.yaml`에 씁니다.
-- `nav2_params.yaml`: footprint, inflation, turning radius는 `vehicle<n>.yaml`에서 자동으로 생성됩니다.
-- 차마다 다른 숫자는 **코드에 하드코딩하지 말고** `vehicle<n>.yaml`에서 읽습니다.
+- `mitt_dimensions.yaml`: 추정값으로 남겨 둡니다. 측정값은 `vehicle1.yaml`에 씁니다.
+- `nav2_params.yaml`: footprint, inflation, turning radius는 `vehicle1.yaml`에서 자동으로 생성됩니다.
+- 차마다 다른 숫자는 **코드에 하드코딩하지 말고** `vehicle1.yaml`에서 읽습니다.
 
 ### 작업 방식 (팀 규칙 제안)
 
@@ -108,7 +108,7 @@ git push -u origin <track>/<주제>     # GitHub에서 이 fork의 main으로 PR
 |---|---|---|
 | 1 | wheelbase, track width, **wheel radius(바닥에 하중을 실은 상태)** 측정. 값 + 측정 방법 + 신뢰도 | **11/23 Merge 1** |
 | 2 | **최소 회전 반경**: 좌우 끝까지 꺾은 상태에서 각각 재고 **큰 값** 기록 ([calibration.md §1.5](../docs/design/calibration.md)). 이 값이 없으면 **실차 Nav2가 뜨지 않습니다** | 측정 즉시 |
-| 3 | `vehicle<n>.yaml` 작성 → `python3 scripts/check_vehicle_dims.py` 통과 → **이 파일 하나만** upstream에 PR (아래 §5) | Merge 2 전 |
+| 3 | `vehicle1.yaml` 작성 → `python3 scripts/check_vehicle_dims.py` 통과 → **이 파일 하나만** upstream에 PR (아래 §5) | Merge 2 전 |
 | 4 | Verification gate V1, V2, V3: 조향 모터 stall 전류, 센서 축 travel, 축 지름 | |
 | 5 | [Build step 2](../docs/build/02-mechanical.md) 검증, calibration 상수 기록 | |
 
@@ -148,15 +148,15 @@ git push -u origin <track>/<주제>     # GitHub에서 이 fork의 main으로 PR
 
 | 우선순위 | 할 일 | 기한 |
 |---|---|---|
-| 1 | `nav2.launch.py vehicle:=<n>`이 측정 회전 반경보다 5% 큰 반경으로 계획하는지 twin에서 확인 | Merge 2 (11/30) |
+| 1 | `nav2.launch.py vehicle:=1`이 측정 회전 반경보다 5% 큰 반경으로 계획하는지 twin에서 확인 | Merge 2 (11/30) |
 | 2 | Simulation과 함께 functional test와 CI 작업 | Merge 2 (11/30) |
 | 3 | **`mitt_hardware`**: 실차용 `ros2_control` plugin. **가장 중요한 산출물**입니다. 지금 없어서 `real.launch.py`가 실행을 거부합니다 | **Merge 3 (12/07)** |
 | 4 | **odometry node**: `DbwStatus`에서 bicycle model로 계산. 실차 EKF와 SLAM에 필요합니다 | Merge 4 (12/14) |
 | 5 | RViz 설정, perception package(카메라 데이터 사용) | |
 
 **Nav2와 SLAM 사용 시 주의:**
-- sim/real과 Nav2에는 **같은 `vehicle:=<n>`**을 줍니다. 다르면 `WRONG VEHICLE` 경고가 나옵니다.
-- 실차에서는 먼저 `MITT_VEHICLE=<n> source ros2_ws/setup_env.sh`를 실행합니다. 안 하면 Nav2가 뜨지 않습니다.
+- sim/real과 Nav2에는 **같은 `vehicle:=1`**을 줍니다. 다르면 `WRONG VEHICLE` 경고가 나옵니다.
+- 실차에서는 먼저 `MITT_VEHICLE=1 source ros2_ws/setup_env.sh`를 실행합니다. 안 하면 Nav2가 뜨지 않습니다.
 - `slam.launch.py`의 `use_sim_time` 기본값은 `true`입니다. 실차에서는 `use_sim_time:=false`를 줍니다.
 - inflation radius가 0.90 m입니다. 좁은 틈은 거부될 수 있습니다(정상 동작).
 - LiDAR는 360°라서 후진도 볼 수 있습니다. 다만 scan 면보다 낮은 물체는 못 봅니다. **실차 첫 후진은 조심해서** 진행합니다.
@@ -169,7 +169,7 @@ git push -u origin <track>/<주제>     # GitHub에서 이 fork의 main으로 PR
 
 | 우선순위 | 할 일 | 기한 |
 |---|---|---|
-| 1 | Chassis의 `vehicle<n>.yaml`로 `sim.launch.py vehicle:=<n>` 실행, **녹화** | Merge 2 (11/30) |
+| 1 | Chassis의 `vehicle1.yaml`로 `sim.launch.py vehicle:=1` 실행, **녹화** | Merge 2 (11/30) |
 | 2 | **functional test** 작성: 지금 테스트 29개는 **전부 linter**입니다(코드 스타일 검사만 함) | Merge 2 |
 | 3 | **CI**: GitHub Actions에서 ROS build와 `colcon test` 실행 | Merge 2 |
 | 4 | **Sim과 real 비교**: 조향 범위, rate limit, wheelbase, 명령 지연이 **10% 이내**인지, 아니면 차이와 이유 | Merge 2 |
@@ -177,7 +177,7 @@ git push -u origin <track>/<주제>     # GitHub에서 이 fork의 main으로 PR
 | 6 | `mitt_bench`: acceptance 측정 스크립트. **지금 없습니다** | |
 
 **functional test 아이디어:**
-- `vehicle:=<n>`으로 생성한 URDF가 정상이고 wheelbase가 측정값과 같은지
+- `vehicle:=1`으로 생성한 URDF가 정상이고 wheelbase가 측정값과 같은지
 - `sim.launch.py`를 띄우면 controller 두 개가 active가 되는지
 - 잘못된 `vehicle:=7`을 주면 **exit status 1**로 끝나는지
 - 30° 조향 명령이 22.5°로 clamp되는지
@@ -191,16 +191,16 @@ git push -u origin <track>/<주제>     # GitHub에서 이 fork의 main으로 PR
 
 ```bash
 git fetch upstream
-git checkout -b vehicle<n>-dims upstream/main
-# ros2_ws/src/mitt_description/config/vehicles/vehicle<n>.yaml 만 수정
+git checkout -b vehicle1-dims upstream/main
+# ros2_ws/src/mitt_description/config/vehicles/vehicle1.yaml 만 수정
 #   wheelbase: 0.641          # m  축 중심 간 거리, 줄자, 2026-11-20
 #   min_turning_radius: 1.58  # m  calibration.md 1.5, 좌우 중 큰 값
 python3 scripts/check_vehicle_dims.py        # 반드시 통과
-git add ros2_ws/src/mitt_description/config/vehicles/vehicle<n>.yaml
-git commit -m "vehicle<n>: measured <항목들>"
-git push origin vehicle<n>-dims
+git add ros2_ws/src/mitt_description/config/vehicles/vehicle1.yaml
+git commit -m "vehicle1: measured <항목들>"
+git push origin vehicle1-dims
 ```
-GitHub에서 **base: `jrkwon/mrider` main ← compare: `dongguekim-rgb/mrider` vehicle<n>-dims**로 PR을 만듭니다.
+GitHub에서 **base: `jrkwon/mrider` main ← compare: `dongguekim-rgb/mrider` vehicle1-dims**로 PR을 만듭니다.
 
 - **측정한 값만** 씁니다. TODO는 넣지 않고, 안 잰 항목은 아예 적지 않습니다(그 항목은 추정값이 쓰임).
 - 값마다 **어떻게 쟀는지** 주석을 답니다.

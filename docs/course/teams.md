@@ -205,8 +205,22 @@ your team's fork until the semester ends.
 
 Your team works in **one fork** of [`jrkwon/mrider`](https://github.com/jrkwon/mrider), at the same
 paths this repository uses: `firmware/`, `ros2_ws/src/mitt_hardware/`, `ros2_ws/src/mitt_bench/`,
-your charter. Every member commits there, under their own name. **Your fork's history is what is
+your final report. Every member commits there, under their own name. **Your fork's history is what is
 graded** — both the deliverables and the individual commit record.
+
+How to set it up:
+
+- **One member creates the fork**, normally the team lead, and invites every other member as a
+  collaborator with **Write** access (*Settings → Collaborators*). Send me the fork's URL.
+- **Nobody makes a second fork.** Members clone the team fork and push branches to it. A personal
+  fork of the team fork scatters the history that is graded.
+- **Do not squash-merge.** A squashed pull request records whoever pressed the button as the
+  author, and the commits of the person who did the work are gone. Use a merge commit or a rebase.
+- **Commit as yourself.** Check `git config user.name` and `git config user.email` on every machine
+  you commit from, and that the email is one your GitHub account knows. On a shared laptop, set
+  them per clone or pass `--author`, or one person ends up with everyone's work.
+- **Fork, do not copy.** Use GitHub's *Fork* button, so the repository stays public and
+  `git merge upstream/main` keeps working. A new repository with the files copied in has neither.
 
 Keep the fork current. `main` keeps moving, and a fork that falls behind stops building against the
 interfaces below:
@@ -283,8 +297,19 @@ Which one is merged is not a grade. Your grade comes from your own fork and your
 
 ## Team charters
 
-Due **Week 7 (10/26)**. One page per team, committed to the repository at
-`docs/course/charters/vehicle<n>.md`. It contains:
+> [!NOTE]
+> **The charter is not collected and not graded** *(decided 2026-11-26)*
+>
+> The vehicles arrived late and the weeks since have gone to integration. A charter written now
+> would describe decisions already made. What it was for is covered elsewhere: **Functionality** in
+> the [Team deliverable](grading.md#team-deliverable-25) is read against the
+> [track tables](#the-four-tracks) above, and section 1 of the [final report](final-report.md) is
+> where your team says what it set out to build and what it gave up.
+>
+> The four points below are still the right questions to have answered inside your team.
+
+Planned for **Week 7 (10/26)**: one page per team at `docs/course/charters/vehicle<n>.md`,
+containing:
 
 1. **Who owns what.** Every deliverable in all four track tables, with a name against it. Not "the
    team will" — a person.
@@ -295,8 +320,7 @@ Due **Week 7 (10/26)**. One page per team, committed to the repository at
    is inside your own team. Software needs measured geometry from Chassis; put a date on it.
 4. **Your risks.** Two or three things that could stop you, and what you would do instead.
 
-The charter is a working document. Update it when reality changes — that is not failure, it is the
-point. An unchanged charter in Week 14 means nobody was reading it.
+A team that wrote one can keep it in its fork and cite it in the final report.
 
 ---
 

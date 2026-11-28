@@ -1,0 +1,8 @@
+Ubuntu 22.04.5 LTS
+ROS humble
+8.15.0
+ros-humble-ackermann-steering-controller 2.54.0-1jammy.20260908.124735
+ros-humble-nav2-bringup 1.1.20-1jammy.20260908.021125
+ros-humble-ros-gzharmonic 0.244.12-3jammy
+ros-humble-slam-toolbox 2.6.10-1jammy.20260908.014627
+gz_ros2_control (source) c88a5fd

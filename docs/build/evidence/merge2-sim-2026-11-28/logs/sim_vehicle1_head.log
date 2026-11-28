@@ -1,0 +1,150 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-28-15-56-08-334161-DK-9548
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [launch.user]: vehicle 1: controller parameters from /tmp/mitt_vehicle1_controllers_root.yaml
+[INFO] [robot_state_publisher-1]: process started with pid [9554]
+[INFO] [ruby $(which gz) sim-2]: process started with pid [9556]
+[INFO] [parameter_bridge-3]: process started with pid [9559]
+[INFO] [twist_mux-4]: process started with pid [9561]
+[INFO] [create-5]: process started with pid [9564]
+[twist_mux-4] [INFO] [1795848968.448380286] [twist_mux]: Topic handler 'topics.joystick' subscribed to topic 'cmd_vel_joy': timeout = 0.500000s , priority = 100.
+[twist_mux-4] [INFO] [1795848968.449271621] [twist_mux]: Topic handler 'topics.navigation' subscribed to topic 'cmd_vel': timeout = 0.500000s , priority = 10.
+[create-5] [INFO] [1795848968.460447770] [ros_gz_sim]: Requesting list of world names.
+[robot_state_publisher-1] [INFO] [1795848968.468388043] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-1] [INFO] [1795848968.468480494] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-1] [INFO] [1795848968.468488834] [robot_state_publisher]: got segment camera_optical_link
+[robot_state_publisher-1] [INFO] [1795848968.468491164] [robot_state_publisher]: got segment chassis_link
+[robot_state_publisher-1] [INFO] [1795848968.468492914] [robot_state_publisher]: got segment equipment_plate_link
+[robot_state_publisher-1] [INFO] [1795848968.468494724] [robot_state_publisher]: got segment front_left_steer_link
+[robot_state_publisher-1] [INFO] [1795848968.468496504] [robot_state_publisher]: got segment front_left_wheel_link
+[robot_state_publisher-1] [INFO] [1795848968.468498094] [robot_state_publisher]: got segment front_right_steer_link
+[robot_state_publisher-1] [INFO] [1795848968.468500024] [robot_state_publisher]: got segment front_right_wheel_link
+[robot_state_publisher-1] [INFO] [1795848968.468501594] [robot_state_publisher]: got segment imu_link
+[robot_state_publisher-1] [INFO] [1795848968.468503264] [robot_state_publisher]: got segment laser_link
+[robot_state_publisher-1] [INFO] [1795848968.468505014] [robot_state_publisher]: got segment mast_link
+[robot_state_publisher-1] [INFO] [1795848968.468506724] [robot_state_publisher]: got segment rear_left_wheel_link
+[robot_state_publisher-1] [INFO] [1795848968.468508264] [robot_state_publisher]: got segment rear_right_wheel_link
+[create-5] [INFO] [1795848968.914312557] [ros_gz_sim]: Waiting messages on topic [robot_description].
+[create-5] [INFO] [1795848968.926443696] [ros_gz_sim]: Requested creation of entity.
+[create-5] [INFO] [1795848968.926485296] [ros_gz_sim]: OK creation of entity.
+[INFO] [create-5]: process has finished cleanly [pid 9564]
+[parameter_bridge-3] [INFO] [1795848969.474081831] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1795848969.475224128] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/scan (gz.msgs.LaserScan) -> /scan (sensor_msgs/msg/LaserScan)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1795848969.476617746] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/imu/data (gz.msgs.IMU) -> /imu/data (sensor_msgs/msg/Imu)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1795848969.477499532] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/camera/image_raw (gz.msgs.Image) -> /camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1795848969.478267056] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/camera/camera_info (gz.msgs.CameraInfo) -> /camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[ruby $(which gz) sim-2] Warning [Utils.cc:132] [/sdf/model[@name="mitt"]/link[@name="base_link"]/sensor[@name="imu"]/gz_frame_id:<urdf-string>:L0]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[ruby $(which gz) sim-2] Warning [Utils.cc:132] [/sdf/model[@name="mitt"]/link[@name="base_link"]/sensor[@name="front_camera"]/gz_frame_id:<urdf-string>:L0]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[ruby $(which gz) sim-2] Warning [Utils.cc:132] [/sdf/model[@name="mitt"]/link[@name="base_link"]/sensor[@name="lidar"]/gz_frame_id:<urdf-string>:L0]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[ruby $(which gz) sim-2] [INFO] [1795848970.577211522] [GazeboSimROS2ControlPlugin]: robot_param_node is robot_state_publisher
+[ruby $(which gz) sim-2] [INFO] [1795848970.577255272] [GazeboSimROS2ControlPlugin]: robot_param_node is robot_description
+[ruby $(which gz) sim-2] [INFO] [1795848970.600207814] [gz_ros2_control]: connected to service!! robot_state_publisher asking for robot_description
+[ruby $(which gz) sim-2] [INFO] [1795848970.601107870] [gz_ros2_control]: Received URDF from param server
+[ruby $(which gz) sim-2] [INFO] [1795848970.609362341] [gz_ros2_control]: The position_proportional_gain has been set to: 0.1
+[ruby $(which gz) sim-2] [INFO] [1795848970.609709823] [gz_ros2_control]: Loading joint: front_left_steer_joint
+[ruby $(which gz) sim-2] [INFO] [1795848970.609772003] [gz_ros2_control]: 	State:
+[ruby $(which gz) sim-2] [INFO] [1795848970.609780063] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.609816904] [gz_ros2_control]: 	Command:
+[ruby $(which gz) sim-2] [INFO] [1795848970.609820294] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.609936504] [gz_ros2_control]: Loading joint: front_right_steer_joint
+[ruby $(which gz) sim-2] [INFO] [1795848970.609963124] [gz_ros2_control]: 	State:
+[ruby $(which gz) sim-2] [INFO] [1795848970.609972994] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.610022885] [gz_ros2_control]: 	Command:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610044155] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.610089715] [gz_ros2_control]: Loading joint: rear_left_wheel_joint
+[ruby $(which gz) sim-2] [INFO] [1795848970.610104555] [gz_ros2_control]: 	State:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610108155] [gz_ros2_control]: 		 velocity
+[ruby $(which gz) sim-2] [INFO] [1795848970.610113895] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.610117105] [gz_ros2_control]: 	Command:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610119665] [gz_ros2_control]: 		 velocity
+[ruby $(which gz) sim-2] [INFO] [1795848970.610178516] [gz_ros2_control]: Loading joint: rear_right_wheel_joint
+[ruby $(which gz) sim-2] [INFO] [1795848970.610181956] [gz_ros2_control]: 	State:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610184296] [gz_ros2_control]: 		 velocity
+[ruby $(which gz) sim-2] [INFO] [1795848970.610187406] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.610189746] [gz_ros2_control]: 	Command:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610192006] [gz_ros2_control]: 		 velocity
+[ruby $(which gz) sim-2] [INFO] [1795848970.610200056] [gz_ros2_control]: Loading joint: front_left_wheel_joint
+[ruby $(which gz) sim-2] [INFO] [1795848970.610202786] [gz_ros2_control]: 	State:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610205006] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.610207406] [gz_ros2_control]: 		 velocity
+[ruby $(which gz) sim-2] [INFO] [1795848970.610209836] [gz_ros2_control]: 	Command:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610214716] [gz_ros2_control]: Loading joint: front_right_wheel_joint
+[ruby $(which gz) sim-2] [INFO] [1795848970.610217296] [gz_ros2_control]: 	State:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610219486] [gz_ros2_control]: 		 position
+[ruby $(which gz) sim-2] [INFO] [1795848970.610222426] [gz_ros2_control]: 		 velocity
+[ruby $(which gz) sim-2] [INFO] [1795848970.610224936] [gz_ros2_control]: 	Command:
+[ruby $(which gz) sim-2] [INFO] [1795848970.610943030] [gz_ros2_control]: Loading sensor: imu
+[ruby $(which gz) sim-2] [INFO] [1795848970.610985111] [gz_ros2_control]: 	State:
+[ruby $(which gz) sim-2] [WARN] [1795848970.611032001] [gz_ros2_control]: IMU sensor 'imu' not found in hardware_info, skipping.
+[ruby $(which gz) sim-2] [INFO] [1795848970.611131812] [resource_manager]: Initialize hardware 'MittSystem' 
+[ruby $(which gz) sim-2] [INFO] [1795848970.611304963] [resource_manager]: Successful initialization of hardware 'MittSystem'
+[ruby $(which gz) sim-2] [INFO] [1795848970.611375613] [resource_manager]: 'configure' hardware 'MittSystem' 
+[ruby $(which gz) sim-2] [INFO] [1795848970.611380703] [gz_ros2_control]: System Successfully configured!
+[ruby $(which gz) sim-2] [INFO] [1795848970.611391753] [resource_manager]: Successful 'configure' of hardware 'MittSystem'
+[ruby $(which gz) sim-2] [INFO] [1795848970.611395833] [resource_manager]: 'activate' hardware 'MittSystem' 
+[ruby $(which gz) sim-2] [INFO] [1795848970.611399573] [resource_manager]: Successful 'activate' of hardware 'MittSystem'
+[ruby $(which gz) sim-2] [INFO] [1795848970.611404103] [gz_ros2_control]: Loading controller_manager
+[ruby $(which gz) sim-2] [WARN] [1795848970.643847723] [gz_ros2_control]:  Desired controller update period (0.01 s) is slower than the gazebo simulation period (0.001 s).
+[ruby $(which gz) sim-2] Dropped Escape call with ulEscapeCode : 0x03007703
+[ruby $(which gz) sim-2] libEGL warning: MESA-LOADER: failed to open vgem: /usr/lib/dri/vgem_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri:\$${ORIGIN}/dri:/usr/lib/dri, suffix _dri)
+[ruby $(which gz) sim-2] 
+[ruby $(which gz) sim-2] libEGL warning: NEEDS EXTENSION: falling back to kms_swrast
+[ruby $(which gz) sim-2] Dropped Escape call with ulEscapeCode : 0x03007703
+[ruby $(which gz) sim-2] Dropped Escape call with ulEscapeCode : 0x03007703
+[INFO] [spawner-6]: process started with pid [9719]
+[ruby $(which gz) sim-2] [INFO] [1795848984.163844790] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[spawner-6] [INFO] [1795848984.190659938] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[ruby $(which gz) sim-2] [INFO] [1795848984.191861576] [controller_manager]: Configuring controller 'joint_state_broadcaster'
+[ruby $(which gz) sim-2] [INFO] [1795848984.191986287] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[spawner-6] [INFO] [1795848984.225652128] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[INFO] [spawner-6]: process has finished cleanly [pid 9719]
+[INFO] [spawner-7]: process started with pid [9737]
+[ruby $(which gz) sim-2] [INFO] [1795848984.789629244] [controller_manager]: Loading controller 'ackermann_steering_controller'
+[spawner-7] [INFO] [1795848984.809208542] [spawner_ackermann_steering_controller]: Loaded ackermann_steering_controller
+[ruby $(which gz) sim-2] [INFO] [1795848984.810393489] [controller_manager]: Configuring controller 'ackermann_steering_controller'
+[ruby $(which gz) sim-2] [INFO] [1795848984.810477649] [ackermann_steering_controller]: Ackermann odom configure successful
+[ruby $(which gz) sim-2] [INFO] [1795848984.814540139] [ackermann_steering_controller]: configure successful
+[spawner-7] [INFO] [1795848984.844382666] [spawner_ackermann_steering_controller]: Configured and activated ackermann_steering_controller
+[INFO] [spawner-7]: process has finished cleanly [pid 9737]
+[ruby $(which gz) sim-2] [WARN] [1795849023.023652032] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.072898659] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.122884078] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.172903692] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.222906304] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.272874155] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.322918919] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.372926468] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.422926740] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.472871767] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.522877446] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.572879914] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.622899482] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.672937784] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.722850021] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.772897706] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.822976803] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.872912179] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.922884903] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849023.972905545] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.022904019] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.072900790] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.122905660] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.172901876] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.222880231] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.272939907] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.322937906] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.372900268] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.422925159] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.472979144] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.522880653] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.572857024] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.622848686] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.672921158] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.722956839] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.772932706] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.822965578] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.872977437] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.922959763] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849024.972951577] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849025.022961234] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849025.072985548] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.
+[ruby $(which gz) sim-2] [WARN] [1795849025.122911540] [ackermann_steering_controller]: Use of Twist message without stamped is deprecated and it will be removed in ROS 2 J-Turtle version. Use '~/reference' topic with 'geometry_msgs::msg::TwistStamped' message type in the future.

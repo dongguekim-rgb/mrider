@@ -1,0 +1,15 @@
+1: ============================= test session starts ==============================
+1: platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+1: collected 35 items
+1: ../../src/mitt_bringup/test/test_vehicle_geometry.py ................... [ 54%]
+1: ======================== 33 passed, 2 skipped in 1.36s =========================
+1/2 Test #1: test_vehicle_geometry ............   Passed    1.53 sec
+2: ============================= test session starts ==============================
+2: platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+2: collected 5 items
+2: ../../src/mitt_bringup/test/test_launch_refusal.py ...x.                 [100%]
+2: ========================= 4 passed, 1 xfailed in 0.59s =========================
+2/2 Test #2: test_launch_refusal ..............   Passed    0.75 sec
+The following tests passed:
+100% tests passed, 0 tests failed out of 2
+Summary: 42 tests, 0 errors, 0 failures, 3 skipped

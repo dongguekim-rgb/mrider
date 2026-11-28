@@ -186,3 +186,33 @@ jobs:
             grep -q 'name="base_link"' /tmp/mitt_v$v.urdf
           done
           echo "expanded URDF: $(wc -l < /tmp/mitt.urdf) lines"
+
+      # Until 2026-11-28 `colcon test` ran 29 tests in this workspace and all
+      # 29 were linters: nothing asserted that a vehicle's URDF, controller
+      # file and Nav2 parameters carry the same geometry, or that a refused
+      # launch exits non-zero. These do. They need no Gazebo and no GPU, so
+      # they run on every push in about two seconds.
+      - name: functional tests (colcon test)
+        run: |
+          set -euo pipefail
+          apt-get install -y -qq python3-pytest >/dev/null
+          cd ros2_ws
+          set +u; source setup_env.sh; source install/setup.bash; set -u
+          colcon test --packages-select mitt_bringup \
+            --ctest-args -R 'test_vehicle_geometry|test_launch_refusal' \
+            --event-handlers console_direct+
+          colcon test-result --test-result-base build/mitt_bringup --verbose
+
+      # The linters are reported, not enforced: on 2026-11-28 flake8 (E402)
+      # and pep257 already fail on sim.launch.py and real.launch.py as they
+      # stand on upstream main. Those files are shared between the teams, so
+      # they are not reformatted in a fork. This step shows the count without
+      # hiding the functional result above behind it.
+      - name: linters (reported, not enforced)
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          cd ros2_ws
+          set +u; source setup_env.sh; source install/setup.bash; set -u
+          colcon test --ctest-args -E 'test_vehicle_geometry|test_launch_refusal'
+          colcon test-result

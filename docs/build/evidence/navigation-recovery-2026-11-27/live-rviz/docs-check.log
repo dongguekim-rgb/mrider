@@ -1,0 +1,10 @@
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/mrider-live-rviz-docs
+INFO    -  The following pages exist in the docs directory, but are not included in the "nav" configuration:
+  - build/evidence/legacy-results/README.md
+  - build/evidence/operation-check-2026-11-23/README.md
+  - build/evidence/turns-video-2026-11-23/README.md
+  - images/photos/MANIFEST.md
+INFO    -  Documentation built in 11.14 seconds
+anchors checked: 5705 across 93 pages
+no broken anchors

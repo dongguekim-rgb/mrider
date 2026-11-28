@@ -1,0 +1,28 @@
+-- run_test.py: invoking following command in '/work/ros2_ws/build/mrider_navigation_sim':
+ - /usr/bin/python3 -m launch_testing.launch_test /work/ros2_ws/src/mrider_navigation_sim/test/test_faults_launch.py --junit-xml=/work/ros2_ws/build/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_faults_launch.py.xunit.xml --package-name=mrider_navigation_sim
+
+[INFO] [launch]: All log files can be found below /tmp/mrider-nav-final/2026-11-17-02-07-18-206329-de1ac85bd2a8-2167
+[INFO] [launch]: Default logging verbosity is set to INFO
+test_faults (mrider_navigation_sim.Faults) ... [INFO] [world_node-1]: process started with pid [2169]
+[INFO] [safety_node-2]: process started with pid [2181]
+SIMULATION_RESULT [{"fault": "scan_dropout", "detection_s": 0.3482953067868948, "travel_to_stop_m": 0.22044527481457551, "rearm_required": true, "result": "PASS"}, {"fault": "scan_bad_frame", "detection_s": 0.02642994187772274, "travel_to_stop_m": 0.0489613222560365, "rearm_required": true, "result": "PASS"}, {"fault": "scan_future", "detection_s": 0.06779578141868114, "travel_to_stop_m": 0.07195557790410023, "rearm_required": true, "result": "PASS"}, {"fault": "scan_nan", "detection_s": 0.027122464030981064, "travel_to_stop_m": 0.048938623570848105, "rearm_required": true, "result": "PASS"}, {"fault": "odom_bad_frame", "detection_s": 0.02755804732441902, "travel_to_stop_m": 0.04928587952908825, "rearm_required": true, "result": "PASS"}, {"fault": "odom_dropout", "detection_s": 0.3671201393008232, "travel_to_stop_m": 0.22817966613866814, "rearm_required": true, "result": "PASS"}, {"fault": "command_dropout", "detection_s": 0.3480859808623791, "travel_to_stop_m": 0.2205739273070476, "rearm_required": true, "result": "PASS"}, {"fault": "dynamic_obstacle", "detection_s": 0.17118754796683788, "travel_to_stop_m": 0.07206926956741855, "rearm_required": true, "result": "PASS"}]
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 14.313s
+
+OK
+[INFO] [safety_node-2]: sending signal 'SIGINT' to process[safety_node-2]
+[INFO] [world_node-1]: sending signal 'SIGINT' to process[world_node-1]
+[INFO] [safety_node-2]: process has finished cleanly [pid 2181]
+[INFO] [world_node-1]: process has finished cleanly [pid 2169]
+test_clean_shutdown (mrider_navigation_sim.Exit) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+
+
+-- run_test.py: return code 0
+-- run_test.py: verify result file '/work/ros2_ws/build/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_faults_launch.py.xunit.xml'

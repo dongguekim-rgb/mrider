@@ -3,9 +3,9 @@ site_description: Michigan Rider — a drive-by-wire research and education vehi
 site_url: https://jrkwon.github.io/mrider/
 copyright: Bio-Inspired Machine Intelligence Lab (BIMI), University of Michigan-Dearborn
 
-repo_url: https://github.com/jrkwon/mrider
-repo_name: jrkwon/mrider
-edit_uri: edit/main/docs/
+repo_url: https://github.com/dongguekim-rgb/mrider
+repo_name: dongguekim-rgb/mrider
+edit_uri: edit/sw/software-autonomy/docs/
 
 theme:
   name: material
@@ -65,6 +65,7 @@ markdown_extensions:
 
 hooks:
   - hooks/github_alerts.py
+  - hooks/repository_links.py
 
 plugins:
   - search
@@ -83,34 +84,56 @@ extra:
       name: MRider on GitHub
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - Running the Digital Twin: run-the-twin.md
-  - Purchase Request (2026 Fall): purchase-request-2026-fall.md
-  - 구매 요청서 (2026 가을): purchase-request-2026-fall-ko.md
-  - Order Log: order-log.md
-  - Design:
-      - Overview: design/overview.md
-      - DBW Architecture Review (2026-08): design/adr-dbw-architecture-review.md
-      - Architecture: design/architecture.md
-      - Vehicle: design/vehicle.md
-      - Drive-by-Wire: design/dbw.md
-      - Safety: design/safety.md
-      - Light Variant (ADR L): design/adr-light.md
-      - Sensors: design/sensors.md
-      - Calibration: design/calibration.md
-      - Software: design/software.md
-      - Bill of Materials: design/bom.md
-  - Build Guide:
-      - Overview: build/index.md
-      - 1. BOM & Sourcing: build/01-bom-sourcing.md
-      - 2. Vehicle Prep & Mechanical: build/02-mechanical.md
-      - 3. Electrical & Wiring: build/03-electrical.md
-      - 4. Firmware Bring-up: build/04-firmware.md
-      - 5. Software Install: build/05-software.md
-      - 6. Bench Test & Calibration: build/06-bench-test.md
-      - 7. Manual Drive: build/07-manual-drive.md
-      - 8. Autonomous Bring-up: build/08-autonomous.md
+  - 공식 프로젝트 소개: index.md
+  - 팀 실행·문서 안내: https://github.com/dongguekim-rgb/mrider/blob/sw/software-autonomy/README.md
+  - 설치와 프로젝트:
+      - 새 PC 설치·빌드: new-pc-setup.md
+      - 기존 Humble Docker: existing-humble-container.md
+      - 폴더 구조: folder-tree.md
+      - 현재 알고리즘·입출력: architecture.md
+      - 공식 시작 안내: getting-started.md
+  - 센서 시뮬레이션:
+      - 기본 센서 Navigation: sensor-only-navigation.md
+      - 카메라 비학습 분할: classical-perception.md
+      - 좌우 우회·횡단: sensor-turns-simulation.md
+      - 대형 실내 맵: large-office-simulation.md
+      - 대형 맵 단계별 주행: large-office-navigation.md
+      - 시행착오·현재 검증 상태: experiment-log.md
+  - 초기 제어·GT 기준 시험:
+      - Pure Pursuit: simulation-test-guide.md
+      - Navigation: navigation-simulation-guide.md
+      - 실내: indoor-simulation-guide.md
+      - 좌우 조향: turns-simulation-guide.md
+      - 공식 Gazebo twin: run-the-twin.md
+  - 실환경 시험:
+      - 실차 시험 절차: real-world-test-guide.md
+      - 실차 기록 양식: real-world-validation-template.md
+      - RPLiDAR A2M4-R2: rplidar-a2-setup.md
+      - Teensy 연동: teensy-ros2-integration.md
+      - 조향 보정: steering-calibration-ko.md
+      - Vehicle 1 실측값: build/vehicle1-measurements-2026-11-23.md
+  - 공식 설계:
+      - 개요: design/overview.md
+      - 아키텍처: design/architecture.md
+      - 차량: design/vehicle.md
+      - DBW: design/dbw.md
+      - 안전: design/safety.md
+      - 센서: design/sensors.md
+      - 보정: design/calibration.md
+      - 소프트웨어: design/software.md
+      - 부품 구성: design/bom.md
+      - DBW 설계 결정: design/adr-dbw-architecture-review.md
+      - Light variant: design/adr-light.md
+  - 제작·벤치 검증:
+      - 개요: build/index.md
+      - 부품: build/01-bom-sourcing.md
+      - 기계: build/02-mechanical.md
+      - 전기: build/03-electrical.md
+      - 펌웨어: build/04-firmware.md
+      - 소프트웨어: build/05-software.md
+      - 벤치·보정: build/06-bench-test.md
+      - 수동 주행: build/07-manual-drive.md
+      - 자율주행 준비: build/08-autonomous.md
   - Course (Fall 2026):
       - Overview: course/index.md
       - Syllabus: course/syllabus.md
@@ -143,13 +166,17 @@ nav:
           - Week 13 — Sim to Real & Merge 3: course/weeks/w13.md
           - Week 14 — Validation & Merge 4: course/weeks/w14.md
           - Week 15 — Final Demo: course/weeks/w15.md
-  - Learn:
-      - Overview: learn/index.md
-      - M1 — Intro to MRider & ROS 2: learn/m1-ros2-intro.md
-      - M2 — Drive-by-Wire & Smart-Servo: learn/m2-dbw-steering.md
-      - M3 — Teleop Control & Safety: learn/m3-teleop-safety.md
-      - M4 — Perception: learn/m4-perception.md
-      - M5 — Localization & SLAM: learn/m5-slam.md
-      - M6 — Navigation (Nav2): learn/m6-nav2.md
+  - 기술 참고:
+      - 개요: learn/index.md
+      - ROS2: learn/m1-ros2-intro.md
+      - DBW·조향: learn/m2-dbw-steering.md
+      - 원격 제어·안전: learn/m3-teleop-safety.md
+      - 인지: learn/m4-perception.md
+      - SLAM: learn/m5-slam.md
+      - Nav2: learn/m6-nav2.md
       - M7 — Behavior Cloning: learn/m7-behavior-cloning.md
       - M8 — Capstone: learn/m8-capstone.md
+  - 공식 구매 기록:
+      - Purchase Request (2026 Fall): purchase-request-2026-fall.md
+      - 구매 요청서 (2026 가을): purchase-request-2026-fall-ko.md
+      - Order Log: order-log.md

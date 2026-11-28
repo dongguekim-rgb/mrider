@@ -1,0 +1,6 @@
+{
+  "driving_verdict": "PASS during the recorded mission; evaluator then disarmed",
+  "gui_verdict": "Existing PID 87150 displayed live map/trail/segmentation after its covered window was raised; no restart",
+  "cleanup": "Background shell launcher did not finish on SIGINT. Its owned parent/children were identified from the log and stopped; remaining=[]; RViz retained.",
+  "post_mission": "Continued unattended observations after evaluation were not part of the driving acceptance window. Additional registration/TF warnings in backend-complete.log.gz remain recorded; prolonged parked observation is not validated."
+}

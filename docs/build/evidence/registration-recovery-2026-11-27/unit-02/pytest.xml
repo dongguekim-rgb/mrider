@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="26" time="4.050" timestamp="2026-11-27T01:36:10.438732" hostname="platinum"><testcase classname="test_sensor_core" name="test_scan_registration[0.03-0.04-0.01]" time="0.016" /><testcase classname="test_sensor_core" name="test_scan_registration[-0.03-0.04--0.01]" time="0.011" /><testcase classname="test_sensor_core" name="test_scan_registration[0.0-0.0-0.0]" time="0.006" /><testcase classname="test_sensor_core" name="test_scan_no_matches_fails" time="0.001" /><testcase classname="test_sensor_core" name="test_slam_copy_excludes_no_hit_without_mutating_scan" time="0.003" /><testcase classname="test_sensor_core" name="test_velocity_window_moving_then_stationary_noise" time="0.001" /><testcase classname="test_sensor_core" name="test_keyframe_long_corridor" time="0.085"><failure message="ValueError: recent_reference_disagreement">self = &lt;mrider_navigation_sim.sensor_core.KeyframeOdometry object at 0x7f9b3a08dc00&gt;
+points = array([[-4.05159768e+00, -4.96177613e-16],
+       [-4.04981347e+00, -7.06897570e-02],
+       [-4.05082854e+00, -1.4145....05099352e+00,  2.12303575e-01],
+       [-4.05027746e+00,  1.41438805e-01],
+       [-4.05093797e+00,  7.07093853e-02]])
+stamp = 1.5
+
+    def update(self,points,stamp=None):
+        if stamp is not None and (not math.isfinite(stamp) or stamp&lt;0 or
+                                  self.last_stamp is not None and stamp&lt;=self.last_stamp):
+            raise ValueError('keyframe_timestamp')
+        self.diagnostics.clear()
+        if self.reference is None:
+            if len(points)&lt;60:raise ValueError('insufficient_scan')
+            self.reference=points.copy();self.reference_stamp=stamp;self.last_stamp=stamp
+            self.remember(points,self.pose,stamp)
+            self.diagnostics.update(registration_mode='initial',active_reference_stamp=stamp)
+            return self.pose.copy(),0.
+        age=stamp-self.reference_stamp if stamp is not None and self.reference_stamp is not None else 0.
+        self.diagnostics.update(registration_mode='keyframe',matched_reference_stamp=self.reference_stamp,
+                                reference_age_s=age)
+        recovered=False
+        quality={}
+        try:
+&gt;           delta,angle,rmse=register_scan(points,self.reference,self.relative,.8,quality)
+
+root/mrider-team/ros2_ws/install-docker/mrider_navigation_sim/local/lib/python3.10/dist-packages/mrider_navigation_sim/sensor_core.py:163: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+current = array([[-4.05159768e+00, -4.96177613e-16],
+       [-4.04981347e+00, -7.06897570e-02],
+       [-4.05082854e+00, -1.4145....05099352e+00,  2.12303575e-01],
+       [-4.05027746e+00,  1.41438805e-01],
+       [-4.05093797e+00,  7.07093853e-02]])
+previous = array([[-3.80220252e+00, -4.65635515e-16],
+       [-3.80067676e+00, -6.63410596e-02],
+       [-3.79892071e+00, -1.3266....79986034e+00,  1.99142242e-01],
+       [-3.80015415e+00,  1.32704307e-01],
+       [-3.80056044e+00,  6.63390293e-02]])
+initial = array([ 1.34183699e-01, -1.21430290e-04,  3.80868853e-05])
+max_translation = 0.8
+diagnostics = {'input_points': 302, 'rmse': 0.09523782669637564, 'rotation_rad': 0.00023522865151865004, 'support_fraction': 0.8973509933774835, ...}
+
+    def register_scan(current, previous, initial=None, max_translation=.25, diagnostics=None):
+        """Robust 2D ICP: current laser frame -&gt; previous laser frame."""
+        info=diagnostics if diagnostics is not None else {}
+        info.clear();info['input_points']=len(current)
+        if min(len(current),len(previous))&lt;60:raise ValueError('insufficient_scan')
+        tree=cKDTree(previous);rotation=np.eye(2);translation=np.zeros(2)
+        if initial is not None:
+            translation=np.array(initial[:2],dtype=float);c=math.cos(initial[2]);s=math.sin(initial[2])
+            rotation=np.array([[c,-s],[s,c]])
+        # Local surface normals constrain motion along walls; nearest-point ICP
+        # alone aliases densely sampled corridor walls and underestimates travel.
+        _,neighbors=tree.query(previous,k=7)
+        patches=previous[neighbors];centered=patches-patches.mean(axis=1,keepdims=True)
+        covariance=np.einsum('nki,nkj-&gt;nij',centered,centered)
+        _,vectors=np.linalg.eigh(covariance);normals=vectors[:,:,0]
+        for _ in range(30):
+            moved=current@rotation.T+translation
+            distances,indices=tree.query(moved)
+            mask=distances&lt;=min(.35,max(1e-6,float(np.quantile(distances,.9))))
+            if mask.sum()&lt;40:raise ValueError('insufficient_matches')
+            a=moved[mask];b=previous[indices[mask]];n=normals[indices[mask]]
+            residual=np.sum(n*(b-a),axis=1)
+            design=np.column_stack((n[:,0],n[:,1],-n[:,0]*a[:,1]+n[:,1]*a[:,0]))
+            # Distance gating alone admits slowly moving foreground returns.
+            # Redescending point-to-plane weights keep that minority from pulling
+            # the pose, while the 3 cm floor permits the initial scan displacement.
+            scale=max(.03,4.685*1.4826*float(np.median(np.abs(residual-np.median(residual)))))
+            weights=np.maximum(0.,1.-(residual/scale)**2)**2
+            weights[np.abs(residual)&gt;=scale]=0.
+            weighted=design*np.sqrt(weights[:,None])
+            if np.count_nonzero(weights)&lt;40 or np.linalg.cond(weighted)&gt;1000:
+                raise ValueError('degenerate_scan_geometry')
+            delta=np.linalg.lstsq(weighted,residual*np.sqrt(weights),rcond=None)[0]
+            c=math.cos(delta[2]);sn=math.sin(delta[2]);r=np.array([[c,-sn],[sn,c]])
+            rotation=r@rotation;translation=r@translation+delta[:2]
+            if np.linalg.norm(delta)&lt;1e-6:break
+        moved=current@rotation.T+translation
+        distances,indices=tree.query(moved)
+        # Score the same bounded correspondences used by the fit. Sorting an
+        # arbitrary 80% reintroduced moving-object returns &gt;1 m away that the
+        # optimizer had correctly excluded, rejecting an otherwise static pose.
+        # Require broad support; a small matching fragment is not localization.
+        mask=distances&lt;=min(.35,max(1e-6,float(np.quantile(distances,.9))))
+        info.update(supported_points=int(mask.sum()),support_fraction=float(mask.mean()))
+        if mask.sum()&lt;max(60,math.ceil(.7*len(current))):
+            raise ValueError('insufficient_static_matches')
+        a=moved[mask];n=normals[indices[mask]]
+        design=np.column_stack((n[:,0],n[:,1],-n[:,0]*a[:,1]+n[:,1]*a[:,0]))
+        if np.linalg.cond(design)&gt;1000:raise ValueError('degenerate_scan_geometry')
+        # Retain the original 20% trimming for angular sampling/occlusion edges,
+        # but only INSIDE accepted correspondences. Do not reintroduce excluded
+        # foreground points merely to fill a fixed percentage of the whole scan.
+        quality=np.sort(distances[mask])
+        rmse=float(np.sqrt(np.mean(quality[:int(.8*len(quality))]**2)))
+        angle=math.atan2(rotation[1,0],rotation[0,0])
+        info.update(rmse=rmse,translation_m=float(np.linalg.norm(translation)),rotation_rad=angle)
+&gt;       if rmse&gt;.08 or np.linalg.norm(translation)&gt;max_translation or abs(angle)&gt;.2:raise ValueError('scan_registration_failed')
+E       ValueError: scan_registration_failed
+
+root/mrider-team/ros2_ws/install-docker/mrider_navigation_sim/local/lib/python3.10/dist-packages/mrider_navigation_sim/sensor_core.py:82: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_keyframe_long_corridor():
+        """24 m of noisy range observations; truth is used only to score the test."""
+        from mrider_navigation_sim.geometry import ray_distances, obstacles
+        angles = np.linspace(-math.pi, math.pi, 360, endpoint=False)
+        world = obstacles('large_office')
+        rng = np.random.default_rng(17)
+        estimator = KeyframeOdometry()
+        for index,x in enumerate(np.linspace(0., 24., 481)):
+            ranges = ray_distances(x, 0., angles, world, 15.)
+            valid = ranges &lt; 14.95
+            ranges += rng.normal(0., .002, len(ranges))
+            points = np.column_stack((ranges[valid] * np.cos(angles[valid]),
+                                      ranges[valid] * np.sin(angles[valid])))
+&gt;           pose, _ = estimator.update(points,1.+index*.1)
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_core.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+root/mrider-team/ros2_ws/install-docker/mrider_navigation_sim/local/lib/python3.10/dist-packages/mrider_navigation_sim/sensor_core.py:174: in update
+    pose,rmse=self.recent_consensus(points,stamp)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;mrider_navigation_sim.sensor_core.KeyframeOdometry object at 0x7f9b3a08dc00&gt;
+points = array([[-4.05159768e+00, -4.96177613e-16],
+       [-4.04981347e+00, -7.06897570e-02],
+       [-4.05082854e+00, -1.4145....05099352e+00,  2.12303575e-01],
+       [-4.05027746e+00,  1.41438805e-01],
+       [-4.05093797e+00,  7.07093853e-02]])
+stamp = 1.5
+
+    def recent_consensus(self,points,stamp):
+        references=[r for r in self.recent if stamp is not None and
+                    r[0] is not None and 0&lt;stamp-r[0]&lt;=.35]
+        if len(references)&lt;2:raise ValueError('recent_reference_unavailable')
+        candidates=[];fits=[]
+        for source,reference,anchor in list(reversed(references))[:2]:
+            relative=self.rotation(anchor[2]).T@(self.pose[:2]-anchor[:2])
+            guess=np.r_[relative,self.pose[2]-anchor[2]]
+            quality={}
+            delta,angle,rmse=register_scan(points,reference,guess,.25,quality)
+            candidate=np.r_[anchor[:2]+self.rotation(anchor[2])@delta,anchor[2]+angle]
+            candidates.append(candidate)
+            fits.append(dict(stamp=source,age_s=stamp-source,**quality))
+        position_gap=float(np.linalg.norm(candidates[0][:2]-candidates[1][:2]))
+        yaw_gap=abs(math.atan2(math.sin(candidates[0][2]-candidates[1][2]),
+                               math.cos(candidates[0][2]-candidates[1][2])))
+        self.diagnostics.update(recent_fits=fits,consensus_position_gap_m=position_gap,
+                                consensus_yaw_gap_rad=yaw_gap)
+        if position_gap&gt;.02 or yaw_gap&gt;.01:
+&gt;           raise ValueError('recent_reference_disagreement')
+E           ValueError: recent_reference_disagreement
+
+root/mrider-team/ros2_ws/install-docker/mrider_navigation_sim/local/lib/python3.10/dist-packages/mrider_navigation_sim/sensor_core.py:134: ValueError</failure></testcase><testcase classname="test_sensor_core" name="test_camera_floor_obstacle_and_invalid" time="0.002" /><testcase classname="test_sensor_core" name="test_stationary_scan_with_close_crossing_actor" time="0.722" /><testcase classname="test_sensor_core" name="test_small_static_fragment_is_not_enough_for_localization" time="0.005" /><testcase classname="test_sensor_core" name="test_collinear_matches_do_not_establish_full_pose" time="0.003" /><testcase classname="test_sensor_core" name="test_open_intersection_sampling_does_not_break_odometry[24.9]" time="0.030"><failure message="AssertionError: assert (0.10387956313892767 &lt; 0.1)&#10; +  where 0.10387956313892767 = &lt;function norm at 0x7f9b541b25f0&gt;((array([0.00112056, 0.00016102]) - [0.10500000000000043, 0.0]))&#10; +    where &lt;function norm at 0x7f9b541b25f0&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm&#10; +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg">x = 24.9
+
+    @pytest.mark.parametrize('x',[24.9,25.5,26.])
+    def test_open_intersection_sampling_does_not_break_odometry(x):
+        """Far surfaces change angular sampling at a widening intersection.
+    
+        No moving actors; known synthetic poses are evaluator assertions only.
+        Scoring every supported return rejected 41--51 scans on these paths.
+        """
+        from mrider_navigation_sim.geometry import obstacles,ray_distances
+        angles=np.linspace(-math.pi,math.pi,360,endpoint=False)
+        rng=np.random.default_rng(73);estimator=KeyframeOdometry()
+        world=obstacles('large_office')
+        for y in np.arange(10.,16.,.035):
+            ranges=ray_distances(x,y,angles+math.pi/2,world,15.)
+            ranges+=rng.normal(0.,.002,len(ranges));valid=ranges&lt;14.95
+            points=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
+            pose,rmse=estimator.update(points,1.+(y-10.)/.35)
+&gt;           assert np.linalg.norm(pose[:2]-[y-10.,0.])&lt;.1 and abs(pose[2])&lt;.01
+E           AssertionError: assert (0.10387956313892767 &lt; 0.1)
+E            +  where 0.10387956313892767 = &lt;function norm at 0x7f9b541b25f0&gt;((array([0.00112056, 0.00016102]) - [0.10500000000000043, 0.0]))
+E            +    where &lt;function norm at 0x7f9b541b25f0&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm
+E            +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_core.py:124: AssertionError</failure></testcase><testcase classname="test_sensor_core" name="test_open_intersection_sampling_does_not_break_odometry[25.5]" time="0.027"><failure message="AssertionError: assert (0.10450919579674409 &lt; 0.1)&#10; +  where 0.10450919579674409 = &lt;function norm at 0x7f9b541b25f0&gt;((array([0.00049098, 0.00019383]) - [0.10500000000000043, 0.0]))&#10; +    where &lt;function norm at 0x7f9b541b25f0&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm&#10; +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg">x = 25.5
+
+    @pytest.mark.parametrize('x',[24.9,25.5,26.])
+    def test_open_intersection_sampling_does_not_break_odometry(x):
+        """Far surfaces change angular sampling at a widening intersection.
+    
+        No moving actors; known synthetic poses are evaluator assertions only.
+        Scoring every supported return rejected 41--51 scans on these paths.
+        """
+        from mrider_navigation_sim.geometry import obstacles,ray_distances
+        angles=np.linspace(-math.pi,math.pi,360,endpoint=False)
+        rng=np.random.default_rng(73);estimator=KeyframeOdometry()
+        world=obstacles('large_office')
+        for y in np.arange(10.,16.,.035):
+            ranges=ray_distances(x,y,angles+math.pi/2,world,15.)
+            ranges+=rng.normal(0.,.002,len(ranges));valid=ranges&lt;14.95
+            points=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
+            pose,rmse=estimator.update(points,1.+(y-10.)/.35)
+&gt;           assert np.linalg.norm(pose[:2]-[y-10.,0.])&lt;.1 and abs(pose[2])&lt;.01
+E           AssertionError: assert (0.10450919579674409 &lt; 0.1)
+E            +  where 0.10450919579674409 = &lt;function norm at 0x7f9b541b25f0&gt;((array([0.00049098, 0.00019383]) - [0.10500000000000043, 0.0]))
+E            +    where &lt;function norm at 0x7f9b541b25f0&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm
+E            +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_core.py:124: AssertionError</failure></testcase><testcase classname="test_sensor_core" name="test_open_intersection_sampling_does_not_break_odometry[26.0]" time="0.058"><failure message="AssertionError: assert (0.12756420740586236 &lt; 0.1)&#10; +  where 0.12756420740586236 = &lt;function norm at 0x7f9b541b25f0&gt;((array([0.01243599, 0.00022345]) - [0.14000000000000057, 0.0]))&#10; +    where &lt;function norm at 0x7f9b541b25f0&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm&#10; +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg">x = 26.0
+
+    @pytest.mark.parametrize('x',[24.9,25.5,26.])
+    def test_open_intersection_sampling_does_not_break_odometry(x):
+        """Far surfaces change angular sampling at a widening intersection.
+    
+        No moving actors; known synthetic poses are evaluator assertions only.
+        Scoring every supported return rejected 41--51 scans on these paths.
+        """
+        from mrider_navigation_sim.geometry import obstacles,ray_distances
+        angles=np.linspace(-math.pi,math.pi,360,endpoint=False)
+        rng=np.random.default_rng(73);estimator=KeyframeOdometry()
+        world=obstacles('large_office')
+        for y in np.arange(10.,16.,.035):
+            ranges=ray_distances(x,y,angles+math.pi/2,world,15.)
+            ranges+=rng.normal(0.,.002,len(ranges));valid=ranges&lt;14.95
+            points=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
+            pose,rmse=estimator.update(points,1.+(y-10.)/.35)
+&gt;           assert np.linalg.norm(pose[:2]-[y-10.,0.])&lt;.1 and abs(pose[2])&lt;.01
+E           AssertionError: assert (0.12756420740586236 &lt; 0.1)
+E            +  where 0.12756420740586236 = &lt;function norm at 0x7f9b541b25f0&gt;((array([0.01243599, 0.00022345]) - [0.14000000000000057, 0.0]))
+E            +    where &lt;function norm at 0x7f9b541b25f0&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm
+E            +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_core.py:124: AssertionError</failure></testcase><testcase classname="test_sensor_core" name="test_keyframe_age_refresh_preserves_motion_and_rejects_bad_input" time="0.029" /><testcase classname="test_registration_recovery" name="test_recorded_pair_still_requires_recovery_without_lowering_quality" time="0.096" /><testcase classname="test_registration_recovery" name="test_recorded_parked_vehicle_recovers_with_two_fresh_agreeing_references" time="0.109" /><testcase classname="test_registration_recovery" name="test_small_fragment_cannot_be_promoted_by_recent_references" time="0.025" /><testcase classname="test_registration_recovery" name="test_stale_or_single_reference_cannot_authorize_recovery[False]" time="0.013" /><testcase classname="test_registration_recovery" name="test_stale_or_single_reference_cannot_authorize_recovery[True]" time="0.012" /><testcase classname="test_registration_recovery" name="test_disagreeing_recent_pose_anchors_do_not_update_state" time="0.028" /><testcase classname="test_registration_recovery" name="test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose[0.0]" time="0.310" /><testcase classname="test_registration_recovery" name="test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose[0.15]" time="0.471" /><testcase classname="test_registration_recovery" name="test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose[0.3]" time="0.486" /><testcase classname="test_sensor_messages" name="test_odometry_does_not_relabel_source_or_slam_scan" time="0.331" /><testcase classname="test_sensor_messages" name="test_invalid_source_frame_is_not_forwarded_to_slam" time="0.045" /></testsuite></testsuites>

@@ -1,0 +1,125 @@
+{
+  "date": "2026-11-25",
+  "environment": "ros2_humble /root/mrider-team; vehicle=1; GUI disabled",
+  "scope": "109 unit cases and 3 ROS topic scenarios plus their shutdown cases; selected suites only",
+  "suites": [
+    {
+      "suite": "camera_contract",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "segmentation",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "sensor_core",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "safety",
+      "tests": 43,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "local_goal",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "vehicle_overlay",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "large_office",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "indoor_geometry",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_sensor_only_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_large_office_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_sensor_turns_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "totals": {
+    "tests": 115,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "scenario_runs": {
+    "large_office": "scan-wrap",
+    "sensor_turns": "velocity-window",
+    "sensor_only": "final"
+  },
+  "measurements": {
+    "large_office": {
+      "result": "PASS",
+      "goal_reached_error_m": 0.1280615539466237,
+      "truth_goal_error_m": 0.15796927537496125,
+      "odometry_position_error_m": 0.050698112062684,
+      "camera_dropout_latched": true,
+      "collision": false
+    },
+    "sensor_turns": {
+      "result": "PASS",
+      "goal_reached_error_m": 0.11066400511632896,
+      "truth_goal_error_m": 0.1538054836644106,
+      "odometry_position_error_m": 0.03139160290610454,
+      "camera_dropout_latched": true,
+      "collision": false,
+      "min_clearance_m": 0.5644261794475405,
+      "stop_to_resume_s": 13.224151644855738,
+      "steering_min_rad": -0.09493057429790497,
+      "steering_max_rad": 0.22720561921596527
+    },
+    "sensor_only": {
+      "result": "PASS",
+      "truth_goal_error_m": 0.12465931061510013,
+      "odometry_position_error_m": 0.001838414985379787,
+      "camera_dropout_latched": true
+    }
+  },
+  "metric_note": "goal_reached_error_m is at GOAL; truth_goal_error_m and odometry_position_error_m are final values after subsequent fault injection; basic run only asserts GOAL <0.5 m and stores its post-fault final error.",
+  "manifest_note": "After the recorded runs: explicit tf2_msgs test dependency added and package rebuilt successfully; trailing whitespace removed from slam_sensor_only.yaml with parsed YAML equality verified. Executable/test sources match the recorded final runs."
+}

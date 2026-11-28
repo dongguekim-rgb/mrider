@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="mrider_navigation_sim.test_large_office_turns_launch" tests="2" failures="0" errors="0" time="197.99"><testsuite name="mrider_navigation_sim.test_large_office_turns_launch.launch_tests" tests="2" failures="0" errors="0" skipped="0" time="197.99"><testcase classname="mrider_navigation_sim.LargeOfficeTurns" name="test_reachable_paths_and_both_turns" time="197.989" /><testcase classname="mrider_navigation_sim.Exit" name="test_shutdown" time="0.0" /></testsuite></testsuites>

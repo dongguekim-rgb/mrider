@@ -1,0 +1,18 @@
+{
+  "floor_fraction": 0.99375,
+  "obstacle_fraction": 0.0,
+  "unknown_fraction": 0.00625,
+  "clear": true,
+  "reason": "clear",
+  "valid": true,
+  "map_size_m": [
+    60,
+    40
+  ],
+  "area_m2": 2400,
+  "rooms": 8,
+  "static_boxes": 63,
+  "no_return_rays": 58,
+  "verified_max_range_clear": true,
+  "closed_loop_tested": false
+}

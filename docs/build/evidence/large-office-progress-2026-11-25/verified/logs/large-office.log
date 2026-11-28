@@ -1,0 +1,450 @@
+Starting >>> mrider_navigation_sim
+UpdateCTestConfiguration  from :/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Parse Config file:/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+   Site: platinum
+   Build name: (empty)
+ Add coverage exclude regular expressions.
+Create new tag: 20261125-1134 - Experimental
+UpdateCTestConfiguration  from :/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Parse Config file:/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/CTestConfiguration.ini
+Test project /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 5
+    Start  5: local_goal
+
+5: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/local_goal.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/local_goal.txt" "--command" "/usr/bin/python3" "-u" "-m" "pytest" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_local_goal.py" "-o" "cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/local_goal/.cache" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/local_goal.xunit.xml" "--junit-prefix=mrider_navigation_sim"
+5: Test timeout computed to be: 60
+5: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+5:  - /usr/bin/python3 -u -m pytest /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_local_goal.py -o cache_dir=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/ament_cmake_pytest/local_goal/.cache --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/local_goal.xunit.xml --junit-prefix=mrider_navigation_sim
+5: ============================= test session starts ==============================
+5: platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+5: cachedir: build-docker/mrider_navigation_sim/ament_cmake_pytest/local_goal/.cache
+5: rootdir: /root/mrider-team/ros2_ws
+5: plugins: ament-copyright-0.12.15, ament-lint-0.12.15, ament-pep257-0.12.15, launch-testing-1.0.14, ament-flake8-0.12.15, ament-xmllint-0.12.15, launch-testing-ros-0.19.14, colcon-core-0.21.1
+5: collected 10 items
+5: 
+5: ../../src/mrider_navigation_sim/test/test_local_goal.py ..........       [100%]
+5: 
+5: - generated xml file: /root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/local_goal.xunit.xml -
+5: ============================== 10 passed in 0.26s ==============================
+5: -- run_test.py: return code 0
+5: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/local_goal.xunit.xml'
+1/2 Test  #5: local_goal .........................   Passed    0.75 sec
+test 10
+    Start 10: test_test_large_office_launch.py
+
+10: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_large_office_launch.py.xunit.xml" "--package-name" "mrider_navigation_sim" "--output-file" "/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/launch_test/test_test_large_office_launch.py.txt" "--command" "/usr/bin/python3" "-m" "launch_testing.launch_test" "/root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_large_office_launch.py" "--junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_large_office_launch.py.xunit.xml" "--package-name=mrider_navigation_sim"
+10: Test timeout computed to be: 260
+10: -- run_test.py: invoking following command in '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim':
+10:  - /usr/bin/python3 -m launch_testing.launch_test /root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_large_office_launch.py --junit-xml=/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_large_office_launch.py.xunit.xml --package-name=mrider_navigation_sim
+10: [INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-25-11-34-27-469442-platinum-57753
+10: [INFO] [launch]: Default logging verbosity is set to INFO
+10: test_sensor_only (mrider_navigation_sim.SensorOnly) ... [INFO] [laser_odometry_node-1]: process started with pid [57765]
+10: [INFO] [camera_rules_node-2]: process started with pid [57767]
+10: [INFO] [async_slam_toolbox_node-3]: process started with pid [57769]
+10: [INFO] [world_node-4]: process started with pid [57771]
+10: [INFO] [safety_node-5]: process started with pid [57773]
+10: [INFO] [mission_node-6]: process started with pid [57775]
+10: [INFO] [planner_server-7]: process started with pid [57777]
+10: [INFO] [controller_server-8]: process started with pid [57779]
+10: [INFO] [lifecycle_manager-9]: process started with pid [57781]
+10: [INFO] [visualization_node-10]: process started with pid [57783]
+10: [lifecycle_manager-9] [INFO] [1795606467.694824322] [navigation_lifecycle]: Creating
+10: [lifecycle_manager-9] [INFO] [1795606467.697385561] [navigation_lifecycle]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+10: [controller_server-8] [INFO] [1795606467.696603998] [controller_server]: 
+10: [controller_server-8] 	controller_server lifecycle node launched. 
+10: [controller_server-8] 	Waiting on external lifecycle transitions to activate
+10: [controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+10: [async_slam_toolbox_node-3] [INFO] [1795606467.696863299] [slam_toolbox]: Node using stack size 40000000
+10: [lifecycle_manager-9] [INFO] [1795606467.700822773] [navigation_lifecycle]: [34m[1mStarting managed nodes bringup...[0m[0m
+10: [lifecycle_manager-9] [INFO] [1795606467.700891123] [navigation_lifecycle]: [34m[1mConfiguring planner_server[0m[0m
+10: [planner_server-7] [INFO] [1795606467.701422638] [planner_server]: 
+10: [planner_server-7] 	planner_server lifecycle node launched. 
+10: [planner_server-7] 	Waiting on external lifecycle transitions to activate
+10: [planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+10: [controller_server-8] [INFO] [1795606467.704415760] [controller_server]: Creating controller server
+10: [planner_server-7] [INFO] [1795606467.704533147] [planner_server]: Creating
+10: [planner_server-7] [INFO] [1795606467.714287407] [global_costmap.global_costmap]: 
+10: [planner_server-7] 	global_costmap lifecycle node launched. 
+10: [planner_server-7] 	Waiting on external lifecycle transitions to activate
+10: [planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+10: [planner_server-7] [INFO] [1795606467.715151361] [global_costmap.global_costmap]: Creating Costmap
+10: [controller_server-8] [INFO] [1795606467.715297447] [local_costmap.local_costmap]: 
+10: [controller_server-8] 	local_costmap lifecycle node launched. 
+10: [controller_server-8] 	Waiting on external lifecycle transitions to activate
+10: [controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+10: [controller_server-8] [INFO] [1795606467.716132918] [local_costmap.local_costmap]: Creating Costmap
+10: [planner_server-7] [INFO] [1795606467.716451382] [planner_server]: Configuring
+10: [planner_server-7] [INFO] [1795606467.716499002] [global_costmap.global_costmap]: Configuring
+10: [planner_server-7] [INFO] [1795606467.721428795] [global_costmap.global_costmap]: Using plugin "static_layer"
+10: [planner_server-7] [INFO] [1795606467.725501425] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+10: [planner_server-7] [INFO] [1795606467.726779387] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+10: [planner_server-7] [INFO] [1795606467.726823742] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+10: [planner_server-7] [INFO] [1795606467.727195888] [global_costmap.global_costmap]: Subscribed to Topics: scan
+10: [planner_server-7] [INFO] [1795606467.729645108] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+10: [planner_server-7] [INFO] [1795606467.729681750] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+10: [planner_server-7] [INFO] [1795606467.730265177] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+10: [async_slam_toolbox_node-3] [INFO] [1795606467.736958647] [slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+10: [async_slam_toolbox_node-3] [INFO] [1795606467.737392395] [slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+10: [planner_server-7] [INFO] [1795606467.743681322] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlannerHybrid
+10: [planner_server-7] [INFO] [1795606467.743747675] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+10: [planner_server-7] [INFO] [1795606467.744686534] [planner_server]: Even sized heuristic lookup table size set 200.000000, increasing size by 1 to make odd
+10: [planner_server-7] [INFO] [1795606468.892061266] [planner_server]: Configured plugin GridBased of type SmacPlannerHybrid with maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal. Tolerance 0.20.Using motion model: Dubin.
+10: [planner_server-7] [INFO] [1795606468.892122517] [planner_server]: Planner Server has GridBased  planners available.
+10: [lifecycle_manager-9] [INFO] [1795606468.898881567] [navigation_lifecycle]: [34m[1mConfiguring controller_server[0m[0m
+10: [controller_server-8] [INFO] [1795606468.899146066] [controller_server]: Configuring controller interface
+10: [controller_server-8] [INFO] [1795606468.899336556] [controller_server]: getting goal checker plugins..
+10: [controller_server-8] [INFO] [1795606468.899486476] [controller_server]: Controller frequency set to 30.0000Hz
+10: [controller_server-8] [INFO] [1795606468.899534590] [local_costmap.local_costmap]: Configuring
+10: [controller_server-8] [INFO] [1795606468.905290800] [local_costmap.local_costmap]: Using plugin "static_layer"
+10: [controller_server-8] [INFO] [1795606468.909348688] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+10: [controller_server-8] [INFO] [1795606468.910649013] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+10: [controller_server-8] [INFO] [1795606468.910691920] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+10: [controller_server-8] [INFO] [1795606468.910991089] [local_costmap.local_costmap]: Subscribed to Topics: scan
+10: [controller_server-8] [INFO] [1795606468.913505497] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+10: [controller_server-8] [INFO] [1795606468.913537129] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+10: [controller_server-8] [INFO] [1795606468.914080061] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+10: [controller_server-8] [INFO] [1795606468.921093183] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+10: [controller_server-8] [INFO] [1795606468.921606572] [controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+10: [controller_server-8] [INFO] [1795606468.921756495] [controller_server]: Controller Server has goal_checker  goal checkers available.
+10: [controller_server-8] [INFO] [1795606468.922320356] [controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+10: [controller_server-8] [INFO] [1795606468.924569969] [controller_server]: Controller Server has FollowPath  controllers available.
+10: [lifecycle_manager-9] [INFO] [1795606468.929768662] [navigation_lifecycle]: [34m[1mActivating planner_server[0m[0m
+10: [planner_server-7] [INFO] [1795606468.930002097] [planner_server]: Activating
+10: [planner_server-7] [INFO] [1795606468.930067388] [global_costmap.global_costmap]: Activating
+10: [planner_server-7] [INFO] [1795606468.930089850] [global_costmap.global_costmap]: Checking transform
+10: [planner_server-7] [INFO] [1795606468.930124941] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+10: [planner_server-7] [INFO] [1795606469.430183811] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+10: [async_slam_toolbox_node-3] [WARN] [1795606469.716464836] [slam_toolbox]: minimum laser range setting (0.0 m) exceeds the capabilities of the used Lidar (0.1 m)
+10: [async_slam_toolbox_node-3] Registering sensor: [Custom Described Lidar]
+10: [controller_server-8] [INFO] [1795606469.751345652] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 369 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606469.751370295] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 369 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606469.930680886] [global_costmap.global_costmap]: start
+10: [planner_server-7] [INFO] [1795606469.981973341] [planner_server]: Activating plugin GridBased of type SmacPlannerHybrid
+10: [planner_server-7] [INFO] [1795606469.983837796] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+10: [lifecycle_manager-9] [INFO] [1795606470.091010586] [navigation_lifecycle]: Server planner_server connected with bond.
+10: [lifecycle_manager-9] [INFO] [1795606470.091105499] [navigation_lifecycle]: [34m[1mActivating controller_server[0m[0m
+10: [controller_server-8] [INFO] [1795606470.091488894] [controller_server]: Activating
+10: [controller_server-8] [INFO] [1795606470.091559892] [local_costmap.local_costmap]: Activating
+10: [controller_server-8] [INFO] [1795606470.091583587] [local_costmap.local_costmap]: Checking transform
+10: [controller_server-8] [INFO] [1795606470.091765820] [local_costmap.local_costmap]: start
+10: [controller_server-8] [INFO] [1795606470.193022595] [controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+10: [controller_server-8] [INFO] [1795606470.193100553] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+10: [lifecycle_manager-9] [INFO] [1795606470.299396793] [navigation_lifecycle]: Server controller_server connected with bond.
+10: [lifecycle_manager-9] [INFO] [1795606470.299487951] [navigation_lifecycle]: [34m[1mManaged nodes are active[0m[0m
+10: [lifecycle_manager-9] [INFO] [1795606470.299510609] [navigation_lifecycle]: [34m[1mCreating bond timer...[0m[0m
+10: [controller_server-8] [INFO] [1795606470.826249073] [controller_server]: Received a goal, begin computing control effort.
+10: [controller_server-8] [INFO] [1795606471.791982564] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 369 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606471.832159577] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 369 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606472.792071877] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 369 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606472.832173090] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 369 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606473.292055421] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 373 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606473.332146698] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 373 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606473.791977328] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 375 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606473.832127587] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 375 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606474.291980570] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 384 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606474.332135056] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 384 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606475.291995120] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 384 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606475.332103963] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 384 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606475.791964822] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 385 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606475.832190607] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 385 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606476.791949166] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 401 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606476.832145461] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 401 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606477.291975544] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 401 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606477.332193219] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 401 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606477.792007416] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 407 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606477.832152564] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 407 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606478.792000765] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 413 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606478.832172880] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 413 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606479.791979581] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 418 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606479.832128104] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 418 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606480.291968340] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 428 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606480.332132767] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 428 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606480.791944499] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 431 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606480.832125226] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 431 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606481.291959978] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 433 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606481.332134226] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 433 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606481.792084826] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 438 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606481.832134007] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 438 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606482.291973669] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 439 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606482.332133794] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 439 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606482.791978394] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 443 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606482.832114798] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 443 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606483.291956837] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 445 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606483.332152582] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 445 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606483.791954776] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 445 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606483.832103272] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 445 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606484.791964765] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 445 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606484.832135522] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 445 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606485.291967693] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 462 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606485.332145230] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 462 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606485.791913890] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 466 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606485.832135474] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 466 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606486.292025509] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 469 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606486.332113557] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 469 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606486.791960570] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 471 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606486.832161304] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 471 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606487.291915431] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 475 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606487.332146781] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 475 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606487.791972815] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 478 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606487.793163523] [controller_server]: Goal was canceled. Stopping the robot.
+10: [controller_server-8] [INFO] [1795606487.793233663] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+10: [planner_server-7] [INFO] [1795606487.832171774] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 478 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606488.941038326] [controller_server]: Received a goal, begin computing control effort.
+10: [async_slam_toolbox_node-3] [WARN] [1795606489.248731846] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606489.791978051] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 481 X 360 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606489.832111150] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 481 X 360 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606490.791981272] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 481 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606490.832163213] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 481 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606491.291964104] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 481 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606491.332153707] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 481 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606491.832134788] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 488 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606491.891956628] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 488 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606492.291999351] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 502 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606492.332133551] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 502 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606492.792016557] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 507 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606492.832125894] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 507 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606494.292079846] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 508 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606494.332142663] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 508 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606494.791971336] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 516 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606494.832169815] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 516 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606495.291956383] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 518 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606495.332186664] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 518 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606496.291969041] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 525 X 361 at 0.050000 m/pix
+[Processing: mrider_navigation_sim]
+10: [planner_server-7] [INFO] [1795606496.332137684] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 525 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606496.364089823] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606496.791982241] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 529 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606496.832154944] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 529 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606497.832121355] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 533 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606497.892000787] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 533 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606498.391954361] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 535 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606498.432238210] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 535 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606498.791969591] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 538 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606498.832218438] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 538 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606499.104434828] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606499.291994337] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 541 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606499.332136891] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 541 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606499.832151291] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 542 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606499.891978532] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 542 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606500.104357468] [slam_toolbox]: Failed to compute odom pose
+10: [planner_server-7] [INFO] [1795606500.332093982] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 547 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606500.392022219] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 547 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606501.292013948] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 557 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606501.334752379] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 557 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606501.836099160] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 562 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606501.891999127] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 562 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606502.336102264] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 573 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606502.391971795] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 573 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606502.832175310] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 573 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606502.891961662] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 573 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606503.332159916] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 578 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606503.391955843] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 578 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606503.832165101] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 582 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606503.891959352] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 582 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606504.332136256] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 585 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606504.392055594] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 585 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606504.891959465] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 593 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606504.933186112] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 593 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606506.107947088] [controller_server]: Goal was canceled. Stopping the robot.
+10: [controller_server-8] [INFO] [1795606506.108066776] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+10: [controller_server-8] [INFO] [1795606507.378213943] [controller_server]: Received a goal, begin computing control effort.
+10: [controller_server-8] [INFO] [1795606508.891961831] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 604 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606508.932182631] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 604 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606509.332170719] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 606 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606509.391963642] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 606 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606509.832159214] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 615 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606509.891969046] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 615 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606510.832123764] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 616 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606510.891966949] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 616 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606511.332156591] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 623 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606511.391980787] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 623 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606511.832156295] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 624 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606511.891966699] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 624 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606512.182222633] [slam_toolbox]: Failed to compute odom pose
+10: [planner_server-7] [INFO] [1795606512.832129559] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 636 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606512.891974796] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 636 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606513.332172200] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 639 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606513.391981403] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 639 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606513.891974019] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 641 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606513.932146183] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 641 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606514.391967245] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 644 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606514.432152343] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 644 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606514.832144686] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 646 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606514.891977808] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 646 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606515.891966776] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 654 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606515.932137855] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 654 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606516.891966887] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 665 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606516.932149115] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 665 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606516.980039532] [slam_toolbox]: Failed to compute odom pose
+10: [planner_server-7] [INFO] [1795606518.332144994] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 674 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606518.392011348] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 674 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606518.607533952] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606519.391959041] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 681 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606519.432176936] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 681 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606520.332163614] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 686 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606520.391982199] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 686 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606520.832148483] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 688 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606520.891969532] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 688 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606521.891957866] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 697 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606521.932161718] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 697 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606522.332145289] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 698 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606522.392028557] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 698 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606522.832113045] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 704 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606522.891963192] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 704 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606523.392001297] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 707 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606523.408651890] [slam_toolbox]: Failed to compute odom pose
+10: [planner_server-7] [INFO] [1795606523.435843167] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 707 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606524.097105455] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606524.945083572] [controller_server]: Goal was canceled. Stopping the robot.
+10: [controller_server-8] [INFO] [1795606524.945193527] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+10: [controller_server-8] [INFO] [1795606525.964505574] [controller_server]: Received a goal, begin computing control effort.
+10: [controller_server-8] [INFO] [1795606526.891974638] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 708 X 361 at 0.050000 m/pix
+[Processing: mrider_navigation_sim]
+10: [planner_server-7] [INFO] [1795606526.932150808] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 708 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606527.391992558] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 712 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606527.432144413] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 712 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606527.891967221] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 721 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606527.932154198] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 721 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606528.316081739] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606528.391954619] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 728 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606528.399545896] [slam_toolbox]: Failed to compute odom pose
+10: [planner_server-7] [INFO] [1795606528.432167035] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 728 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606529.332202826] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 738 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606529.391974315] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 738 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606530.332134319] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 748 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606530.392015000] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 748 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606530.892015197] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 750 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606530.932183525] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 750 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606531.332145743] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 752 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606531.392045752] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 752 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606532.391964708] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 754 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606532.433762601] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 754 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606532.832153312] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 767 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606532.892003497] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 767 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606533.892111331] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 768 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606533.932151019] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 768 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606534.391970846] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 769 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606534.432176404] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 769 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606534.832151531] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 778 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606534.891967661] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 778 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606535.392073387] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 784 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606535.432142603] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 784 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606535.892007694] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 785 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606535.932151043] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 785 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606536.392016996] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 787 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606536.432150176] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 787 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606536.891980995] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 793 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606536.932146471] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 793 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606537.391956250] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 794 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606537.432151967] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 794 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606538.326291833] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606538.391993682] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 801 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606538.432153813] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 801 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606538.892021738] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 804 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606538.932149744] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 804 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606539.332172022] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 811 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606539.392014276] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 811 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606539.832145111] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 817 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606539.891956999] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 817 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606540.598012582] [controller_server]: Goal was canceled. Stopping the robot.
+10: [controller_server-8] [INFO] [1795606540.598109286] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+10: [controller_server-8] [INFO] [1795606541.762750708] [controller_server]: Received a goal, begin computing control effort.
+10: [controller_server-8] [INFO] [1795606542.891977727] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 828 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606542.932129462] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 828 X 361 at 0.050000 m/pix
+10: [controller_server-8] [INFO] [1795606544.391967471] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 835 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606544.432130480] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 835 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606544.441529426] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606544.596262178] [controller_server]: Goal was canceled. Stopping the robot.
+10: [controller_server-8] [INFO] [1795606544.596342720] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+10: [controller_server-8] [INFO] [1795606544.891974193] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 839 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606544.932198528] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 839 X 361 at 0.050000 m/pix
+10: [async_slam_toolbox_node-3] [WARN] [1795606546.240716789] [slam_toolbox]: Failed to compute odom pose
+10: [controller_server-8] [INFO] [1795606546.392025602] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 845 X 361 at 0.050000 m/pix
+10: [planner_server-7] [INFO] [1795606546.432140503] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 845 X 361 at 0.050000 m/pix
+10: SENSOR_ONLY_RESULT {"sensor_only": true, "scenario": "large_office", "vehicle": "1", "local_goals": [[5.9713878826209, 0.020380612131234432], [11.858942166014781, 0.00954038675334834], [17.798922524637458, -0.010916816005566155], [22.998922602123496, -0.010916816005566155], [24.0, 0.0]], "navigation": "GOAL", "truth_goal_error_m": 0.15796927537496125, "odometry_position_error_m": 0.050698112062684, "goal_reached_error_m": 0.1280615539466237, "camera_dropout_latched": true, "result": "PASS", "collision": false, "final_safety": {"state": "STOPPED", "reason": "camera_status_timeout", "speed": 0.0, "camera": {"stamp": 1795606546.7184336, "valid": true, "clear": true, "reason": "clear", "floor_fraction": 0.9979166666666667, "obstacle_fraction": 0.0, "unknown_fraction": 0.0020833333333333333, "scan_image_offset_s": 0.0, "processing_ms": 11.75834983587265, "source_age_s": 0.028014659881591797}, "camera_receive_age_s": 0.02820727974176407}}
+10: ok
+10: 
+10: ----------------------------------------------------------------------
+10: Ran 1 test in 79.835s
+10: 
+10: OK
+10: [INFO] [visualization_node-10]: sending signal 'SIGINT' to process[visualization_node-10]
+10: [INFO] [lifecycle_manager-9]: sending signal 'SIGINT' to process[lifecycle_manager-9]
+10: [INFO] [controller_server-8]: sending signal 'SIGINT' to process[controller_server-8]
+10: [INFO] [planner_server-7]: sending signal 'SIGINT' to process[planner_server-7]
+10: [INFO] [mission_node-6]: sending signal 'SIGINT' to process[mission_node-6]
+10: [INFO] [safety_node-5]: sending signal 'SIGINT' to process[safety_node-5]
+10: [INFO] [world_node-4]: sending signal 'SIGINT' to process[world_node-4]
+10: [INFO] [async_slam_toolbox_node-3]: sending signal 'SIGINT' to process[async_slam_toolbox_node-3]
+10: [INFO] [camera_rules_node-2]: sending signal 'SIGINT' to process[camera_rules_node-2]
+10: [INFO] [laser_odometry_node-1]: sending signal 'SIGINT' to process[laser_odometry_node-1]
+10: [lifecycle_manager-9] [INFO] [1795606547.462406565] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+10: [lifecycle_manager-9] [INFO] [1795606547.462590845] [navigation_lifecycle]: Running Nav2 LifecycleManager rcl preshutdown (navigation_lifecycle)
+10: [lifecycle_manager-9] [INFO] [1795606547.462660742] [navigation_lifecycle]: [34m[1mTerminating bond timer...[0m[0m
+10: [controller_server-8] [INFO] [1795606547.465755062] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+10: [controller_server-8] [INFO] [1795606547.465827189] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+10: [controller_server-8] [INFO] [1795606547.465911567] [controller_server]: Deactivating
+10: [controller_server-8] [INFO] [1795606547.465940489] [controller_server]: Deactivating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+10: [controller_server-8] [INFO] [1795606547.465980492] [local_costmap.local_costmap]: Deactivating
+10: [planner_server-7] [INFO] [1795606547.467731577] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+10: [planner_server-7] [INFO] [1795606547.467804499] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+10: [planner_server-7] [INFO] [1795606547.467919276] [planner_server]: Deactivating
+10: [planner_server-7] [INFO] [1795606547.467963162] [global_costmap.global_costmap]: Deactivating
+10: [async_slam_toolbox_node-3] [INFO] [1795606547.476114558] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+10: [lifecycle_manager-9] [INFO] [1795606547.488672880] [navigation_lifecycle]: Destroying navigation_lifecycle
+10: [controller_server-8] [INFO] [1795606547.492032614] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+10: [controller_server-8] [INFO] [1795606547.502277771] [controller_server]: Cleaning up
+10: [controller_server-8] [INFO] [1795606547.502329364] [controller_server]: Cleaning up controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+10: [controller_server-8] [INFO] [1795606547.502377406] [local_costmap.local_costmap]: Cleaning up
+10: [controller_server-8] [INFO] [1795606547.514842397] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+10: [controller_server-8] [INFO] [1795606547.519022025] [local_costmap.local_costmap]: Destroying
+10: [controller_server-8] [INFO] [1795606547.524962324] [controller_server]: Destroying
+10: [planner_server-7] [INFO] [1795606547.532199920] [planner_server]: Deactivating plugin GridBased of type SmacPlannerHybrid
+10: [planner_server-7] [INFO] [1795606547.532267139] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+10: [planner_server-7] [INFO] [1795606547.542501218] [planner_server]: Cleaning up
+10: [planner_server-7] [INFO] [1795606547.550389477] [global_costmap.global_costmap]: Cleaning up
+10: [planner_server-7] [INFO] [1795606547.555147650] [planner_server]: Cleaning up plugin GridBased of type SmacPlannerHybrid
+10: [planner_server-7] [INFO] [1795606547.555460579] [planner_server]: Destroying plugin GridBased of type SmacPlannerHybrid
+10: [planner_server-7] [INFO] [1795606547.560172677] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+10: [planner_server-7] [INFO] [1795606547.567872089] [global_costmap.global_costmap]: Destroying
+10: [planner_server-7] [INFO] [1795606547.572541547] [planner_server]: Destroying
+10: [INFO] [lifecycle_manager-9]: process has finished cleanly [pid 57781]
+10: [INFO] [async_slam_toolbox_node-3]: process has finished cleanly [pid 57769]
+10: [INFO] [controller_server-8]: process has finished cleanly [pid 57779]
+10: [INFO] [safety_node-5]: process has finished cleanly [pid 57773]
+10: [INFO] [planner_server-7]: process has finished cleanly [pid 57777]
+10: [INFO] [mission_node-6]: process has finished cleanly [pid 57775]
+10: [INFO] [world_node-4]: process has finished cleanly [pid 57771]
+10: [INFO] [laser_odometry_node-1]: process has finished cleanly [pid 57765]
+10: [INFO] [visualization_node-10]: process has finished cleanly [pid 57783]
+10: [INFO] [camera_rules_node-2]: process has finished cleanly [pid 57767]
+10: test_shutdown (mrider_navigation_sim.Exit) ... ok
+10: 
+10: ----------------------------------------------------------------------
+10: Ran 1 test in 0.001s
+10: 
+10: OK
+10: -- run_test.py: return code 0
+10: -- run_test.py: verify result file '/root/mrider-team/ros2_ws/build-docker/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_large_office_launch.py.xunit.xml'
+2/2 Test #10: test_test_large_office_launch.py ...   Passed   81.21 sec
+
+The following tests passed:
+	local_goal
+	test_test_large_office_launch.py
+
+100% tests passed, 0 tests failed out of 2
+
+Label Time Summary:
+launch_test    =  81.21 sec*proc (1 test)
+pytest         =   0.75 sec*proc (1 test)
+
+Total Test time (real) =  81.97 sec
+Finished <<< mrider_navigation_sim [1min 22s]
+
+Summary: 1 package finished [1min 22s]

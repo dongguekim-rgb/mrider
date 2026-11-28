@@ -1,0 +1,17 @@
+# Virtual measured-model assumptions, not real vehicle calibration.
+/**:
+  ros__parameters:
+    wheelbase: 0.65
+    max_speed: 0.5
+    max_steering: 0.3927
+    front: 0.9
+    rear: 0.2
+    half_width: 0.3
+    margin: 0.15
+    braking_deceleration: 0.8
+    reaction_time: 0.25
+    slowdown_distance: 0.7
+    timeout: 0.35
+    future_tolerance: 0.05
+    # Replace aged scan references only after a successful registration.
+    keyframe_max_age: 2.0

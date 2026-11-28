@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_bringup.flake8"
+  tests="16"
+  errors="0"
+  failures="16"
+  time="0.224"
+>
+  <testcase
+    name="E402 (./launch/sim.launch.py:44:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch import LaunchDescription&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/sim.launch.py:45:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.actions import (&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/sim.launch.py:56:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.event_handlers import OnProcessExit&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/sim.launch.py:57:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.launch_description_sources import PythonLaunchDescriptionSource&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/sim.launch.py:58:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/sim.launch.py:59:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch_ros.actions import Node&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/sim.launch.py:60:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch_ros.parameter_descriptions import ParameterValue&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/sim.launch.py:61:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch_ros.substitutions import FindPackageShare&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:84:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch import LaunchDescription&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:85:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.actions import (&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:93:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.event_handlers import OnProcessExit&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:94:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.launch_description_sources import PythonLaunchDescriptionSource&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:95:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:96:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch_ros.actions import Node&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:97:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch_ros.parameter_descriptions import ParameterValue&#10;"/>
+  </testcase>
+  <testcase
+    name="E402 (./launch/real.launch.py:98:1)"
+    classname="mitt_bringup.flake8"
+  >
+      <failure message="module level import not at top of file:&#10;from launch_ros.substitutions import FindPackageShare&#10;"/>
+  </testcase>
+  <system-out>Checked files:
+* ./launch/sim.launch.py
+* ./launch/real.launch.py</system-out>
+</testsuite>

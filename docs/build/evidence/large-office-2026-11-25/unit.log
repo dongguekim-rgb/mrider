@@ -1,0 +1,33 @@
+.............................                                            [100%]
+=============================== warnings summary ===============================
+ros2_ws/src/mrider_navigation_sim/test/test_large_office.py::test_large_office_unknown_is_not_silently_cleared
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor0-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor1-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor2-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor3-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor4-0.5]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor5-1.4]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_obstacle_blocks
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_same_color_obstacle_not_free_by_scan
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_unknown_no_scan_return_not_free
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_shadow_remains_conservative
+  /home3/mjk/mrider-team/ros2_ws/src/mrider_navigation_sim/mrider_navigation_sim/segmentation.py:57: RuntimeWarning: invalid value encountered in greater
+    support=in_scan&valid[index]&np.isfinite(t)&(t>0)&(gx>.15)&(gx<8.)&(ground_distance<ranges[index]-.15)
+
+ros2_ws/src/mrider_navigation_sim/test/test_large_office.py::test_large_office_unknown_is_not_silently_cleared
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor0-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor1-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor2-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor3-1.0]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor4-0.5]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_floor_not_fixed_gray[floor5-1.4]
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_obstacle_blocks
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_same_color_obstacle_not_free_by_scan
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_unknown_no_scan_return_not_free
+ros2_ws/src/mrider_navigation_sim/test/test_segmentation.py::test_shadow_remains_conservative
+  /home3/mjk/mrider-team/ros2_ws/src/mrider_navigation_sim/mrider_navigation_sim/segmentation.py:57: RuntimeWarning: invalid value encountered in less
+    support=in_scan&valid[index]&np.isfinite(t)&(t>0)&(gx>.15)&(gx<8.)&(ground_distance<ranges[index]-.15)
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+- generated xml file: /home3/mjk/mrider-team/docs/build/evidence/large-office-2026-11-25/unit.xml -
+29 passed, 22 warnings in 8.60 seconds

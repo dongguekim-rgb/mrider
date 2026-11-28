@@ -1,0 +1,19 @@
+{
+  "urdf": {
+    "wheelbase": 0.533,
+    "track_width": 0.435,
+    "wheel_radius": 0.101,
+    "chassis_length": 0.98,
+    "chassis_width": 0.56,
+    "wheel_width": 0.05
+  },
+  "team_limits": {
+    "wheelbase": 0.533,
+    "front": 0.76,
+    "rear": 0.23,
+    "half_width": 0.28,
+    "max_steering": 0.2485608710215177
+  },
+  "team_planner_radius": 3.0,
+  "official_planner_radius": 2.21
+}

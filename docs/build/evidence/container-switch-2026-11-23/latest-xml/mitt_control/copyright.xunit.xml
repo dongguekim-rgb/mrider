@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_control.copyright"
+  tests="2"
+  errors="0"
+  failures="0"
+  time="0.059"
+>
+  <testcase
+    name="launch/teleop.launch.py"
+    classname="mitt_control.copyright"/>
+  <testcase
+    name="launch/twist_mux.launch.py"
+    classname="mitt_control.copyright"/>
+  <system-out>Checked files:
+* launch/teleop.launch.py
+* launch/twist_mux.launch.py</system-out>
+</testsuite>

@@ -1,0 +1,16 @@
+[INFO] [1795610292.065408082] [mrider_rviz_supervisor]: Waiting for map, map->base_link->laser TF and fresh scan ...
+[INFO] [1795610292.313941486] [mrider_rviz_supervisor]: Starting RViz (software, attempt 1)
+QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+[INFO] [1795610292.603199051] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1795610292.603321573] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+[INFO] [1795610292.684840091] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1795610292.976425794] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1795610295.105057591] [rviz2]: Trying to create a map of size 313 x 193 using 1 swatches
+[ERROR] [1795610295.132190140] [rviz2]: Vertex Program:rviz/glsl120/indexed_8bit_image.vert Fragment Program:rviz/glsl120/indexed_8bit_image.frag GLSL link result : 
+active samplers with a different type refer to the same texture image unit
+[ERROR] [1795610447.912033087] [rviz2]: Lookup would require extrapolation at time 1795610447.855712, but only time 1795610448.055712 is in the buffer, when looking up transform from frame [laser] to frame [map]
+[INFO] [1795610448.159797506] [rviz2]: Trying to create a map of size 312 x 192 using 1 swatches
+[INFO] [1795610452.660977313] [rviz2]: Trying to create a map of size 313 x 192 using 1 swatches
+[INFO] [1795610458.077767081] [rviz]: Message Filter dropping message: frame 'laser' at time 1795610447.956 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[INFO] [1795610461.657408474] [rviz2]: Trying to create a map of size 313 x 193 using 1 swatches
+[INFO] [1795610487.658974091] [rviz2]: Trying to create a map of size 313 x 194 using 1 swatches

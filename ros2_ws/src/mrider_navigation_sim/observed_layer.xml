@@ -1,0 +1,7 @@
+<library path="observed_obstacle_layer">
+  <class name="mrider_navigation_sim/ObservedObstacleLayer"
+         type="mrider_navigation_sim::ObservedObstacleLayer"
+         base_class_type="nav2_costmap_2d::Layer">
+    <description>Nav2 obstacle marking with repeated fresh scan evidence clearing.</description>
+  </class>
+</library>

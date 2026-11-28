@@ -1,0 +1,38 @@
+{
+  "mitt_bringup": {
+    "tests": 28,
+    "failures": 24
+  },
+  "mitt_control": {
+    "tests": 7,
+    "failures": 0
+  },
+  "mitt_description": {
+    "tests": 36,
+    "failures": 28
+  },
+  "mitt_localization": {
+    "tests": 5,
+    "failures": 0
+  },
+  "mitt_msgs": {
+    "tests": 2,
+    "failures": 0
+  },
+  "mitt_navigation": {
+    "tests": 14,
+    "failures": 5
+  },
+  "mitt_sim": {
+    "tests": 2,
+    "failures": 0
+  },
+  "mrider_autonomy": {
+    "tests": 45,
+    "failures": 0
+  },
+  "mrider_navigation_sim": {
+    "tests": 56,
+    "failures": 0
+  }
+}

@@ -1,0 +1,31 @@
+Starting >>> mrider_autonomy
+Finished <<< mrider_autonomy [0.67s]
+Starting >>> mrider_navigation_sim
+Finished <<< mrider_navigation_sim [0.70s]
+
+Summary: 2 packages finished [1.65s]
+Starting >>> mrider_autonomy
+Finished <<< mrider_autonomy [50.0s]
+Starting >>> mrider_navigation_sim
+Finished <<< mrider_navigation_sim [2min 2s]
+
+Summary: 2 packages finished [2min 53s]
+Summary: 110 tests, 0 errors, 0 failures, 0 skipped
+[
+  {
+    "path": "straight",
+    "steps": 643,
+    "seconds": 12.86,
+    "goal_error_m": 0.1195742743551023,
+    "max_abs_steering_rad": 0.3927,
+    "final_speed_mps": 0.0
+  },
+  {
+    "path": "curve",
+    "steps": 539,
+    "seconds": 10.78,
+    "goal_error_m": 0.11882181883558365,
+    "max_abs_steering_rad": 0.3927,
+    "final_speed_mps": 0.0
+  }
+]

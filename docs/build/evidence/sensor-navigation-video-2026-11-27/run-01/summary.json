@@ -1,0 +1,124 @@
+{
+  "date_kst": "2026-11-27",
+  "source": {
+    "commit": "2134ab7b068ae822e59caa8e4d4cda0a9b5f2a15",
+    "branch": "sw/team-stack-migration",
+    "runtime_files": 118,
+    "driving_source_changed": false
+  },
+  "source_matches_regression_03": true,
+  "scenario": "large_office",
+  "vehicle": 1,
+  "ros_domain_id": 192,
+  "result": "PASS",
+  "ros_scenario_tests": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0
+  },
+  "goals": [
+    {
+      "goal": [
+        24.0,
+        0.0,
+        0.0
+      ],
+      "goal_error_m": 0.0961355691160624,
+      "yaw": -0.0036208999232920903,
+      "heading_error_rad": 0.0036208999232920903
+    },
+    {
+      "goal": [
+        24.0,
+        16.0,
+        1.5707963267948966
+      ],
+      "goal_error_m": 0.22667219481484313,
+      "yaw": 1.6805622713178296,
+      "heading_error_rad": 0.10976594452293308
+    },
+    {
+      "goal": [
+        40.0,
+        16.0,
+        0.0
+      ],
+      "goal_error_m": 0.0795240283794376,
+      "yaw": -0.1513877943720751,
+      "heading_error_rad": 0.1513877943720751
+    }
+  ],
+  "automatic_resumes": [
+    {
+      "leg": 1,
+      "stopped_s": 5.521292340010405,
+      "stop_pose": [
+        26.91611540776372,
+        5.287753532008233
+      ],
+      "resume_pose": [
+        26.897855505569247,
+        5.374190325541155
+      ]
+    },
+    {
+      "leg": 2,
+      "stopped_s": 6.757251676172018,
+      "stop_pose": [
+        31.19447293224281,
+        18.573428839339826
+      ],
+      "resume_pose": [
+        31.286325149741216,
+        18.550951348269756
+      ]
+    }
+  ],
+  "collision": false,
+  "min_clearance_m": 0.4175357747541334,
+  "max_candidate_steering_rad": 0.22381581733861206,
+  "physical_steering_limit_rad": 0.2485608710215177,
+  "elapsed_s": 206.8690607920289,
+  "scan_registration_rejection_warnings": 1,
+  "estimator_counter_note": "The depth-1 diagnostics subscriber did not receive the one rejection event; the full backend log records it.",
+  "cleanup": {
+    "backend": {
+      "returncode": 0,
+      "forced_signals": [],
+      "remaining": []
+    }
+  },
+  "video": {
+    "path": "rviz-navigation.mp4",
+    "duration_s": 250.5,
+    "size_bytes": 12335956,
+    "sha256": "452584951c258c4f0a4a597c69899b6ea8c81e0271b97521d8722df7004dd4ed",
+    "fps": 8,
+    "frames": 2004,
+    "duplicated_frames": 0,
+    "width": 1600,
+    "height": 1050,
+    "encoder_exit_code": 0,
+    "decode_exit_code": 0,
+    "frame_inspection_s": [
+      100,
+      190,
+      245
+    ],
+    "rviz_pid": 87150,
+    "capture": "Actual existing RViz X11 window, real time, no reconstruction",
+    "audio": false
+  },
+  "scope": "Synthetic camera and LiDAR 2D simulation with actual SLAM/Nav2. Ground truth is evaluator-only; no Gazebo physics or physical vehicle.",
+  "remaining_validation": [
+    "Loaded repeated startup",
+    "Long idle LiDAR registration",
+    "Gazebo physical twin",
+    "Real camera/RPLiDAR A2M4-R2 and Teensy integration"
+  ],
+  "previous_regression": {
+    "tests": 282,
+    "result": "PASS",
+    "rerun_for_this_recording": false
+  }
+}

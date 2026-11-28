@@ -1,0 +1,2 @@
+Synchronizing committed HEAD only; uncommitted host changes are preserved and EXCLUDED.
+Container checkout has local changes; refusing to overwrite them

@@ -1,0 +1,154 @@
+-- run_test.py: invoking following command in '/work/ros2_ws/build/mrider_navigation_sim':
+ - /usr/bin/python3 -m launch_testing.launch_test /work/ros2_ws/src/mrider_navigation_sim/test/test_recovery_launch.py --junit-xml=/work/ros2_ws/build/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_recovery_launch.py.xunit.xml --package-name=mrider_navigation_sim
+
+[INFO] [launch]: All log files can be found below /tmp/mrider-nav-final/2026-11-17-02-06-54-778069-de1ac85bd2a8-2053
+[INFO] [launch]: Default logging verbosity is set to INFO
+test_recovery (mrider_navigation_sim.Navigation) ... [INFO] [world_node-1]: process started with pid [2065]
+[INFO] [safety_node-2]: process started with pid [2067]
+[INFO] [mission_node-3]: process started with pid [2069]
+[INFO] [planner_server-4]: process started with pid [2071]
+[INFO] [controller_server-5]: process started with pid [2073]
+[INFO] [lifecycle_manager-6]: process started with pid [2075]
+[INFO] [visualization_node-7]: process started with pid [2077]
+[controller_server-5] [INFO] [1794881214.926642878] [controller_server]:
+[controller_server-5] 	controller_server lifecycle node launched.
+[controller_server-5] 	Waiting on external lifecycle transitions to activate
+[controller_server-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-6] [INFO] [1794881214.929240293] [navigation_lifecycle]: Creating
+[lifecycle_manager-6] [INFO] [1794881214.930962877] [navigation_lifecycle]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[controller_server-5] [INFO] [1794881214.932416886] [controller_server]: Creating controller server
+[planner_server-4] [INFO] [1794881214.933566474] [planner_server]:
+[planner_server-4] 	planner_server lifecycle node launched.
+[planner_server-4] 	Waiting on external lifecycle transitions to activate
+[planner_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-4] [INFO] [1794881214.936128021] [planner_server]: Creating
+[controller_server-5] [INFO] [1794881214.938618634] [local_costmap.local_costmap]:
+[controller_server-5] 	local_costmap lifecycle node launched.
+[controller_server-5] 	Waiting on external lifecycle transitions to activate
+[controller_server-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-5] [INFO] [1794881214.939164321] [local_costmap.local_costmap]: Creating Costmap
+[planner_server-4] [INFO] [1794881214.943274557] [global_costmap.global_costmap]:
+[planner_server-4] 	global_costmap lifecycle node launched.
+[planner_server-4] 	Waiting on external lifecycle transitions to activate
+[planner_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-4] [INFO] [1794881214.943961583] [global_costmap.global_costmap]: Creating Costmap
+[lifecycle_manager-6] [INFO] [1794881214.994065111] [navigation_lifecycle]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-6] [INFO] [1794881214.994141996] [navigation_lifecycle]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-4] [INFO] [1794881214.994493695] [planner_server]: Configuring
+[planner_server-4] [INFO] [1794881214.994541478] [global_costmap.global_costmap]: Configuring
+[planner_server-4] [INFO] [1794881214.999277727] [global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-4] [INFO] [1794881215.003724119] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[planner_server-4] [INFO] [1794881215.005158792] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-4] [INFO] [1794881215.005198019] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-4] [INFO] [1794881215.005509693] [global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-4] [INFO] [1794881215.008036905] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-4] [INFO] [1794881215.008078865] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-4] [INFO] [1794881215.008717259] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-4] [INFO] [1794881215.023227647] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlannerHybrid
+[planner_server-4] [INFO] [1794881215.023307688] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+[planner_server-4] [INFO] [1794881215.024165395] [planner_server]: Even sized heuristic lookup table size set 200.000000, increasing size by 1 to make odd
+[planner_server-4] [INFO] [1794881215.263222061] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 140 X 100 at 0.100000 m/pix
+[planner_server-4] [INFO] [1794881216.063806103] [planner_server]: Configured plugin GridBased of type SmacPlannerHybrid with maximum iterations 1000000, max on approach iterations 1000, and not allowing unknown traversal. Tolerance 0.20.Using motion model: Dubin.
+[planner_server-4] [INFO] [1794881216.063940449] [planner_server]: Planner Server has GridBased  planners available.
+[lifecycle_manager-6] [INFO] [1794881216.073821174] [navigation_lifecycle]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-5] [INFO] [1794881216.074147728] [controller_server]: Configuring controller interface
+[controller_server-5] [INFO] [1794881216.074359601] [controller_server]: getting goal checker plugins..
+[controller_server-5] [INFO] [1794881216.074456537] [controller_server]: Controller frequency set to 30.0000Hz
+[controller_server-5] [INFO] [1794881216.074502013] [local_costmap.local_costmap]: Configuring
+[controller_server-5] [INFO] [1794881216.080569909] [local_costmap.local_costmap]: Using plugin "static_layer"
+[controller_server-5] [INFO] [1794881216.085513128] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[controller_server-5] [INFO] [1794881216.087423317] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[controller_server-5] [INFO] [1794881216.087478256] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[controller_server-5] [INFO] [1794881216.087919706] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[controller_server-5] [INFO] [1794881216.091620791] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[controller_server-5] [INFO] [1794881216.091685111] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-5] [INFO] [1794881216.092387715] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-5] [INFO] [1794881216.102841554] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 140 X 100 at 0.100000 m/pix
+[controller_server-5] [INFO] [1794881216.103187034] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-5] [INFO] [1794881216.103975028] [controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-5] [INFO] [1794881216.104251097] [controller_server]: Controller Server has goal_checker  goal checkers available.
+[controller_server-5] [INFO] [1794881216.105100408] [controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-5] [INFO] [1794881216.109513593] [controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-6] [INFO] [1794881216.118641632] [navigation_lifecycle]: [34m[1mActivating planner_server[0m[0m
+[planner_server-4] [INFO] [1794881216.118913134] [planner_server]: Activating
+[planner_server-4] [INFO] [1794881216.118996906] [global_costmap.global_costmap]: Activating
+[planner_server-4] [INFO] [1794881216.119031391] [global_costmap.global_costmap]: Checking transform
+[planner_server-4] [INFO] [1794881216.119148405] [global_costmap.global_costmap]: start
+[planner_server-4] [INFO] [1794881216.270205192] [planner_server]: Activating plugin GridBased of type SmacPlannerHybrid
+[planner_server-4] [INFO] [1794881216.271946222] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+[lifecycle_manager-6] [INFO] [1794881216.377318509] [navigation_lifecycle]: Server planner_server connected with bond.
+[lifecycle_manager-6] [INFO] [1794881216.377399971] [navigation_lifecycle]: [34m[1mActivating controller_server[0m[0m
+[controller_server-5] [INFO] [1794881216.377799982] [controller_server]: Activating
+[controller_server-5] [INFO] [1794881216.377879254] [local_costmap.local_costmap]: Activating
+[controller_server-5] [INFO] [1794881216.377902920] [local_costmap.local_costmap]: Checking transform
+[controller_server-5] [INFO] [1794881216.378092140] [local_costmap.local_costmap]: start
+[controller_server-5] [INFO] [1794881216.479204528] [controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-5] [INFO] [1794881216.479280347] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[lifecycle_manager-6] [INFO] [1794881216.584035490] [navigation_lifecycle]: Server controller_server connected with bond.
+[lifecycle_manager-6] [INFO] [1794881216.584140130] [navigation_lifecycle]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-6] [INFO] [1794881216.584174127] [navigation_lifecycle]: [34m[1mCreating bond timer...[0m[0m
+[controller_server-5] [INFO] [1794881216.986780185] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-5] [INFO] [1794881217.520363029] [controller_server]: Goal was canceled. Stopping the robot.
+[controller_server-5] [INFO] [1794881217.520444252] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+[controller_server-5] [INFO] [1794881218.826502275] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-5] [INFO] [1794881236.827012520] [controller_server]: Reached the goal!
+SIMULATION_RESULT {"case": "nav2_obstacle_recovery", "manual_rearm_required": true, "goal_error_m": 0.17439200924038858, "min_clearance_m": 0.27829840937239836, "collision": false, "result": "PASS"}
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 22.091s
+
+OK
+[INFO] [visualization_node-7]: sending signal 'SIGINT' to process[visualization_node-7]
+[INFO] [lifecycle_manager-6]: sending signal 'SIGINT' to process[lifecycle_manager-6]
+[INFO] [controller_server-5]: sending signal 'SIGINT' to process[controller_server-5]
+[INFO] [planner_server-4]: sending signal 'SIGINT' to process[planner_server-4]
+[INFO] [mission_node-3]: sending signal 'SIGINT' to process[mission_node-3]
+[INFO] [safety_node-2]: sending signal 'SIGINT' to process[safety_node-2]
+[INFO] [world_node-1]: sending signal 'SIGINT' to process[world_node-1]
+[lifecycle_manager-6] [INFO] [1794881236.955449180] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-6] [INFO] [1794881236.955575928] [navigation_lifecycle]: Running Nav2 LifecycleManager rcl preshutdown (navigation_lifecycle)
+[lifecycle_manager-6] [INFO] [1794881236.955640905] [navigation_lifecycle]: [34m[1mTerminating bond timer...[0m[0m
+[controller_server-5] [INFO] [1794881236.956884505] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[controller_server-5] [INFO] [1794881236.956954759] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[controller_server-5] [INFO] [1794881236.957038904] [controller_server]: Deactivating
+[controller_server-5] [INFO] [1794881236.957066469] [controller_server]: Deactivating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-5] [INFO] [1794881236.957100348] [local_costmap.local_costmap]: Deactivating
+[planner_server-4] [INFO] [1794881236.958245655] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planner_server-4] [INFO] [1794881236.958317985] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[planner_server-4] [INFO] [1794881236.958394412] [planner_server]: Deactivating
+[planner_server-4] [INFO] [1794881236.958434106] [global_costmap.global_costmap]: Deactivating
+[controller_server-5] [INFO] [1794881236.978295245] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[lifecycle_manager-6] [INFO] [1794881236.980135339] [navigation_lifecycle]: Destroying navigation_lifecycle
+[controller_server-5] [INFO] [1794881236.988563582] [controller_server]: Cleaning up
+[controller_server-5] [INFO] [1794881236.988628413] [controller_server]: Cleaning up controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-5] [INFO] [1794881236.988703276] [local_costmap.local_costmap]: Cleaning up
+[controller_server-5] [INFO] [1794881237.000680297] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[controller_server-5] [INFO] [1794881237.004319610] [local_costmap.local_costmap]: Destroying
+[controller_server-5] [INFO] [1794881237.009747824] [controller_server]: Destroying
+[planner_server-4] [INFO] [1794881237.019378012] [planner_server]: Deactivating plugin GridBased of type SmacPlannerHybrid
+[planner_server-4] [INFO] [1794881237.019469190] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[planner_server-4] [INFO] [1794881237.029678948] [planner_server]: Cleaning up
+[planner_server-4] [INFO] [1794881237.034209987] [global_costmap.global_costmap]: Cleaning up
+[planner_server-4] [INFO] [1794881237.036240710] [planner_server]: Cleaning up plugin GridBased of type SmacPlannerHybrid
+[planner_server-4] [INFO] [1794881237.036529246] [planner_server]: Destroying plugin GridBased of type SmacPlannerHybrid
+[planner_server-4] [INFO] [1794881237.040309104] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[planner_server-4] [INFO] [1794881237.043244049] [global_costmap.global_costmap]: Destroying
+[planner_server-4] [INFO] [1794881237.047584581] [planner_server]: Destroying
+[INFO] [lifecycle_manager-6]: process has finished cleanly [pid 2075]
+[INFO] [controller_server-5]: process has finished cleanly [pid 2073]
+[INFO] [planner_server-4]: process has finished cleanly [pid 2071]
+[INFO] [safety_node-2]: process has finished cleanly [pid 2067]
+[INFO] [mission_node-3]: process has finished cleanly [pid 2069]
+[INFO] [world_node-1]: process has finished cleanly [pid 2065]
+[INFO] [visualization_node-7]: process has finished cleanly [pid 2077]
+test_clean_shutdown (mrider_navigation_sim.Exit) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+
+
+-- run_test.py: return code 0
+-- run_test.py: verify result file '/work/ros2_ws/build/mrider_navigation_sim/test_results/mrider_navigation_sim/test_test_recovery_launch.py.xunit.xml'

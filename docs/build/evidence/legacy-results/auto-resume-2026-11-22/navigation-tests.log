@@ -1,0 +1,19 @@
+MITT env: RMW=rmw_fastrtps_cpp, GZ_VERSION=harmonic, user-site disabled
+          isolated to loopback (ROS_LOCALHOST_ONLY=1, GZ_IP=127.0.0.1)
+          twin: ROS_DOMAIN_ID=191 (set outside this script)
+Starting >>> mrider_autonomy
+Finished <<< mrider_autonomy [1.93s]
+Starting >>> mrider_navigation_sim
+Finished <<< mrider_navigation_sim [2.00s]
+
+Summary: 2 packages finished [4.44s]
+Starting >>> mrider_navigation_sim
+[Processing: mrider_navigation_sim]
+[Processing: mrider_navigation_sim]
+[Processing: mrider_navigation_sim]
+[Processing: mrider_navigation_sim]
+[Processing: mrider_navigation_sim]
+Finished <<< mrider_navigation_sim [2min 33s]
+
+Summary: 1 package finished [2min 33s]
+Summary: 63 tests, 0 errors, 0 failures, 0 skipped

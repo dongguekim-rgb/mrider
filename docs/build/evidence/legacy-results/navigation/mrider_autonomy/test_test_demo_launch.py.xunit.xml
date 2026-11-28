@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="mrider_autonomy.test_demo_launch" tests="2" failures="0" errors="0" time="11.629"><testsuite name="mrider_autonomy.test_demo_launch.launch_tests" tests="2" failures="0" errors="0" skipped="0" time="11.629"><testcase classname="mrider_autonomy.ClosedLoop" name="test_goal_and_limits" time="11.629" /><testcase classname="mrider_autonomy.ProcessExit" name="test_clean_shutdown" time="0.0" /></testsuite></testsuites>

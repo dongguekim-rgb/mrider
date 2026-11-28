@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+import json
+from mrider_autonomy.core import Config
+from mrider_autonomy.simulation import run
+if __name__ == '__main__':
+    print(json.dumps([run(kind, Config()) for kind in ('straight', 'curve')], indent=2))

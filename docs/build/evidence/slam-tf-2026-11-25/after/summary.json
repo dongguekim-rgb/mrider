@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-25",
+  "environment": "ros2_humble /root/mrider-team; GUI disabled; vehicle 1 on 3 navigation scenarios; isolated domains 212-217",
+  "fix": "Deep-copy the source scan header before setting odometry frame; preserve laser frame and exact scan timestamp for SLAM TF filtering. No timeout or safety limit changes.",
+  "totals": {
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "suite": "sensor_messages",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_sensor_tf_launch.py",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_sensor_only_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_large_office_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "test_test_sensor_turns_launch.py",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "slam_runs": 4,
+  "failed_to_compute_odom_pose_warning_count": 0,
+  "tf_contract": {
+    "received_slam_scans": 50,
+    "matched_raw_scan_odom_tf": 48,
+    "maps": 10
+  },
+  "measurements": {
+    "sensor_only": {
+      "result": "PASS",
+      "truth_goal_error_m": 0.10243449233698423,
+      "odometry_position_error_m": 0.0034266197199429873,
+      "camera_dropout_latched": true
+    },
+    "large_office": {
+      "result": "PASS",
+      "goal_reached_error_m": 0.12064588601038152,
+      "truth_goal_error_m": 0.21251273814826652,
+      "odometry_position_error_m": 0.03795693780529225,
+      "camera_dropout_latched": true,
+      "collision": false
+    },
+    "sensor_turns": {
+      "result": "PASS",
+      "goal_reached_error_m": 0.12096819366387138,
+      "truth_goal_error_m": 0.17839749278724276,
+      "odometry_position_error_m": 0.018186990086543106,
+      "camera_dropout_latched": true,
+      "collision": false,
+      "stop_to_resume_s": 13.194864058867097,
+      "min_clearance_m": 0.5687352923639954
+    }
+  },
+  "metric_note": "goal_reached_error_m is at GOAL; truth_goal_error_m is after subsequent camera-fault injection; basic scenario asserts GOAL distance <0.5 m without storing its exact GOAL value.",
+  "scope": "11 selected message/TF/ROS navigation regression cases. Earlier 115-test record predates this header fix; this run does not repeat all unit tests.",
+  "remaining": "RViz/OpenGL, Gazebo physics and real sensors/vehicle were not tested."
+}

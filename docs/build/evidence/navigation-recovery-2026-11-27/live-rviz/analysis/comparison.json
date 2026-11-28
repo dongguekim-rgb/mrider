@@ -1,0 +1,46 @@
+{
+  "runs": [
+    {
+      "run": "live-rviz",
+      "first_launch_log_stamp": 1795719004.4145334,
+      "first_evaluation_camera_stamp": 1795719236.6643732,
+      "approx_launch_to_evaluation_s": 232.24983978271484,
+      "result": "FAIL",
+      "minimum_evaluation_clearance_m": 0.03502050436069126,
+      "first_stop_reason": "camera_obstacle",
+      "first_tracking_camera_stamp": 1795719237.6802835,
+      "approx_launch_to_tracking_s": 233.26575016975403
+    },
+    {
+      "run": "regression-08",
+      "first_launch_log_stamp": 1795713771.4933631,
+      "first_evaluation_camera_stamp": 1795713773.4090247,
+      "approx_launch_to_evaluation_s": 1.9156615734100342,
+      "result": "PASS",
+      "minimum_evaluation_clearance_m": 0.5128479789696818,
+      "first_stop_reason": null,
+      "first_tracking_camera_stamp": 1795713777.5292444,
+      "approx_launch_to_tracking_s": 6.035881280899048
+    },
+    {
+      "run": "regression-07",
+      "first_launch_log_stamp": 1795712657.1992807,
+      "first_evaluation_camera_stamp": 1795712659.2728133,
+      "approx_launch_to_evaluation_s": 2.0735325813293457,
+      "result": "PASS",
+      "minimum_evaluation_clearance_m": 0.28787292171719897,
+      "first_stop_reason": null,
+      "first_tracking_camera_stamp": 1795712662.9328012,
+      "approx_launch_to_tracking_s": 5.7335205078125
+    }
+  ],
+  "delay_measure": "Launch-to-evaluation and launch-to-TRACKING use first stamped launch log and camera source stamps carried by safety status; approximate, not exact actor clock.",
+  "input_sha256": {
+    "docs/build/evidence/navigation-recovery-2026-11-27/live-rviz/large_office_turns.trace.json.gz": "1665238df4781284d09884ae72bf1cdab34e229b36752cd870abb0fd7b538add",
+    "docs/build/evidence/navigation-recovery-2026-11-27/live-rviz/large_office_turns.json.gz": "bbb03c4d678e6e1236f81c66b86a521921ffa0ec9ee36730e0f00966d3f3578a",
+    "ros2_ws/src/mrider_navigation_sim/mrider_navigation_sim/sensor_core.py": "a5802b2e2aadde0cbea9039d108000013ae3119f81cf16f3aee599feb1bebef4",
+    "ros2_ws/src/mrider_navigation_sim/mrider_navigation_sim/sensor_nodes.py": "bd8838511004734c7d13b475416cf43e43b8a06915249d0c40aa73206719ec08",
+    "ros2_ws/src/mrider_navigation_sim/mrider_navigation_sim/world.py": "483c060713935e3a5b4916a03e9f5ca32be700bf47aabcf4d0b78f821cb8d228",
+    "ros2_ws/src/mrider_navigation_sim/mrider_navigation_sim/large_office.py": "64536093adba46ce486c5f7c0b6efa0c44778920d65199f075d998ecdf52205d"
+  }
+}

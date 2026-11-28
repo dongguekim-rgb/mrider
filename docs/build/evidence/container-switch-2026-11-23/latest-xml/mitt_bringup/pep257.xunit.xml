@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_bringup.pep257"
+  tests="8"
+  errors="0"
+  failures="8"
+  time="0.043"
+>
+  <testcase
+    name="D213 (./launch/real.launch.py:108)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D205 (./launch/real.launch.py:137)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D205: 1 blank line required between summary line and description (found 0)"/>
+  </testcase>
+  <testcase
+    name="D209 (./launch/real.launch.py:137)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D209: Multi-line docstring closing quotes should be on a separate line"/>
+  </testcase>
+  <testcase
+    name="D213 (./launch/real.launch.py:137)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D400 (./launch/real.launch.py:137)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D400: First line should end with a period (not 'e')"/>
+  </testcase>
+  <testcase
+    name="D415 (./launch/real.launch.py:137)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D415: First line should end with a period, question mark, or exclamation point (not 'e')"/>
+  </testcase>
+  <testcase
+    name="D213 (./launch/sim.launch.py:65)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="D213 (./launch/sim.launch.py:91)"
+    classname="mitt_bringup.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <system-out>Checked files:
+* ./launch/real.launch.py
+* ./launch/sim.launch.py</system-out>
+</testsuite>

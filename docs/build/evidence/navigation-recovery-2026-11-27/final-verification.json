@@ -1,0 +1,16 @@
+{
+  "source_manifest": "fix-20/source-sha256.json",
+  "host_files_verified": 105,
+  "docker_files_verified": 105,
+  "mismatches": [],
+  "python_files_parsed": 55,
+  "mkdocs_strict": "PASS",
+  "anchors_checked": 5702,
+  "pages_checked": 93,
+  "broken_anchors": 0,
+  "git_diff_check": "PASS",
+  "remaining_test_processes": [],
+  "existing_rviz_preserved_pid": 59854,
+  "scope": "Headless 2D sensor simulation; no new Gazebo, real-hardware or GUI test",
+  "local_branch": "sw/team-stack-migration"
+}

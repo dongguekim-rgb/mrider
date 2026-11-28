@@ -1,0 +1,44 @@
+MITT env: RMW=rmw_fastrtps_cpp, GZ_VERSION=harmonic, user-site disabled
+          isolated to loopback (ROS_LOCALHOST_ONLY=1, GZ_IP=127.0.0.1)
+          twin: ROS_DOMAIN_ID unset (domain 0)
+/root/mrider-team/ros2_ws/install-docker/mitt_navigation
+/root/mrider-team/ros2_ws/install-docker/mrider_navigation_sim
+   ok  (turning radius 1.52 m in mitt_dimensions.yaml; Nav2 plans at 1.6 m)
+       vehicle 1: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate
+       vehicle 2: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate
+       vehicle 3: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate
+test_generated_parameters_use_measurements_without_editing_stock (__main__.VehicleContract) ... ok
+test_installed_shared_module (__main__.VehicleContract) ... ok
+test_real_requires_matching_domain (__main__.VehicleContract) ... ok
+test_real_requires_measured_radius (__main__.VehicleContract) ... ok
+test_real_requires_vehicle (__main__.VehicleContract) ... ok
+test_twin_allows_unmeasured_overlays (__main__.VehicleContract) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.196s
+
+OK
+[
+  {
+    "path": "straight",
+    "steps": 643,
+    "seconds": 12.86,
+    "goal_error_m": 0.1195742743551023,
+    "max_abs_steering_rad": 0.3927,
+    "final_speed_mps": 0.0
+  },
+  {
+    "path": "curve",
+    "steps": 539,
+    "seconds": 10.78,
+    "goal_error_m": 0.11882181883558365,
+    "max_abs_steering_rad": 0.3927,
+    "final_speed_mps": 0.0
+  }
+]

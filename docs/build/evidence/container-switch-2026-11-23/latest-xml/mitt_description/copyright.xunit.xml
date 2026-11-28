@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_description.copyright"
+  tests="3"
+  errors="0"
+  failures="0"
+  time="0.094"
+>
+  <testcase
+    name="config/vehicle_config.py"
+    classname="mitt_description.copyright"/>
+  <testcase
+    name="scripts/extract_body.py"
+    classname="mitt_description.copyright"/>
+  <testcase
+    name="scripts/make_body_texture.py"
+    classname="mitt_description.copyright"/>
+  <system-out>Checked files:
+* config/vehicle_config.py
+* scripts/extract_body.py
+* scripts/make_body_texture.py</system-out>
+</testsuite>

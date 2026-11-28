@@ -1,0 +1,47 @@
+digraph pipeline {
+ graph [rankdir=LR, bgcolor="white", pad="0.3", nodesep="0.38", ranksep="0.6", splines=polyline, fontname="Noto Sans CJK KR", fontsize=19, labelloc=t, label="현재 구현된 실내 자율주행 구조 (ROS 2)\n알려진 지도 + 모의 LiDAR + 정답 위치 사용 · SLAM / 카메라 인식 미실행"];
+ node [shape=box, style="rounded,filled", fillcolor="white", color="#435367", fontname="Noto Sans CJK KR", fontsize=12, margin="0.16,0.12"];
+ edge [color="#435367", fontname="Noto Sans CJK KR", fontsize=10, arrowsize=0.7];
+ subgraph cluster_sim {
+ label="(a) 모의 환경과 센서 입력"; style="rounded,filled"; color="#b9ccd9"; fillcolor="#eef5fa";
+ scene [label="실내 환경\n벽 / 가구 / 움직이는 보행자 모형"];
+ plant [label="자전거 운동 모델 | 50 Hz\n가감속·조향 변화율 제한\n상태: 위치 x, y / 방향 / 속도 / 조향각"];
+ scan [label="광선 계산 기반 모의 LiDAR | 10 Hz\n/scan : LaserScan\n360개 거리값 / 0.05–15 m / 좌표계: laser"];
+ map [label="미리 생성한 정적 점유 지도\n/map : OccupancyGrid\n격자 0.1 m / 이동 장애물 제외"];
+ pose [label="정답 위치·자세·속도 | 50 Hz\n/mrider_sim/odometry : Odometry\nTF: map → odom → base_link → laser"];
+ scene -> scan; scene -> map; plant -> scan [label="센서 위치·방향"]; plant -> pose;
+ }
+ subgraph cluster_perception {
+ label="(b) 기하학 기반 주변 인식"; style="rounded,filled"; color="#b9d7c7"; fillcolor="#f0f8f3";
+ global [label="전역 비용지도 | map 좌표계\n정적 지도 + 장애물 + 주변 비용 확장\nscan으로 장애물 표시 / 빈 공간 갱신"];
+ local [label="지역 비용지도 | odom 좌표계\n차량 주변 8 × 8 m 이동 영역\n정적 지도 + 장애물 + 주변 비용 확장"];
+ points [label="안전 검사용 장애물 관측\nscan 유효성 검사 → 2차원 관측점\n객체 분류·이동 추적 없음"];
+ }
+ subgraph cluster_nav {
+ label="(c) 경로 계획과 추종"; style="rounded,filled"; color="#bfc9e4"; fillcolor="#f1f3fb";
+ planner [label="Smac Hybrid 경로 계획\n전진 전용 Dubins 경로 탐색\n최소 회전반경: 2.2 m"];
+ controller [label="Regulated Pure Pursuit | 30 Hz\n경로 + 차량 위치 + 지역 비용 입력\n곡률·장애물·목표 접근에 따른 감속"];
+ planner -> controller [label="계획 경로 Path → 임무 관리자\nFollowPath action으로 전달"];
+ }
+ subgraph cluster_safe {
+ label="(d) 안전 판단과 최종 명령"; style="rounded,filled"; color="#e2c9a4"; fillcolor="#fff7ea";
+ gate [label="팀 안전 게이트 | 50 Hz\n입력 지연·좌표계·수치 검사\n차체 이동 영역 + 정지거리 검사\nTwist → 조향각 변환 / 정지 상태 유지"];
+ command [label="/mrider_sim/command\nAckermannDriveStamped\n속도 [m/s] / 조향각 [rad]\n조향각 양수 = 좌회전"];
+ gate -> command;
+ }
+ mission [label="임무 관리자와 운영자\narm / start / goal_pose / disarm\nComputePathToPose → FollowPath\n장애물 정지만 조건부 자동 재허가\n3초간 안전 조건 충족 → 저장 목표로 재계획", fillcolor="#f5f0fa"];
+ metrics [label="검증과 RViz2 시각화\n계획 경로 / 실제 궤적 / 환경 표시\n정답 기반 이격 거리 / 충돌 여부\n이 검증 지표는 제어 입력으로 사용하지 않음", fillcolor="#f6f6f6"];
+ map -> global; map -> local; scan -> global; scan -> local; scan -> points;
+ pose -> global [label="TF"]; pose -> local [label="TF"];
+ global -> planner; local -> controller;
+ pose -> planner [label="TF 기반 시작 위치"]; pose -> controller [label="TF + 차량 속도"];
+ points -> gate; pose -> gate [label="위치·자세·속도"];
+ controller -> gate [label="/mrider_sim/candidate_cmd_vel\nTwist: 속도 v [m/s] / 각속도 ω [rad/s]"];
+ command -> plant [label="최종 속도·조향 명령 → 차량 이동 → 센서 갱신", color="#216b83", penwidth=2, constraint=false];
+ mission -> planner [style=dashed,label="목표 위치 / 경로 계획 요청"];
+ mission -> controller [style=dashed,label="경로 추종 요청 / 취소"];
+ mission -> gate [style=dashed,label="mission_state / arm / auto_arm"];
+ gate -> mission [style=dashed,label="safety_state",constraint=false];
+ scene -> metrics [constraint=false]; plant -> metrics [label="차량 위치 / 이격 거리 / 충돌 여부",constraint=false];
+ planner -> metrics [label="계획 경로",constraint=false];
+}

@@ -1,0 +1,132 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-25-12-34-41-300613-platinum-59955
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [laser_odometry_node-1]: process started with pid [59980]
+[INFO] [camera_rules_node-2]: process started with pid [59982]
+[INFO] [async_slam_toolbox_node-3]: process started with pid [59984]
+[INFO] [world_node-4]: process started with pid [59986]
+[INFO] [safety_node-5]: process started with pid [59988]
+[INFO] [mission_node-6]: process started with pid [59990]
+[INFO] [planner_server-7]: process started with pid [59992]
+[INFO] [controller_server-8]: process started with pid [59994]
+[INFO] [lifecycle_manager-9]: process started with pid [59996]
+[INFO] [visualization_node-10]: process started with pid [59998]
+[planner_server-7] [INFO] [1795610081.453926977] [planner_server]: 
+[planner_server-7] 	planner_server lifecycle node launched. 
+[planner_server-7] 	Waiting on external lifecycle transitions to activate
+[planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-9] [INFO] [1795610081.454878940] [navigation_lifecycle]: Creating
+[async_slam_toolbox_node-3] [INFO] [1795610081.456794077] [slam_toolbox]: Node using stack size 40000000
+[planner_server-7] [INFO] [1795610081.457242742] [planner_server]: Creating
+[controller_server-8] [INFO] [1795610081.458494080] [controller_server]: 
+[controller_server-8] 	controller_server lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-9] [INFO] [1795610081.460544586] [navigation_lifecycle]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[lifecycle_manager-9] [INFO] [1795610081.463569970] [navigation_lifecycle]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-9] [INFO] [1795610081.463632235] [navigation_lifecycle]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-7] [INFO] [1795610081.465409094] [global_costmap.global_costmap]: 
+[planner_server-7] 	global_costmap lifecycle node launched. 
+[planner_server-7] 	Waiting on external lifecycle transitions to activate
+[planner_server-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-7] [INFO] [1795610081.466417536] [global_costmap.global_costmap]: Creating Costmap
+[planner_server-7] [INFO] [1795610081.467684204] [planner_server]: Configuring
+[planner_server-7] [INFO] [1795610081.467726983] [global_costmap.global_costmap]: Configuring
+[controller_server-8] [INFO] [1795610081.468794730] [controller_server]: Creating controller server
+[planner_server-7] [INFO] [1795610081.474614631] [global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-7] [INFO] [1795610081.479501645] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[controller_server-8] [INFO] [1795610081.479906342] [local_costmap.local_costmap]: 
+[controller_server-8] 	local_costmap lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-8] [INFO] [1795610081.480687757] [local_costmap.local_costmap]: Creating Costmap
+[planner_server-7] [INFO] [1795610081.481353667] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-7] [INFO] [1795610081.481388401] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-7] [INFO] [1795610081.481875787] [global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-7] [INFO] [1795610081.485710587] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-7] [INFO] [1795610081.485749142] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-7] [INFO] [1795610081.486487285] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-7] [INFO] [1795610081.502322782] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlannerHybrid
+[planner_server-7] [INFO] [1795610081.502412312] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+[async_slam_toolbox_node-3] [INFO] [1795610081.502864656] [slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+[async_slam_toolbox_node-3] [INFO] [1795610081.503403303] [slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+[planner_server-7] [INFO] [1795610081.504377577] [planner_server]: Even sized heuristic lookup table size set 200.000000, increasing size by 1 to make odd
+[async_slam_toolbox_node-3] [WARN] [1795610082.608484102] [slam_toolbox]: minimum laser range setting (0.0 m) exceeds the capabilities of the used Lidar (0.1 m)
+[async_slam_toolbox_node-3] Registering sensor: [Custom Described Lidar]
+[planner_server-7] [INFO] [1795610082.692608705] [planner_server]: Configured plugin GridBased of type SmacPlannerHybrid with maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal. Tolerance 0.20.Using motion model: Dubin.
+[planner_server-7] [INFO] [1795610082.692677620] [planner_server]: Planner Server has GridBased  planners available.
+[lifecycle_manager-9] [INFO] [1795610082.698901205] [navigation_lifecycle]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-8] [INFO] [1795610082.699122426] [controller_server]: Configuring controller interface
+[controller_server-8] [INFO] [1795610082.699291804] [controller_server]: getting goal checker plugins..
+[controller_server-8] [INFO] [1795610082.699401653] [controller_server]: Controller frequency set to 30.0000Hz
+[controller_server-8] [INFO] [1795610082.699435957] [local_costmap.local_costmap]: Configuring
+[controller_server-8] [INFO] [1795610082.704605128] [local_costmap.local_costmap]: Using plugin "static_layer"
+[controller_server-8] [INFO] [1795610082.708743566] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[controller_server-8] [INFO] [1795610082.709886438] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[controller_server-8] [INFO] [1795610082.709915590] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[controller_server-8] [INFO] [1795610082.710240785] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[controller_server-8] [INFO] [1795610082.712636889] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[controller_server-8] [INFO] [1795610082.712665023] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-8] [INFO] [1795610082.713196533] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-8] [INFO] [1795610082.721282832] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-8] [INFO] [1795610082.721888853] [controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-8] [INFO] [1795610082.722082941] [controller_server]: Controller Server has goal_checker  goal checkers available.
+[controller_server-8] [INFO] [1795610082.722806189] [controller_server]: Created controller : FollowPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-8] [INFO] [1795610082.728262358] [controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-9] [INFO] [1795610082.735402982] [navigation_lifecycle]: [34m[1mActivating planner_server[0m[0m
+[planner_server-7] [INFO] [1795610082.735636755] [planner_server]: Activating
+[planner_server-7] [INFO] [1795610082.735703810] [global_costmap.global_costmap]: Activating
+[planner_server-7] [INFO] [1795610082.735728134] [global_costmap.global_costmap]: Checking transform
+[planner_server-7] [INFO] [1795610082.735776052] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[planner_server-7] [INFO] [1795610083.016309343] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 312 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610083.016336706] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 312 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610083.235836356] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[planner_server-7] [INFO] [1795610083.736011493] [global_costmap.global_costmap]: start
+[planner_server-7] [INFO] [1795610083.887145284] [planner_server]: Activating plugin GridBased of type SmacPlannerHybrid
+[planner_server-7] [INFO] [1795610083.888494840] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1795610083.994128853] [navigation_lifecycle]: Server planner_server connected with bond.
+[lifecycle_manager-9] [INFO] [1795610083.994201019] [navigation_lifecycle]: [34m[1mActivating controller_server[0m[0m
+[controller_server-8] [INFO] [1795610083.994592899] [controller_server]: Activating
+[controller_server-8] [INFO] [1795610083.994674136] [local_costmap.local_costmap]: Activating
+[controller_server-8] [INFO] [1795610083.994701708] [local_costmap.local_costmap]: Checking transform
+[controller_server-8] [INFO] [1795610083.994871065] [local_costmap.local_costmap]: start
+[controller_server-8] [INFO] [1795610084.146205225] [controller_server]: Activating controller: FollowPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[controller_server-8] [INFO] [1795610084.146274289] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[lifecycle_manager-9] [INFO] [1795610084.251206520] [navigation_lifecycle]: Server controller_server connected with bond.
+[lifecycle_manager-9] [INFO] [1795610084.251302410] [navigation_lifecycle]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-9] [INFO] [1795610084.251345308] [navigation_lifecycle]: [34m[1mCreating bond timer...[0m[0m
+[controller_server-8] [INFO] [1795610155.461029201] [controller_server]: Received a goal, begin computing control effort.
+[planner_server-7] [INFO] [1795610156.536175882] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 312 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610156.595080540] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 312 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610157.036205590] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 312 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610157.095093929] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 312 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610157.536226557] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 312 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610157.595090455] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 312 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610162.536162529] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 312 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610162.595057069] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 312 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610163.536158099] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 312 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610163.595101507] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 312 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610164.036183839] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 312 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610164.095057286] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 312 X 192 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610164.536197249] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 313 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610164.595092366] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 313 X 192 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610166.595072178] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 313 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610166.640095940] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 313 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610168.536206961] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 313 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610168.595071322] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 313 X 193 at 0.050000 m/pix
+[controller_server-8] [WARN] [1795610169.528322384] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.561704775] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.595102992] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.628341016] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.661825276] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.694881302] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.728377793] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.761725603] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [WARN] [1795610169.794953758] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+[controller_server-8] [ERROR] [1795610169.795035241] [controller_server]: Controller patience exceeded
+[controller_server-8] [WARN] [1795610169.795139369] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+[controller_server-8] [INFO] [1795610183.173293194] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-8] [INFO] [1795610197.595134781] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 313 X 193 at 0.050000 m/pix
+[planner_server-7] [INFO] [1795610197.636220817] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 313 X 193 at 0.050000 m/pix
+[controller_server-8] [INFO] [1795610204.373633111] [controller_server]: Goal was canceled. Stopping the robot.
+[controller_server-8] [INFO] [1795610204.373755056] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+[camera_rules_node-2] [WARN] [1795610292.831128887] [camera_floor_rules]: New subscription discovered on topic '/perception/overlay', requesting incompatible QoS. No messages will be sent to it. Last incompatible policy: RELIABILITY

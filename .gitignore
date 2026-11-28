@@ -60,3 +60,14 @@ docs/images/.system-overview.gv
 
 # pytest
 .pytest_cache/
+
+# 컨테이너 빌드 산출물을 네이티브 CMake 캐시와 분리한다. 설치 결과에는 절대
+# 경로가 들어 있어서 /work 마운트와 호스트 checkout 사이에서 공유하면 깨진다.
+# tools/ros2/verify.sh가 /.dockerenv를 보고 이 base를 선택한다.
+ros2_ws/build-docker/
+ros2_ws/install-docker/
+ros2_ws/log-docker/
+ros2_ws/legacy-build-*/
+
+# ROS 실행 로그
+.ros/

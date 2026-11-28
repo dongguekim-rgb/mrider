@@ -1,0 +1,45 @@
+{
+  "date_kst": "2026-11-27",
+  "environment": "ros2_humble:/root/mrider-team; ROS2 Humble; vehicle 1; headless 2D sensor simulation",
+  "suites": [
+    {
+      "name": "sensor_core",
+      "tests": 8,
+      "passed": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "sensor_messages",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "path_messages",
+      "tests": 21,
+      "passed": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "test_test_large_office_turns_launch.py",
+      "tests": 2,
+      "passed": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "total": {
+    "tests": 33,
+    "passed": 32,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0
+  }
+}

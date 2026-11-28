@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite
+  name="mitt_navigation.pep257"
+  tests="3"
+  errors="0"
+  failures="1"
+  time="0.031"
+>
+  <testcase
+    name="./launch/localization.launch.py"
+    classname="mitt_navigation.pep257"/>
+  <testcase
+    name="D213 (./launch/nav2.launch.py:97)"
+    classname="mitt_navigation.pep257"
+  >
+      <failure message="D213: Multi-line docstring summary should start at the second line"/>
+  </testcase>
+  <testcase
+    name="./launch/slam.launch.py"
+    classname="mitt_navigation.pep257"/>
+  <system-out>Checked files:
+* ./launch/localization.launch.py
+* ./launch/nav2.launch.py
+* ./launch/slam.launch.py</system-out>
+</testsuite>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="26" time="11.551" timestamp="2026-11-27T01:35:16.796558" hostname="platinum"><testcase classname="test_sensor_core" name="test_scan_registration[0.03-0.04-0.01]" time="0.020" /><testcase classname="test_sensor_core" name="test_scan_registration[-0.03-0.04--0.01]" time="0.014" /><testcase classname="test_sensor_core" name="test_scan_registration[0.0-0.0-0.0]" time="0.007" /><testcase classname="test_sensor_core" name="test_scan_no_matches_fails" time="0.001" /><testcase classname="test_sensor_core" name="test_slam_copy_excludes_no_hit_without_mutating_scan" time="0.005" /><testcase classname="test_sensor_core" name="test_velocity_window_moving_then_stationary_noise" time="0.002" /><testcase classname="test_sensor_core" name="test_keyframe_long_corridor" time="4.490" /><testcase classname="test_sensor_core" name="test_camera_floor_obstacle_and_invalid" time="0.003" /><testcase classname="test_sensor_core" name="test_stationary_scan_with_close_crossing_actor" time="0.211"><failure message="AssertionError: assert (0.03685467606487257 &lt; 0.03)&#10; +  where 0.03685467606487257 = &lt;function norm at 0x7fecb2b01900&gt;(array([0.03676136, 0.00262098]))&#10; +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm&#10; +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg">def test_stationary_scan_with_close_crossing_actor():
+        """A moving foreground must not invalidate a well-supported static fit.
+    
+        Synthetic geometry generates observations only. The estimator receives
+        laser-frame points, never the vehicle/actor pose or a known static mask.
+        The old final 80% residual rejected seven consecutive scans in this case.
+        """
+        from mrider_navigation_sim.geometry import obstacles, ray_distances
+        from mrider_navigation_sim.indoor import box
+        from mrider_navigation_sim.large_office import triangle
+        angles=np.linspace(-math.pi,math.pi,360,endpoint=False)
+        rng=np.random.default_rng(42);estimator=KeyframeOdometry()
+        world=obstacles('large_office')
+        for t in np.arange(109.,118.,.1):
+            actors=[box(24.,triangle(t,32.,.5)),box(triangle(t+25.,52.,.6),16.)]
+            ranges=ray_distances(24.77,7.846,angles+1.802,world+actors,15.)
+            valid=ranges&lt;14.95
+            ranges+=rng.normal(0.,.002,len(ranges))
+            points=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
+            pose,rmse=estimator.update(points,t)
+&gt;           assert np.linalg.norm(pose[:2])&lt;.03 and abs(pose[2])&lt;.01
+E           AssertionError: assert (0.03685467606487257 &lt; 0.03)
+E            +  where 0.03685467606487257 = &lt;function norm at 0x7fecb2b01900&gt;(array([0.03676136, 0.00262098]))
+E            +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm
+E            +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_sensor_core.py:90: AssertionError</failure></testcase><testcase classname="test_sensor_core" name="test_small_static_fragment_is_not_enough_for_localization" time="0.005" /><testcase classname="test_sensor_core" name="test_collinear_matches_do_not_establish_full_pose" time="0.003" /><testcase classname="test_sensor_core" name="test_open_intersection_sampling_does_not_break_odometry[24.9]" time="1.376" /><testcase classname="test_sensor_core" name="test_open_intersection_sampling_does_not_break_odometry[25.5]" time="1.311" /><testcase classname="test_sensor_core" name="test_open_intersection_sampling_does_not_break_odometry[26.0]" time="1.451" /><testcase classname="test_sensor_core" name="test_keyframe_age_refresh_preserves_motion_and_rejects_bad_input" time="0.025" /><testcase classname="test_registration_recovery" name="test_recorded_pair_still_requires_recovery_without_lowering_quality" time="0.066" /><testcase classname="test_registration_recovery" name="test_recorded_parked_vehicle_recovers_with_two_fresh_agreeing_references" time="0.036"><failure message="AssertionError: assert (0.03506640831055993 &lt; 0.03)&#10; +  where 0.03506640831055993 = &lt;function norm at 0x7fecb2b01900&gt;(array([ 0.02726752, -0.02204848]))&#10; +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm&#10; +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg">def test_recorded_parked_vehicle_recovers_with_two_fresh_agreeing_references():
+        estimator=KeyframeOdometry();recoveries=[]
+        for scan in recorded()['scans']:
+            pose,rmse=estimator.update(points(scan),scan['stamp'])
+&gt;           assert np.linalg.norm(pose[:2])&lt;.03 and abs(pose[2])&lt;.01
+E           AssertionError: assert (0.03506640831055993 &lt; 0.03)
+E            +  where 0.03506640831055993 = &lt;function norm at 0x7fecb2b01900&gt;(array([ 0.02726752, -0.02204848]))
+E            +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm
+E            +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_registration_recovery.py:44: AssertionError</failure></testcase><testcase classname="test_registration_recovery" name="test_small_fragment_cannot_be_promoted_by_recent_references" time="0.018" /><testcase classname="test_registration_recovery" name="test_stale_or_single_reference_cannot_authorize_recovery[False]" time="0.012" /><testcase classname="test_registration_recovery" name="test_stale_or_single_reference_cannot_authorize_recovery[True]" time="0.012" /><testcase classname="test_registration_recovery" name="test_disagreeing_recent_pose_anchors_do_not_update_state" time="0.026" /><testcase classname="test_registration_recovery" name="test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose[0.0]" time="0.251" /><testcase classname="test_registration_recovery" name="test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose[0.15]" time="0.104"><failure message="AssertionError: assert (0.11161158510054056 &lt; 0.1)&#10; +  where 0.11161158510054056 = &lt;function norm at 0x7fecb2b01900&gt;((array([ 0.26079247, -0.01349721]) - [0.15, 0.0]))&#10; +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm&#10; +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg">speed = 0.15
+
+    @pytest.mark.parametrize('speed',[0.,.15,.3])
+    def test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose(speed):
+        from mrider_navigation_sim.geometry import obstacles,ray_distances
+        from mrider_navigation_sim.indoor import box
+        angles=np.linspace(-math.pi,math.pi,360,endpoint=False)
+        world=obstacles('large_office');rng=np.random.default_rng(17)
+        origin=np.array([24.7632353112,13.3042846171]);heading=1.8494019748
+        estimator=KeyframeOdometry();recovered=0
+        for t in np.arange(0.,4.,.1):
+            actual=origin+np.array([math.cos(heading),math.sin(heading)])*speed*t
+            actors=[box(24.,12.65437-.5*t),box(22.214858+.6*t,16.)]
+            ranges=ray_distances(*actual,angles+heading,world+actors,15.)
+            ranges=np.where(ranges&lt;15.,ranges+rng.normal(0.,.002,len(ranges)),ranges)
+            valid=(ranges&gt;.05)&amp;(ranges&lt;14.95)
+            observed=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
+            pose,rmse=estimator.update(observed,10.+t)
+&gt;           assert np.linalg.norm(pose[:2]-[speed*t,0.])&lt;.1 and abs(pose[2])&lt;.02
+E           AssertionError: assert (0.11161158510054056 &lt; 0.1)
+E            +  where 0.11161158510054056 = &lt;function norm at 0x7fecb2b01900&gt;((array([ 0.26079247, -0.01349721]) - [0.15, 0.0]))
+E            +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm
+E            +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_registration_recovery.py:117: AssertionError</failure></testcase><testcase classname="test_registration_recovery" name="test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose[0.3]" time="0.087"><failure message="AssertionError: assert (0.10796661252123096 &lt; 0.1)&#10; +  where 0.10796661252123096 = &lt;function norm at 0x7fecb2b01900&gt;((array([ 0.40696847, -0.01464706]) - [0.3, 0.0]))&#10; +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm&#10; +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg">speed = 0.3
+
+    @pytest.mark.parametrize('speed',[0.,.15,.3])
+    def test_two_crossing_actors_do_not_force_stationary_or_reset_moving_pose(speed):
+        from mrider_navigation_sim.geometry import obstacles,ray_distances
+        from mrider_navigation_sim.indoor import box
+        angles=np.linspace(-math.pi,math.pi,360,endpoint=False)
+        world=obstacles('large_office');rng=np.random.default_rng(17)
+        origin=np.array([24.7632353112,13.3042846171]);heading=1.8494019748
+        estimator=KeyframeOdometry();recovered=0
+        for t in np.arange(0.,4.,.1):
+            actual=origin+np.array([math.cos(heading),math.sin(heading)])*speed*t
+            actors=[box(24.,12.65437-.5*t),box(22.214858+.6*t,16.)]
+            ranges=ray_distances(*actual,angles+heading,world+actors,15.)
+            ranges=np.where(ranges&lt;15.,ranges+rng.normal(0.,.002,len(ranges)),ranges)
+            valid=(ranges&gt;.05)&amp;(ranges&lt;14.95)
+            observed=np.column_stack((ranges[valid]*np.cos(angles[valid]),ranges[valid]*np.sin(angles[valid])))
+            pose,rmse=estimator.update(observed,10.+t)
+&gt;           assert np.linalg.norm(pose[:2]-[speed*t,0.])&lt;.1 and abs(pose[2])&lt;.02
+E           AssertionError: assert (0.10796661252123096 &lt; 0.1)
+E            +  where 0.10796661252123096 = &lt;function norm at 0x7fecb2b01900&gt;((array([ 0.40696847, -0.01464706]) - [0.3, 0.0]))
+E            +    where &lt;function norm at 0x7fecb2b01900&gt; = &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt;.norm
+E            +      where &lt;module 'numpy.linalg' from '/usr/lib/python3/dist-packages/numpy/linalg/__init__.py'&gt; = np.linalg
+
+root/mrider-team/ros2_ws/src/mrider_navigation_sim/test/test_registration_recovery.py:117: AssertionError</failure></testcase><testcase classname="test_sensor_messages" name="test_odometry_does_not_relabel_source_or_slam_scan" time="0.342" /><testcase classname="test_sensor_messages" name="test_invalid_source_frame_is_not_forwarded_to_slam" time="0.022" /></testsuite></testsuites>

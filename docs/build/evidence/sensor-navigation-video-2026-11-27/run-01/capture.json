@@ -1,0 +1,16 @@
+{
+  "started_epoch": 1795753396.2435868,
+  "ended_epoch": 1795753646.807739,
+  "wall_duration_s": 250.50031137652695,
+  "fps": 8,
+  "frames": 2004,
+  "duplicated_frames": 0,
+  "width": 1600,
+  "height": 1050,
+  "rviz_pid": 87150,
+  "window": "0x04c00013",
+  "display": ":13.0",
+  "encoder_exit_code": 0,
+  "error": null,
+  "content": "Actual RViz window capture, real time; synthetic sensor simulation, not Gazebo"
+}

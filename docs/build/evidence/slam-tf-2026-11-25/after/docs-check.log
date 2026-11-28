@@ -1,0 +1,102 @@
+1. mkdocs build --strict
+   build warnings:
+[90m  To disable this warning, set NO_MKDOCS_2_WARNING=1.[0m
+   ok
+
+2. portable Markdown
+   ok
+
+3. slide decks up to date
+   ok
+
+4. anchors
+anchors checked: 5511 across 92 pages
+no broken anchors
+   ok
+
+5. lab submission rules
+lab_report selftest OK - 18 cases, 5 templates.
+   ok
+
+6. course org and term agree with the tooling
+   ok  (bimi-courses/mrider-labs-2026-fall-<student-id>)
+
+7. package install directories
+packages checked: 21 installed directories, all present in git
+   ok
+
+8. translated documents agree
+purchase-request-2026-fall.md / purchase-request-2026-fall-ko.md: 105 figures, identical
+   ok
+
+9. no student identifiers in docs
+   ok
+
+10. order log parses
+   ok
+
+11. purchase request still adds up
+   ok
+
+12. build pages do not name the traction voltage
+   ok
+
+13. purchase request reconciles with the order log
+   ok  (both project ₩3,667,219)
+
+14. every figure is linked, and every link has a figure
+   ok  (34 live, 2 archived)
+
+15. figures and prose quote the carrier as the model computes it
+  openscad unavailable - arithmetic NOT cross-checked
+   ok  (18 pages and figures scanned against cad/drive_encoder_carrier.scad)
+
+16. vehicle geometry agrees across packages
+   ok  (turning radius 1.52 m in mitt_dimensions.yaml; Nav2 plans at 1.6 m)
+       vehicle 1: 4 measured - min_turning_radius, track_width, wheel_radius, wheelbase
+                  Nav2 plans at 2.21 m, 5% above its measured radius
+                  Nav2 footprint [[0.76, 0.28], [0.76, -0.28], [-0.23, -0.28], [-0.23, 0.28]]
+       vehicle 2: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate
+       vehicle 3: nothing measured yet
+                  Nav2 plans at 1.6 m, the estimate - and refuses to start on the real vehicle until min_turning_radius is measured
+                  Nav2 footprint [[0.81, 0.28], [0.81, -0.28], [-0.18, -0.28], [-0.18, 0.28]], the estimate
+
+17. generated figures match their generators
+   ok  (6 generators re-run, output identical, 3 skipped)
+       skipped: gen_carrier_figure.py (needs openscad)
+       skipped: gen_grub_screw_figure.py (needs openscad)
+       skipped: gen_hub_bore_figure.py (needs openscad)
+
+18. lab tooling layering and the student bundle
+  lab_labs.py      imports nothing
+  lab_report.py    imports ['lab_labs'], lazily ['lab_grading']
+  lab_grading.py   imports ['lab_report']
+  bundle copies    ['check_env.sh', 'lab.sh', 'lab_labs.py', 'lab_report.py']
+  student half needs ['lab_labs.py', 'lab_report.py']
+
+ok - 3 modules, one-way layering, bundle complete and grader-free.
+
+19. record sheets carry a reference, or say why not
+ok - 10 reference sheets, 5 worksheets, 0 undeclared
+
+20. the motor driver is the one that was bought
+ok - 175 files; the driver is the MDDS30 everywhere live, 6 records keep the history.
+
+21. claims that something is unrecorded carry a date
+ok - 7 absence claim(s) across 137 files, all dated.
+
+22. every published photograph is dated, placed and used
+ok - 15 photograph(s), each dated in MANIFEST.md, each linked from a page.
+
+23. the light variant is an overlay on main, and nothing more
+   ok  (not the light branch - docs/light does not exist here)
+
+24. a wiring claim made in two places says the same thing in both
+   11 figure pins agree with the pin table; no series part is fed a pair
+
+25. the per-vehicle ROS domain rule is the same in all three places
+   ok  (vehicle N -> ROS domain 10 + N)
+
+Docs are publishable.
